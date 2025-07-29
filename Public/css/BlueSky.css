@@ -1,3 +1,18 @@
+
+/* --- BlueSky.css - Custom styles for BlueSky Education PR newsroom --- */
+
+    .newsroom-wrapper {
+        background-color: #f5f5f5;
+        margin-top: 140px;
+    }
+
+    .inb-header-full {
+        background-color: #FFFFFF;
+    }
+
+
+/* --- BlueSky.css - Extacted Styles for BlueSky Education PR website Brand site --- */
+
 #module_165684255954013 .inb-scroll-top{
     background-color:#237688;
 }
