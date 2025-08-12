@@ -10,6 +10,10 @@
         background-color: #FFFFFF;
     }
 
+    .inb-body-transparent-header header.inb-header-full .inb-header-wrapper, .inb-header-wrapper.inb-scroll {
+        transform: none !important;
+    }
+
 
 /* --- BlueSky.css - Extacted Styles for BlueSky Education PR website Brand site --- */
 
