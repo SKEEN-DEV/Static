@@ -2,8 +2,8 @@
 /* --- BlueSky.css - Custom styles for BlueSky Education PR newsroom --- */
 
     .newsroom-wrapper {
-        background-color: #f5f5f5;
         margin-top: 140px;
+        margin-bottom: 24px;
     }
 
     .inb-header-full {
