@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification & UI Standardization Summary - Lumina Documentation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Pulsar Group Documentation Template Styling */
+        
+        /* CSS Variables for easy customization */
+        :root {
+            /* Lumina Brand Colors */
+            --primary-color: #3597FE;         /* Lumina Blue */
+            --secondary-color: #0042FF;       /* Lumina Deep Blue */
+            --accent-color: #54FFB1;          /* Lumina Green */
+            --success-color: #4CAF50;         /* Lumina Success Green */
+            --warning-color: #FF9800;         /* Lumina Warning Orange */
+            --error-color: #FF4C4C;           /* Lumina Error Red */
+            --info-color: #2196F3;            /* Lumina Info Blue */
+            
+            /* Lumina Palette Colors */
+            --lumina-pale-blue: #94C0FF;      /* Pale Blue */
+            --lumina-lilac: #D6C5EF;          /* Lilac */
+            --lumina-light-green: #C9FFE7;    /* Light Green */
+            --lumina-pale-yellow: #F0EB7E;    /* Pale Yellow */
+            --lumina-skin: #F8D0C0;           /* Skin */
+            
+            /* Text Colors */
+            --text-primary: #121212;          /* Lumina Text Color */
+            --text-secondary: #404040;        /* Medium gray */
+            --text-muted: #808080;            /* Light gray */
+            --link-color: #0066CC;            /* Lumina Link Color */
+            --link-hover: #004999;            /* Lumina Link Hover */
+            
+            /* Background Colors */
+            --background: #FFFFFF;            /* White */
+            --background-alt: #F8FAFC;        /* Very light gray */
+            --background-highlight: #FFF9C4;  /* Lumina Highlight */
+            --border-color: #8FBCFF;          /* Adjusted Pale Blue for borders */
+            
+            /* Typography */
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            
+            /* Spacing */
+            --header-height: 120px;
+            --content-max-width: 1200px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 0;
+            margin: 0;
+            background-color: var(--background);
+            font-size: 14px;
+        }
+
+        /* Header with Pulsar Group branding */
+
+            .document-header {
+                /* background: linear-gradient(rgba(53, 151, 254, 0.8), rgba(0, 66, 255, 0.8)), url('Img/subjectHeader/Large.jpg'); */
+                background-image: url('Img/subjectHeader/Large.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                color: white;
+                padding: var(--spacing-xl);
+                margin: 0 0 var(--spacing-2xl) 0;   
+                position: relative;
+                overflow: hidden;
+                min-height: 160px;
+            }
+
+            .document-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(53, 151, 254, 0.15) 0%, rgba(0, 66, 255, 0.25) 100%);
+                pointer-events: none;
+            }
+
+            .header-content {
+                position: relative;
+                z-index: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: var(--spacing-lg);
+                max-width: var(--content-max-width);
+                margin: 0 auto;
+            }
+
+        /* Logo and main heading */
+
+            .logo-section {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-lg);
+            }
+
+            .company-logo {
+                height: 60px;
+                width: auto;
+                max-width: 200px;
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            }
+
+            .company-logo svg {
+                height: 100%;
+                width: auto;
+            }
+
+            .header-text {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                margin-top: -6px;
+            }
+
+            .header-text h1 {
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 600;
+                letter-spacing: -0.025em;
+                color: var(--text-primary);
+                font-weight: 300;
+            }
+
+            .header-text .subtitle {
+                margin: 0;
+                font-size: 1.3rem;
+                opacity: 0.9;
+                font-weight: 300;
+                color: var(--text-primary);
+            }
+
+        /* Document metadata */
+
+            .document-meta {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-xs);
+                text-align: right;
+                font-size: 0.9rem;
+                opacity: 0.9;
+            }
+
+            .document-meta .branch-info {
+                background-color: rgba(255, 255, 255, 0.15);
+                padding: var(--spacing-xs) var(--spacing-sm);
+                border-radius: 4px;
+                font-family: var(--font-mono);
+                margin-bottom: var(--spacing-sm);
+                color: var(--link-color);
+            }
+
+            .author-line {
+                margin-bottom: var(--spacing-sm) 0;
+                font-size: 18px;
+                font-weight: 300;
+                color: var(--text-primary);
+            }
+
+        /* Main Content */
+        .document-content {
+            padding: 0 var(--spacing-xl);
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+
+        /* Headers with Pulsar Group styling */
+        h1:not(.header-text h1) {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            font-size: 2.25rem;
+            margin: var(--spacing-2xl) 0 var(--spacing-lg) 0;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-xs);
+            font-size: 1.75rem;
+            margin: var(--spacing-2xl) 0 var(--spacing-lg) 0;
+            font-weight: 500;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+            font-weight: 500;
+        }
+
+        h4 {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+            font-weight: 500;
+        }
+
+        /* Table of Contents with Lumina styling */
+        .toc {
+            background: linear-gradient(135deg, var(--lumina-pale-blue) 10%, var(--background-alt) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-2xl) 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: none;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .toc-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .toc ul {
+            display: flex;
+            flex-direction: column;
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-xl);
+            gap: var(--spacing-sm);
+        }
+
+        .toc li {
+            margin: 0;
+            font-weight: 400;
+            list-style-type: none;
+        }
+
+        .toc a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: var(--spacing-xs) 0;
+            display: inline-block;
+        }
+
+        .toc a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transform: translateX(4px);
+        }
+
+        /* Code styling with MD-dans font */
+        code {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            color: var(--error-color);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        pre {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: var(--font-mono);
+        }
+
+        /* Enhanced status badges with Lumina colors */
+        .new-badge {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--success-color) 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .improved-badge {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--lumina-lilac) 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Success/Error indicators */
+        .success-indicator {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .error-indicator {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        /* Enhanced section dividers with Lumina gradient */
+        .section-divider {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            margin: var(--spacing-2xl) 0;
+            border-radius: 1px;
+        }
+
+        /* Highlight boxes with Lumina styling */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--lumina-pale-yellow) 20%, var(--background-highlight) 100%);
+            border: 1px solid var(--warning-color);
+            border-left: 4px solid var(--warning-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, var(--lumina-pale-blue) 20%, var(--background-alt) 100%);
+            border: 1px solid var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Enhanced statistics styling */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--background-alt) 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--lumina-lilac) 50%, var(--accent-color) 100%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+            font-family: var(--font-primary);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        /* Lists with better styling */
+        ul, ol {
+            margin: var(--spacing-lg) 0;
+            padding-left: var(--spacing-xl);
+        }
+
+        li {
+            margin: var(--spacing-sm) 0;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .document-footer {
+            background-color: var(--background-alt);
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo {
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        
+
+        /* Print optimizations */
+        @media print {
+            body {
+                font-size: 11pt;
+                line-height: 1.4;
+                max-width: 100%;
+            }
+            
+            .document-header {
+                background: var(--primary-color) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            h1, h2, h3, h4 {
+                page-break-after: avoid;
+            }
+            
+            .section-divider {
+                page-break-before: auto;
+            }
+            
+            .toc, .info-box, .highlight-box, .stat-card {
+                page-break-inside: avoid;
+            }
+            
+            pre {
+                page-break-inside: avoid;
+                font-size: 9pt;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .document-content {
+                padding: 0 var(--spacing-lg);
+            }
+            
+            .document-header {
+                padding: var(--spacing-lg);
+                background-attachment: scroll;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .company-logo {
+                height: 45px;
+                max-width: 160px;
+            }
+            
+            .document-meta {
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Document Header with Pulsar Group Branding -->
+    <header class="document-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="company-logo">
+                    <svg width="1011px" height="200px" viewBox="0 0 1011 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>Pulsar Group Logo</title>
+                        <g stroke="none" fill="none" fill-rule="nonzero">
+                            <path d="M93.9574468,55.5224586 L93.9574468,107.503546 C93.9574468,124.685579 101.134752,132.515366 114.619385,132.515366 C128.104019,132.515366 135.281324,124.468085 135.281324,107.503546 L135.281324,55.5224586 L150.288416,55.5224586 L150.288416,109.243499 C150.288416,133.602837 135.933806,146 114.619385,146 C93.5224586,146 78.9503546,133.602837 78.9503546,109.026005 L78.9503546,55.5224586 L93.9574468,55.5224586 Z M626.600473,54 C649.87234,54 659.659574,65.5271868 663.13948,83.3617021 L648.132388,83.3617021 L647.847327,82.6416198 C644.133751,73.4875192 638.259808,67.7021277 626.600473,67.7021277 C614.638298,67.7021277 600.501182,81.1867612 600.501182,100.108747 C600.501182,119.030733 610.723404,132.732861 627.252955,132.732861 C643.782506,132.732861 648.78487,124.033097 650.742317,111.635934 L631.385343,111.635934 L631.167849,111.41844 L631.167849,98.5862884 L664.879433,98.5862884 L664.879433,105.546099 C664.879433,130.122931 648.78487,146 627.035461,146 C605.286052,146 585.059102,127.513002 585.059102,100.108747 C585.059102,72.7044917 603.328605,54 626.600473,54 Z M799.725768,54 C823.867612,54 841.049645,73.356974 841.049645,99.891253 C841.049645,126.425532 823.867612,145.782506 799.725768,145.782506 L799.725768,146 C775.583924,146 758.619385,126.643026 758.619385,100.108747 C758.619385,73.5744681 775.583924,54 799.725768,54 Z M870.846336,55.5224586 L870.846336,107.503546 C870.846336,124.685579 878.023641,132.515366 891.508274,132.515366 C904.992908,132.515366 912.170213,124.468085 912.170213,107.503546 L912.170213,55.5224586 L927.177305,55.5224586 L927.177305,109.243499 C927.177305,133.602837 912.822695,146 891.508274,146 C870.411348,146 855.839243,133.602837 855.839243,109.026005 L855.839243,55.5224586 L870.846336,55.5224586 Z M271.432624,54 C289.484634,54 302.099291,63.787234 305.144208,78.5768322 L290.137116,78.5768322 C287.744681,71.8345154 282.089835,66.6146572 271.650118,66.6146572 C261.210402,66.6146572 255.555556,71.6170213 255.555556,79.0118203 C255.555556,86.4066194 259.252955,88.7990544 267.300236,90.5390071 L282.742317,94.2364066 C296.661939,97.498818 305.79669,105.546099 305.79669,118.813239 C305.79669,132.080378 292.529551,145.782506 274.042553,145.782506 C255.555556,145.782506 241.635934,136.212766 238.591017,119.683215 L254.033097,119.683215 L253.815603,119.900709 C256.643026,129.035461 264.255319,133.167849 274.042553,133.167849 C283.829787,133.167849 291.224586,128.165485 291.224586,119.900709 C291.224586,111.635934 287.527187,110.113475 278.392435,107.938534 L263.385343,104.241135 L262.629655,104.063104 C250.592777,101.135345 241.200946,94.3784436 241.200946,80.3167849 C241.200946,65.9621749 253.380615,54 271.432624,54 Z M445.862884,55.5224586 C464.349882,55.5224586 476.094563,64.8747045 476.094563,82.2742317 C476.094563,99.6737589 467.394799,105.763593 453.257683,107.938534 L479.13948,144.695035 L461.957447,144.695035 L437.163121,108.591017 L426.50591,108.591017 L426.50591,144.477541 L411.498818,144.477541 L411.498818,55.5224586 L445.862884,55.5224586 Z M979.810875,55.5224586 C998.297872,55.5224586 1010.26005,65.0921986 1010.26005,83.5791962 C1010.26005,102.066194 998.297872,111.41844 979.810875,111.41844 L960.453901,111.41844 L960.453901,144.695035 L945.446809,144.695035 L945.446809,55.5224586 L979.810875,55.5224586 Z M34.3640662,55.5224586 C52.8510638,55.5224586 64.8132388,65.0921986 64.8132388,83.5791962 C64.8132388,102.066194 52.8510638,111.41844 34.3640662,111.41844 L15.0070922,111.41844 L15.0070922,144.695035 L0,144.695035 L0,55.5224586 L34.3640662,55.5224586 Z M185.08747,55.5224586 L185.08747,131.210402 L227.933806,131.210402 L227.933806,144.695035 L170.080378,144.695035 L170.080378,55.5224586 L185.08747,55.5224586 Z M362.997636,55.5224586 L397.144208,144.695035 L381.702128,144.695035 L372.567376,120.118203 L338.420804,120.118203 L329.286052,144.695035 L314.061466,144.695035 L348.425532,55.5224586 L362.997636,55.5224586 Z M715.77305,55.5224586 C734.260047,55.5224586 746.004728,64.8747045 746.004728,82.2742317 C746.004728,99.6737589 737.304965,105.763593 723.167849,107.938534 L749.049645,144.695035 L731.867612,144.695035 L707.073286,108.591017 L696.416076,108.591017 L696.416076,144.477541 L681.408983,144.477541 L681.408983,55.5224586 L715.77305,55.5224586 Z M538.080378,54 L538.080378,85.9716312 L565.484634,69.4420804 L572.879433,81.6217494 L544.822695,98.5862884 L572.879433,115.550827 L565.484634,127.947991 L538.080378,111.41844 L538.080378,143.390071 L523.725768,143.390071 L523.725768,111.41844 L496.539007,127.947991 L489.144208,115.550827 L517.200946,98.5862884 L489.144208,81.6217494 L496.539007,69.4420804 L523.725768,85.9716312 L523.725768,54 L538.080378,54 Z M799.725768,67.4846336 C784.066194,67.4846336 773.843972,81.1867612 773.843972,99.891253 C773.843972,118.595745 784.066194,132.297872 799.725768,132.297872 C815.385343,132.297872 825.607565,118.595745 825.607565,99.891253 C825.607565,81.1867612 815.385343,67.4846336 799.725768,67.4846336 Z M355.602837,74.0094563 L343.423168,106.851064 L367.782506,106.851064 L355.602837,74.0094563 Z M33.929078,68.572104 L15.0070922,68.572104 L15.0070922,98.3687943 L33.929078,98.3687943 C44.3687943,98.3687943 49.8061466,92.0614657 49.8061466,83.5791962 C49.8061466,75.0969267 44.3687943,68.572104 33.929078,68.572104 Z M979.593381,68.572104 L960.671395,68.572104 L960.671395,98.3687943 L979.593381,98.3687943 C990.033097,98.3687943 995.470449,92.0614657 995.470449,83.5791962 C995.470449,75.0969267 990.033097,68.572104 979.593381,68.572104 Z M445.427896,68.3546099 L426.50591,68.3546099 L426.50591,95.7588652 L445.427896,95.7588652 C455.432624,95.7588652 461.08747,90.321513 461.08747,82.0567376 C461.08747,73.7919622 455.432624,68.3546099 445.427896,68.3546099 Z M715.338061,68.3546099 L696.416076,68.3546099 L696.416076,95.7588652 L715.338061,95.7588652 C725.34279,95.7588652 730.997636,90.321513 730.997636,82.0567376 C730.997636,73.7919622 725.34279,68.3546099 715.338061,68.3546099 Z" fill="#FFFFFF"></path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="header-text">
+                    <h1>Notification & UI Standardization Summary</h1>
+                    <p class="subtitle">MCD Portal Enhancement Documentation</p>
+                </div>
+            </div>
+            <div class="document-meta">
+                <div class="branch-info">feature/DE-17743-toast-notifications</div>
+                <div class="author-line"><strong>Date:</strong> December 9, 2025</div>
+                <div class="author-line"><strong>Author:</strong> Simon Allin</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Document Content -->
+    <main class="document-content">
+        
+    <div class="toc">
+        <h2><svg class="toc-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"><path d="M318.52-300.41q11.81 0 19.72-7.96 7.91-7.97 7.91-19.79 0-11.81-7.96-19.72-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.96-7.91 19.78t7.96 19.73q7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.97 7.91-19.78 0-11.82-7.96-19.73t-19.78-7.91q-11.82 0-19.73 7.96-7.91 7.97-7.91 19.78 0 11.82 7.96 19.73 7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.96 7.91-19.78t-7.96-19.73q-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.97-7.91 19.79 0 11.81 7.96 19.72 7.97 7.91 19.79 7.91Zm143.84 293.03h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17 0-7.25-4.87-12.01-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17t4.86 12.01q4.87 4.76 12.06 4.76Zm0-151.9h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.16 0-7.26-4.87-12.02-4.86-4.75-12.05-4.75H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.16 0 7.26 4.86 12.02 4.87 4.75 12.06 4.75Zm0-151.89h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17t-4.87-12.01q-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17 0 7.25 4.86 12.01 4.87 4.76 12.06 4.76ZM218.46-160q-24.58 0-41.52-16.94Q160-193.88 160-218.46v-523.08q0-24.58 16.94-41.52Q193.88-800 218.46-800h523.08q24.58 0 41.52 16.94Q800-766.12 800-741.54v523.08q0 24.58-16.94 41.52Q766.12-160 741.54-160H218.46Zm0-33.85h523.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-523.08q0-9.23-7.69-16.92-7.69-7.69-16.92-7.69H218.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v523.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69Zm-24.61-572.3V-193.85-766.15Z"/></svg>Table of Contents</h2>
+        <ul>
+            <li><a href="#overview">1. Overview</a></li>
+            <li><a href="#language-improvements">2. Language and Messaging Improvements</a></li>
+            <li><a href="#notification-patterns">3. Common Notification Patterns Standardized</a></li>
+            <li><a href="#component-system">4. Component System & Technical Architecture</a></li>
+            <li><a href="#files-modified">5. Files Modified by Module</a></li>
+            <li><a href="#impact-summary">6. Impact Summary</a></li>
+            <li><a href="#implementation-notes">7. Implementation Notes</a></li>
+        </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h2 id="overview">1. Overview</h2>
+    <p>This document summarizes the comprehensive notification and UI standardization improvements made across the MCD Portal application. This extensive refactor touched <strong>over 120 files</strong> and represents a systematic overhaul of notification messaging, component consistency, and user experience patterns throughout the entire application.</p>
+
+    <h3>Scope of Changes</h3>
+    <div class="info-box">
+        <p><strong>Files Modified:</strong> 120+ files across the application</p>
+        <p><strong>Major Categories:</strong></p>
+        <ul>
+            <li>Toast notification messaging standardization</li>
+            <li>BubbleNotification component system enhancements</li>
+            <li>Monitoring & Political monitoring modules</li>
+            <li>Contact & Outlet management workflows</li>
+            <li>Interaction & Subject management systems</li>
+            <li>Search result components and bulk operations</li>
+            <li>Form validation and error handling</li>
+        </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h2 id="language-improvements">2. Language and Messaging Improvements</h2>
+    
+    <h3>2.1 Language Standards</h3>
+    <ul>
+        <li><strong>Sentence case</strong> instead of Title Case for notification titles</li>
+        <li><strong>Removal of exclamation marks</strong> for cleaner, professional tone</li>
+        <li><strong>Elimination of redundant words</strong> like "successfully", "error occurred while", etc.</li>
+        <li><strong>Consistent verb patterns</strong>: "Error + verb + noun" for errors, simple past tense for success</li>
+    </ul>
+
+    <h3>2.2 Message Structure</h3>
+    <ul>
+        <li><strong>Concise titles</strong> that contain the essential information</li>
+        <li><strong>Removal of redundant message fields</strong> where title is sufficient</li>
+        <li><strong>Enhanced notifications</strong> with interactive elements where contextually valuable</li>
+    </ul>
+
+    <h3>2.3 Interactive Enhancements</h3>
+    <ul>
+        <li><strong>BubbleNotificationLink implementation</strong> for group removal notifications</li>
+        <li><strong>Clickable navigation</strong> to relevant entities from notifications</li>
+        <li><strong>Context-aware messaging</strong> showing group names when users are in entity profile views</li>
+    </ul>
+
+    <div class="section-divider"></div>
+
+    <h2 id="notification-patterns">3. Common Notification Patterns Standardized</h2>
+
+    <h3>3.1 Error Messages</h3>
+    <p><strong>Pattern Applied:</strong> <code>"Error + verb + noun"</code></p>
+    <ul>
+        <li><span class="success-indicator">✅</span> "Error updating contact"</li>
+        <li><span class="success-indicator">✅</span> "Error creating subject"</li>
+        <li><span class="success-indicator">✅</span> "Error deleting group"</li>
+        <li><span class="success-indicator">✅</span> "Error starting bulk tagging"</li>
+    </ul>
+
+    <h3>3.2 Success Messages</h3>
+    <p><strong>Pattern Applied:</strong> Simple past tense, no "successfully"</p>
+    <ul>
+        <li><span class="success-indicator">✅</span> "Contact created"</li>
+        <li><span class="success-indicator">✅</span> "Tag group copied"</li>
+        <li><span class="success-indicator">✅</span> "Subject updated"</li>
+        <li><span class="success-indicator">✅</span> "Interaction saved"</li>
+    </ul>
+
+    <h3>3.3 Information Messages</h3>
+    <p><strong>Pattern Applied:</strong> Clear, contextual information</p>
+    <ul>
+        <li><span class="success-indicator">✅</span> "No interactions found"</li>
+        <li><span class="success-indicator">✅</span> "Search returned 0 results"</li>
+        <li><span class="success-indicator">✅</span> "Filters applied"</li>
+    </ul>
+
+    <h3>3.4 Interactive Group Removal Notifications</h3>
+    <p><strong>Special Pattern:</strong> Enhanced with clickable navigation</p>
+    <ul>
+        <li><span class="success-indicator">✅</span> "Contact removed from [Group Name]" with clickable group link</li>
+        <li><span class="success-indicator">✅</span> Context-aware display when viewing entity profiles</li>
+        <li><span class="success-indicator">✅</span> Direct navigation to group details from notification</li>
+    </ul>
+
+    <h3>3.5 Before/After Examples</h3>
+
+    <h4>Contact Management</h4>
+    <div class="highlight-box">
+        <p><strong>Before:</strong> <span class="error-indicator">"Successfully updated contact!", "Contact has been successfully updated"</span></p>
+        <p><strong>After:</strong> <span class="success-indicator">"Contact updated"</span></p>
+    </div>
+
+    <div class="highlight-box">
+        <p><strong>Before:</strong> <span class="error-indicator">"Error occurred while updating contact!", "An error occurred while trying to update the contact"</span></p>
+        <p><strong>After:</strong> <span class="success-indicator">"Error updating contact"</span></p>
+    </div>
+
+    <h4>Group Operations</h4>
+    <div class="highlight-box">
+        <p><strong>Before:</strong> <span class="error-indicator">"Successfully copied Tag Group!", "The tag group has been successfully copied"</span></p>
+        <p><strong>After:</strong> <span class="success-indicator">"Tag group copied"</span></p>
+    </div>
+
+    <h4>Bulk Operations</h4>
+    <div class="highlight-box">
+        <p><strong>Before:</strong> <span class="error-indicator">"Successfully started bulk tagging!", "Bulk tagging operation has been successfully initiated"</span></p>
+        <p><strong>After:</strong> <span class="success-indicator">"Bulk tagging started"</span></p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h2 id="component-system">4. Component System & Technical Architecture</h2>
+
+    <h3>4.1 BubbleNotification System Enhancements</h3>
+
+    <h4>4.1.1 Enhanced Existing Components <span class="improved-badge">🔧 IMPROVED</span></h4>
+    <ul>
+        <li><code>Components2/Common/Feedback/Toast/Bubble/BubbleNotification.tsx</code> - Core notification system</li>
+        <li><code>Components2/Common/Feedback/Toast/Notification.tsx</code> - Toast wrapper</li>
+        <li><code>Components2/Common/Feedback/index.ts</code> - Updated exports and enums</li>
+    </ul>
+
+    <h4>4.1.2 BubbleNotification.tsx Core Enhancements <span class="improved-badge">🔧 IMPROVED</span></h4>
+    <p><strong>Purpose:</strong> Comprehensive improvements to the main BubbleNotification component including type safety, icon logic, and enhanced functionality.</p>
+
+    <p><strong>TypeScript Enums Integration:</strong></p>
+    <ul>
+        <li><strong>Type safety</strong> - Replaced magic strings with strongly-typed enums</li>
+        <li><strong>IntelliSense support</strong> - IDE autocompletion for notification types and containers</li>
+        <li><strong>Runtime validation</strong> - Prevents invalid notification configurations</li>
+        <li><strong>Maintainability</strong> - Centralized enum definitions reduce code duplication</li>
+    </ul>
+
+    <p><strong>Magic String Elimination:</strong></p>
+    <ul>
+        <li><strong>Before:</strong> Hard-coded strings like <code>"top-right"</code>, <code>"success"</code> prone to typos</li>
+        <li><strong>After:</strong> TypeScript enums with proper typing and IntelliSense support</li>
+        <li><strong>Benefits:</strong> Compile-time validation, autocompletion, refactoring safety</li>
+    </ul>
+
+    <p><strong>Available Enums:</strong></p>
+    <pre><code>export enum NotificationType {
+    Info = "info",
+    Success = "success", 
+    Danger = "danger",
+    Default = "default",
+    Warning = "warning"
+}
+
+export enum NotificationContainer {
+    TopRight = "top-right",
+    TopFull = "top-full", 
+    TopLeft = "top-left",
+    TopCenter = "top-center",
+    Center = "center",
+    BottomFull = "bottom-full",
+    BottomLeft = "bottom-left", 
+    BottomRight = "bottom-right",
+    BottomCenter = "bottom-center"
+}</code></pre>
+
+    <p><strong>Enum Usage Before vs After:</strong></p>
+    <pre><code>// Before: Magic strings prone to typos and no IntelliSense
+ToastNotification.addNotification({
+    title: "Success",
+    message: "Operation completed",
+    type: "success",                    // String literal
+    container: "top-center"             // String literal
+});
+
+// After: Type-safe enums with IntelliSense support
+ToastNotification.addNotification({
+    title: "Success",
+    message: "Operation completed", 
+    type: NotificationType.Success,     // Enum with validation
+    container: NotificationContainer.TopCenter  // Enum with validation
+});</code></pre>
+    <p><strong>Icon Logic Improvements:</strong></p>
+    <ul>
+        <li><strong>Type-safe icons</strong> - Uses IconSymbol enum instead of string-based icon names</li>
+        <li><strong>Type-based defaults</strong> - Automatic icon selection based on NotificationType enum values</li>
+        <li><strong>Centralized logic</strong> - Single <code>getDefaultIconForType</code> function manages all default icon mappings</li>
+        <li><strong>Custom override capability</strong> - Optional <code>icon</code> prop allows complete customization when needed</li>
+        <li><strong>Smart icon mapping</strong> - Success: "TickCircleOutline", Danger: "CrossCircleOutline", Warning: "Warning", Info: "InfoCircle", Default: "Bell"</li>
+    </ul>
+
+    <p><strong>Icon Enhancement Before vs After:</strong></p>
+    <pre><code>// Before: Old string-based icon system with manual mapping
+&lt;BubbleNotification
+    type="success"
+    icon="tick"  // String-based, required manual specification
+    message="Action completed successfully"
+/&gt;
+
+&lt;BubbleNotification
+    type="danger"
+    icon="cross"  // Had to remember correct string names
+    message="Action failed"
+/&gt;
+
+// After: Automatic type-based icons with IconSymbol enum
+&lt;BubbleNotification
+    type={NotificationType.Success}  // Automatically gets "TickCircleOutline"
+    message="Action completed successfully"
+/&gt;
+
+&lt;BubbleNotification
+    type={NotificationType.Danger}    // Automatically gets "CrossCircleOutline"
+    message="Action failed"
+/&gt;
+
+// Custom icon when needed (type-safe)
+&lt;BubbleNotification
+    type={NotificationType.Info}
+    icon="CustomIconName"  // Overrides default, uses IconSymbol enum
+    message="Custom notification with special icon"
+/&gt;</code></pre>
+
+    <h4>4.1.3 Supporting Notification Components <span class="new-badge">⭐ NEW</span></h4>
+    <p><strong>Purpose:</strong> New companion components that work with BubbleNotification to provide enhanced interactivity and display options.</p>
+
+    <p><strong>BubbleNotificationLink Component:</strong></p>
+    <ul>
+        <li><strong>Interactive navigation</strong> - Clickable links within notifications that lead to related entities</li>
+        <li><strong>Icon support</strong> - Displays contextual icons (folders, entities, etc.) with proper styling</li>
+        <li><strong>Hover states</strong> - Clear visual feedback for interactivity with smooth transitions</li>
+        <li><strong>Accessibility</strong> - Proper ARIA attributes and keyboard navigation support</li>
+    </ul>
+
+    <p><strong>BubbleNotificationItem Component:</strong></p>
+    <ul>
+        <li><strong>Display-only elements</strong> - Shows status, labels, or contextual info without click functionality</li>
+        <li><strong>Icon support</strong> - Displays relevant icons matching notification content</li>
+        <li><strong>Consistent styling</strong> - Matches BubbleNotificationLink appearance for visual cohesion</li>
+        <li><strong>Flexible usage</strong> - Can display text, numbers, or combined information</li>
+    </ul>
+
+    <p><strong>BubbleNotificationItemCount Component:</strong></p>
+    <ul>
+        <li><strong>Smart display</strong> - Only renders when remaining count is greater than 0</li>
+        <li><strong>Consistent styling</strong> - Matches notification system design with subtle appearance</li>
+        <li><strong>Reusable</strong> - Used across all bulk operation components for consistency</li>
+        <li><strong>Customizable</strong> - Supports custom classes and inline styles</li>
+    </ul>
+
+    <p><strong>Usage Example:</strong></p>
+    <pre><code>// Interactive link within notification
+&lt;BubbleNotificationLink
+    text="View Group Details"
+    href="/group/123"
+    leadingIcon="FolderTickOutline"
+    titleAttribute="Navigate to group"
+/&gt;
+
+// Display-only item with icon
+&lt;BubbleNotificationItem
+    label="Status"
+    value="Completed"
+    valueIcon="TickCircleOutline"
+/&gt;
+
+// Count display for bulk operations
+&lt;BubbleNotificationItemCount 
+    remainingCount={remainingCount}
+    key="more-items"
+/&gt;</code></pre>
+
+    <h4>4.1.4 Default Configuration Enhancements <span class="improved-badge">🔧 IMPROVED</span></h4>
+    <p><strong>Purpose:</strong> Streamlined notification usage by providing sensible defaults for positioning and container options.</p>
+
+    <p><strong>Key Improvements:</strong></p>
+    <ul>
+        <li><strong>Default positioning</strong> - Notifications automatically use <code>NotificationContainer.TopCenter</code> when no position specified</li>
+        <li><strong>Simplified API</strong> - Developers no longer need to specify positioning for standard notifications</li>
+        <li><strong>Consistent placement</strong> - All notifications follow the same default positioning pattern</li>
+        <li><strong>Backward compatibility</strong> - Custom positioning still available when explicitly specified</li>
+        <li><strong>Reduced boilerplate</strong> - Less repetitive code across notification implementations</li>
+    </ul>
+
+    <p><strong>Before vs After:</strong></p>
+    <pre><code>// Before: Required explicit positioning every time
+ToastNotification.addNotification({
+    title: "Success",
+    message: "Operation completed",
+    type: NotificationType.Success,
+    container: NotificationContainer.TopCenter  // Had to specify every time
+});
+
+// After: Clean, simplified usage with defaults
+ToastNotification.addNotification({
+    title: "Success", 
+    message: "Operation completed",
+    type: NotificationType.Success
+    // Position defaults to TopCenter automatically
+});</code></pre>
+
+    <h3>4.2 Bulk Operations UX Enhancements</h3>
+
+    <h4>4.2.1 Monitoring Bulk Actions Streamlining <span class="improved-badge">🔧 IMPROVED</span></h4>
+    <p><strong>Purpose:</strong> Improved user experience for bulk operations by limiting notification clutter while maintaining full visibility.</p>
+
+    <p><strong>Problem Solved:</strong></p>
+    <ul>
+        <li><strong>Notification overload</strong> - Previously showed all selected items, causing UI clutter with large selections</li>
+        <li><strong>Poor UX</strong> - Users lost context of total operations when many items were selected</li>
+        <li><strong>Inconsistent behavior</strong> - Different bulk operations had varying notification patterns</li>
+    </ul>
+
+    <p><strong>Solution Implemented:</strong></p>
+    <ul>
+        <li><strong>3-item display limit</strong> - Show only first 3 selected items as clickable links</li>
+        <li><strong>Clear count indicator</strong> - Display "+ X more" for additional items beyond 3</li>
+        <li><strong>Consistent pattern</strong> - Applied across all 6 bulk edit components and group export</li>
+        <li><strong>Selection order preservation</strong> - Shows first 3 items in order user selected them</li>
+    </ul>
+
+    <p><strong>Components Enhanced:</strong></p>
+    <ul>
+        <li>PoliticalSearchBulkEditSubjectComponent</li>
+        <li>MonitoringSearchBulkEditReleaseComponent</li>
+        <li>MonitoringSearchBulkEditSubjectComponent</li>
+        <li>PoliticalSearchBulkEditInteractionComponent</li>
+        <li>PoliticalSearchBulkEditReleaseComponent</li>
+        <li>MonitoringSearchBulkEditInteractionComponent</li>
+        <li>ActionMenuGroupExportComponent</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+    <pre><code>// User selects 7 subjects for bulk operation
+// Notification displays:
+// 📋 Working on Adding contacts to Interaction 1 →
+// 📋 Simons Subject →  
+// 📋 Today →
+// + 4 more</code></pre>
+
+    <h4>4.2.2 Contact Creation Module Integration <span class="improved-badge">🔧 IMPROVED</span></h4>
+    <p><strong>Purpose:</strong> Enhanced cross-module workflow with contextual save reminders for better data integrity.</p>
+
+    <p><strong>Problem Solved:</strong></p>
+    <ul>
+        <li><strong>Data loss risk</strong> - Users could navigate away from contact creation without saving subjects</li>
+        <li><strong>Workflow confusion</strong> - Unclear when subjects needed saving in cross-module contexts</li>
+        <li><strong>Inconsistent UX</strong> - Different behavior when accessing contact creation from various modules</li>
+    </ul>
+
+    <p><strong>Solution Implemented:</strong></p>
+    <ul>
+        <li><strong>Optional contextual message</strong> - Display save reminder when viewing from subject module</li>
+        <li><strong>Module-aware behavior</strong> - Different messaging based on entry point</li>
+        <li><strong>Clear call-to-action</strong> - Users understand when they need to save before proceeding</li>
+        <li><strong>Non-intrusive design</strong> - Message appears only when contextually relevant</li>
+    </ul>
+
+    <p><strong>Implementation:</strong></p>
+    <pre><code>// Contact creation with optional subject save message
+&lt;ContactCreateContainer 
+    showSubjectSavePrompt
+/&gt;</code></pre>
+
+    <h3>4.3 Technical Architecture Improvements</h3>
+
+    <h4>4.3.1 Import Standardization</h4>
+    <p>Required imports added to support interactive notifications:</p>
+    <pre><code>import { 
+    BubbleNotificationLink, 
+    BubbleNotificationItem,
+    NotificationType, 
+    NotificationContainer,
+    ToastNotification 
+} from "../../../Components2/Common/Feedback";</code></pre>
+
+    <div class="section-divider"></div>
+
+    <h2 id="files-modified">5. Files Modified by Module</h2>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">25+</div>
+            <div class="stat-label">Contact Management Files</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">20+</div>
+            <div class="stat-label">Outlet Management Files</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">18+</div>
+            <div class="stat-label">Subject Management Files</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">22+</div>
+            <div class="stat-label">Interaction Management Files</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Monitoring System Files</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">12+</div>
+            <div class="stat-label">Group Management Files</div>
+        </div>
+    </div>
+
+    <h3>5.1 Contact Management System</h3>
+    <ul>
+        <li>Contact creation, editing, deletion workflows</li>
+        <li>Contact profile management</li>
+        <li>Contact search and filtering</li>
+        <li>Contact list operations and bulk actions</li>
+    </ul>
+
+    <h3>5.2 Outlet Management System</h3>
+    <ul>
+        <li>Outlet creation and configuration</li>
+        <li>Outlet search and filtering</li>
+        <li>Outlet relationship management</li>
+        <li>Outlet data import/export</li>
+    </ul>
+
+    <h3>5.3 Subject Management System</h3>
+    <ul>
+        <li>Subject creation and editing</li>
+        <li>Subject categorization and tagging</li>
+        <li>Subject search functionality</li>
+        <li>Subject-interaction relationships</li>
+    </ul>
+
+    <h3>5.4 Interaction Management System</h3>
+    <ul>
+        <li>Interaction creation and editing</li>
+        <li>Interaction categorization and workflow</li>
+        <li>Interaction search and filtering</li>
+        <li>Interaction-subject relationships</li>
+    </ul>
+
+    <h3>5.5 Monitoring Systems</h3>
+    <ul>
+        <li>Media monitoring dashboards</li>
+        <li>Political monitoring interfaces</li>
+        <li>Monitoring configuration and setup</li>
+        <li>Monitoring result processing</li>
+    </ul>
+
+    <h3>5.6 Group Management</h3>
+    <ul>
+        <li>Tag group creation and management</li>
+        <li>Group membership operations</li>
+        <li>Group search and organization</li>
+        <li>Group removal notifications with interactive elements</li>
+    </ul>
+
+    <div class="section-divider"></div>
+
+    <h2 id="impact-summary">6. Impact Summary</h2>
+
+    <h3>6.1 User Experience Improvements</h3>
+    <ul>
+        <li><strong>Cleaner notifications</strong> with professional, concise messaging</li>
+        <li><strong>Interactive elements</strong> allowing direct navigation from notifications</li>
+        <li><strong>Consistent terminology</strong> across all system modules</li>
+        <li><strong>Reduced cognitive load</strong> through elimination of redundant information</li>
+    </ul>
+
+    <h3>6.2 Developer Experience Improvements</h3>
+    <ul>
+        <li><strong>Type safety</strong> through TypeScript enums</li>
+        <li><strong>Reduced magic strings</strong> improving maintainability</li>
+        <li><strong>Reusable components</strong> for consistent notification patterns</li>
+        <li><strong>Clear documentation</strong> and usage examples</li>
+    </ul>
+
+    <h3>6.3 Technical Benefits</h3>
+    <ul>
+        <li><strong>Enhanced accessibility</strong> with proper ARIA attributes</li>
+        <li><strong>Better performance</strong> through optimized component structure</li>
+        <li><strong>Improved maintainability</strong> with standardized patterns</li>
+        <li><strong>Future-proof architecture</strong> ready for additional notification types</li>
+    </ul>
+
+    <div class="section-divider"></div>
+
+    <h2 id="implementation-notes">7. Implementation Notes</h2>
+
+    <h3>7.1 Migration Strategy</h3>
+    <ul>
+        <li><strong>Gradual rollout</strong> - Changes applied incrementally by module</li>
+        <li><strong>Backward compatibility</strong> - Existing notification calls continue to work</li>
+        <li><strong>Progressive enhancement</strong> - New features available where contextually appropriate</li>
+    </ul>
+
+    <h3>7.2 Testing & Validation</h3>
+    <ul>
+        <li><strong>Cross-browser testing</strong> - Verified in Chrome, Firefox, Safari, Edge</li>
+        <li><strong>Accessibility testing</strong> - Validated with screen readers and keyboard navigation</li>
+        <li><strong>Performance testing</strong> - No degradation in notification rendering times</li>
+        <li><strong>User acceptance testing</strong> - Positive feedback on clarity and interactivity</li>
+    </ul>
+
+    <h3>7.3 Future Considerations</h3>
+    <ul>
+        <li><strong>Notification queuing</strong> - Potential for managing multiple simultaneous notifications</li>
+        <li><strong>Animation enhancements</strong> - Opportunities for subtle motion design</li>
+        <li><strong>Theming support</strong> - Potential for notification appearance customization</li>
+        <li><strong>Analytics integration</strong> - Tracking notification interaction patterns</li>
+    </ul>
+
+    <div class="section-divider"></div>
+
+    <div class="info-box">
+        <h2>Summary Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">120+</div>
+                <div class="stat-label">Files Modified</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">New Components Created</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Major System Modules</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Breaking Changes</div>
+            </div>
+        </div>
+        
+        <h3>Key Achievements</h3>
+        <ul>
+            <li><span class="success-indicator">✅</span> <strong>Consistent notification patterns</strong> across all modules</li>
+            <li><span class="success-indicator">✅</span> <strong>Enhanced user experience</strong> with interactive elements</li>
+            <li><span class="success-indicator">✅</span> <strong>Improved developer experience</strong> with TypeScript enums and type safety</li>
+            <li><span class="success-indicator">✅</span> <strong>Professional messaging standards</strong> throughout application</li>
+            <li><span class="success-indicator">✅</span> <strong>Accessible design</strong> meeting WCAG guidelines</li>
+            <li><span class="success-indicator">✅</span> <strong>Future-ready architecture</strong> for ongoing notification enhancements</li>
+        </ul>
+    </div>
+
+    </main>
+
+    <!-- Document Footer -->
+    <footer class="document-footer">
+        <div class="footer-logo">Pulsar Group</div>
+        <p>Confidential Technical Documentation</p>
+    </footer>
+</body>
+</html>
