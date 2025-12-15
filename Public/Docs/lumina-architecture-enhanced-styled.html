@@ -795,6 +795,7 @@
                         <li><a href="#component-examples-stories">Component Examples - Stories</a></li>
                         <li><a href="#component-lumina-namespacing">Component Namespacing</a></li>
                         <li><a href="#webpack-alias-and-typescript-resolve-paths">Webpack Alias & TypeScript</a></li>
+                        <li><a href="#panel-management-system">Panel Management System</a></li>
                         <li><a href="#advanced-ui-components-navigation-entity-display">Advanced UI Components</a></li>
                         <li><a href="#layout-system-single-vs-multi-column-views">Layout System</a></li>
                         <li><a href="#event-communication">Event Communication</a></li>
@@ -1721,7 +1722,83 @@ import { StoryHeat, StoryAge } from &#039;@luminaInterfaces/Story&#039;;
 // Cross-app access from MCD components using barrels
 import { LuminaStoriesLayout, LuminaTopStory } from &#039;@luminaComponents/Stories&#039;;
 import { LuminaLoader, LuminaButton } from &#039;@luminaComponents/UI&#039;;</code></pre>
-            </div></p><p><strong>Advantages</strong>:</p><p><ul><li>📖 <strong>Import Clarity</strong>: <code>import { LuminaLoader } from '@luminaComponents/UI'</code> combineing barrels and resolve paths vs complex relative paths</li><li>🛢️ <strong>Barrel Efficiency</strong>: Multiple component imports from single barrel file reduce import statements</li><li>🔧 <strong>Refactoring Safety</strong>: Alias changes update all imports automatically, barrel exports centralize component access</li><li>🔄 <strong>Cross-App Access</strong>: MCD components can easily import Lumina components through clean barrel interfaces</li><li>👨‍💻 <strong>Developer Experience</strong>: Cleaner, more readable import statements with logical component grouping</li><li>🛠️ <strong>Tooling Support</strong>: Better IDE autocomplete and navigation with barrel-based component discovery</li></ul><h4 id="advanced-ui-components-navigation-entity-display">🧭 Advanced UI Components - Navigation & Entity Display</h4></p><div class="info-box"></p></p><p>Sophisticated navigation and entity display components that provide intuitive user pathfinding and context awareness throughout the Lumina interface.</p><p></div><p><strong>LuminaBreadcrumb System</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>Advantages</strong>:</p><p><ul><li>📖 <strong>Import Clarity</strong>: <code>import { LuminaLoader } from '@luminaComponents/UI'</code> combineing barrels and resolve paths vs complex relative paths</li><li>🛢️ <strong>Barrel Efficiency</strong>: Multiple component imports from single barrel file reduce import statements</li><li>🔧 <strong>Refactoring Safety</strong>: Alias changes update all imports automatically, barrel exports centralize component access</li><li>🔄 <strong>Cross-App Access</strong>: MCD components can easily import Lumina components through clean barrel interfaces</li><li>👨‍💻 <strong>Developer Experience</strong>: Cleaner, more readable import statements with logical component grouping</li><li>🛠️ <strong>Tooling Support</strong>: Better IDE autocomplete and navigation with barrel-based component discovery</li></ul></p><h3 id="panel-management-system">Panel Management System</h3><div class="info-box"></p><p>Lumina uses a context-driven panel management system to control which content is displayed in the main interface.</p><p></div><p><strong>Panel Selector Architecture</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// PanelContent.tsx - Main panel router component
+const PanelContent = () =&gt; {
+    const { 
+        luminaPanelContent,
+        getFeatureAccessLevel
+    } = useLuminaMenu();
+
+    return (
+        &lt;div className={Styles.__panel_content}&gt;
+            {/* Summary Panel - Default view */}
+            {(luminaPanelContent === LuminaPanelContent.Summary || !luminaPanelContent) &amp;&amp; 
+                &lt;LuminaSummaryPanel accessLevel={getFeatureAccessLevel(&quot;summary&quot;)} /&gt;
+            }
+            
+            {/* Ask Lumina - AI Chat Interface */}
+            {luminaPanelContent === LuminaPanelContent.AskLumina &amp;&amp; 
+                &lt;LuminaAskLumina accessLevel={getFeatureAccessLevel(&quot;askLuminaAvailable&quot;)} /&gt;
+            }
+            
+            {/* Daily Digest - Curated News Summary */}
+            {luminaPanelContent === LuminaPanelContent.DailyDigest &amp;&amp; 
+                &lt;LuminaDailyDigest accessLevel={getFeatureAccessLevel(&quot;enableDailyDigest&quot;)} /&gt;
+            }
+            
+            {/* Stories - News Analysis Interface */}
+            {luminaPanelContent === LuminaPanelContent.Stories &amp;&amp; 
+                &lt;LuminaStoriesLayout /&gt;
+            }
+            
+            {/* Suggested Contacts - Expert Discovery */}
+            {luminaPanelContent === LuminaPanelContent.SuggestedContacts &amp;&amp; 
+                &lt;LuminaContacts /&gt;
+            }
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>LuminaPanelContent Enum</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Enum defining available panel types
+export enum LuminaPanelContent {
+    Summary = &quot;Summary&quot;,                      // Overview dashboard
+    AskLumina = &quot;AskLumina&quot;,                 // AI chat interface
+    DailyDigest = &quot;DailyDigest&quot;,             // Daily news summary
+    Stories = &quot;Stories&quot;,                      // News analysis
+    SuggestedContacts = &quot;SuggestedContacts&quot;  // Expert recommendations
+}</code></pre>
+            </div></p><p><strong>Context Integration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// LuminaMenuContext.tsx - Panel state management
+interface LuminaMenuContextType {
+    luminaPanelContent: LuminaPanelContent | null;
+    setLuminaPanelContent: (content: LuminaPanelContent) =&gt; void;
+    getFeatureAccessLevel: (key: string) =&gt; LuminaAccessUserLevel;
+}
+
+// Usage in navigation components
+const { setLuminaPanelContent } = useLuminaMenu();
+
+const handleNavigation = (panel: LuminaPanelContent) =&gt; {
+    setLuminaPanelContent(panel);
+};</code></pre>
+            </div></p><p><strong>Panel Management Benefits</strong>:</p><p><ul><li>🎯 <strong>Centralized Control</strong>: Single source of truth for active panel state</li><li>🔒 <strong>Access Control Integration</strong>: Each panel receives appropriate access level from context</li><li>🔄 <strong>Lazy Rendering</strong>: Only active panel is rendered, improving performance</li><li>📱 <strong>Clean Separation</strong>: Each panel is an independent component with its own logic</li><li>🎨 <strong>Consistent Layout</strong>: All panels render within the same container structure</li><li>🧪 <strong>Testable</strong>: Easy to test individual panels in isolation</li></ul></p><p><strong>Navigation Flow</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">plaintext</span>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">User Clicks Nav Item → setLuminaPanelContent(panel) → 
+Context Updates → PanelContent Re-renders → 
+Conditional Rendering Shows Selected Panel</code></pre>
+            </div></p><p><strong>Default Behavior</strong>:</p><p><ul><li>Falls back to <code>Summary</code> panel when <code>luminaPanelContent</code> is <code>null</code> or undefined</li><li>Ensures users always see content even if context state is not initialized</li><li>Provides graceful degradation for error scenarios</li></ul></p><h4 id="advanced-ui-components-navigation-entity-display">🧭 Advanced UI Components - Navigation & Entity Display</h4><div class="info-box"></p><p>Navigation and entity display components that provide intuitive user pathfinding and context awareness throughout the Lumina interface using breadcrumbs.</p><p></div><p><strong>LuminaBreadcrumb System</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
@@ -1799,7 +1876,7 @@ if (selectedPerspective) {
         { label: contact.name }
     ]}
 /&gt;</code></pre>
-            </div></p><p><strong>Breadcrumb System Benefits</strong>:</p><p><ul><li>🗺️ <strong>Context Awareness</strong>: Users understand their navigation path through Stories → Perspectives → Articles</li><li>📱 <strong>Text Truncation</strong>: <code>truncateText()</code> utility prevents overflow on mobile devices</li><li>♿ <strong>Accessibility</strong>: Semantic button elements with clear aria-roledescription attributes</li><li>🔗 <strong>Interactive Navigation</strong>: Click breadcrumbs to navigate back to previous levels</li><li>🎯 <strong>Simple Design</strong>: Minimal styling with arrow separators for clean visual hierarchy</li><li>🧠 <strong>State Management</strong>: Active states clearly indicate current navigation position</li></ul><h3 id="layout-system-single-vs-multi-column-views">Layout System: Single vs Multi-Column Views</h3><div class="info-box"></p><p>Developed a simple but effective dual-mode layout system that transforms the same components for different viewing experiences.</p><p></div><h4 id="single-column-view-architecture">📱 Single-Column View Architecture</h4><p><div class="code-block">
+            </div></p><p><strong>Breadcrumb System Benefits</strong>:</p><p><ul><li>🗺️ <strong>Context Awareness</strong>: Users understand their navigation path through Stories → Perspectives → Articles</li><li>📱 <strong>Text Truncation</strong>: <code>truncateText()</code> utility prevents overflow on mobile devices</li><li>♿ <strong>Accessibility</strong>: Semantic button elements with clear aria-roledescription attributes</li><li>🔗 <strong>Interactive Navigation</strong>: Click breadcrumbs to navigate back to previous levels</li><li>🎯 <strong>Simple Design</strong>: Minimal styling with arrow separators for clean visual hierarchy</li><li>🧠 <strong>State Management</strong>: Active states clearly indicate current navigation position</li></ul><h3 id="layout-system-single-vs-multi-column-views">Layout System: Single vs Multi-Column Views</h3><div class="info-box"></p></p><p>Developed a simple but effective dual-mode layout system that transforms the same components for different viewing experiences.</p><p></div><h4 id="single-column-view-architecture">📱 Single-Column View Architecture</h4><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
