@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina UI Analysis - Lumina Documentation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Pulsar Group Documentation Template Styling */
+        
+        /* CSS Variables for easy customization */
+        :root {
+            /* Lumina Brand Colors */
+            --primary-color: #3597FE;         /* Lumina Blue */
+            --secondary-color: #0042FF;       /* Lumina Deep Blue */
+            --accent-color: #54FFB1;          /* Lumina Green */
+            --success-color: #4CAF50;         /* Lumina Success Green */
+            --warning-color: #FF9800;         /* Lumina Warning Orange */
+            --error-color: #FF4C4C;           /* Lumina Error Red */
+            --info-color: #2196F3;            /* Lumina Info Blue */
+            
+            /* Lumina Palette Colors */
+            --lumina-pale-blue: #B8D4FF;      /* Lighter Pale Blue for better readability */
+            --lumina-lilac: #D6C5EF;          /* Lilac */
+            --lumina-light-green: #C9FFE7;    /* Light Green */
+            --lumina-pale-yellow: #F0EB7E;    /* Pale Yellow */
+            --lumina-skin: #F8D0C0;           /* Skin */
+            
+            /* Text Colors */
+            --text-primary: #121212;          /* Lumina Text Color */
+            --text-secondary: #404040;        /* Medium gray */
+            --text-muted: #808080;            /* Light gray */
+            --link-color: #0066CC;            /* Lumina Link Color */
+            --link-hover: #004999;            /* Lumina Link Hover */
+            
+            /* Background Colors */
+            --background: #FFFFFF;            /* White */
+            --background-alt: #F8FAFC;        /* Very light gray */
+            --background-highlight: #FFF9C4;  /* Lumina Highlight */
+            --border-color: #8FBCFF;          /* Adjusted Pale Blue for borders */
+            
+            /* Typography */
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            
+            /* Spacing */
+            --header-height: 120px;
+            --content-max-width: 1200px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 0;
+            margin: 0;
+            background-color: var(--background);
+            font-size: 14px;
+        }
+
+        /* Header with Pulsar Group branding */
+
+            .document-header {
+                /* background: linear-gradient(rgba(53, 151, 254, 0.8), rgba(0, 66, 255, 0.8)), url('Img/subjectHeader/Large.jpg'); */
+                background-image: url('Img/subjectHeader/Large.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                color: white;
+                padding: var(--spacing-xl);
+                margin: 0 0 var(--spacing-2xl) 0;   
+                position: relative;
+                overflow: hidden;
+                min-height: 160px;
+            }
+
+            .document-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(53, 151, 254, 0.15) 0%, rgba(0, 66, 255, 0.25) 100%);
+                pointer-events: none;
+            }
+
+            .header-content {
+                position: relative;
+                z-index: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: var(--spacing-lg);
+                max-width: var(--content-max-width);
+                margin: 0 auto;
+            }
+
+        /* Logo and main heading */
+
+            .logo-section {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-lg);
+            }
+
+            .company-logo {
+                height: 60px;
+                width: auto;
+                max-width: 200px;
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            }
+
+            .company-logo svg {
+                height: 100%;
+                width: auto;
+            }
+
+            .header-text {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                margin-top: -6px;
+            }
+
+            .header-text h1 {
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 600;
+                letter-spacing: -0.025em;
+                color: var(--text-primary);
+                font-weight: 300;
+            }
+
+            .header-text .subtitle {
+                margin: 0;
+                font-size: 1.3rem;
+                opacity: 0.9;
+                font-weight: 300;
+                color: var(--text-primary);
+            }
+
+        /* Document metadata */
+
+            .document-meta {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-xs);
+                text-align: right;
+                font-size: 0.9rem;
+                opacity: 0.9;
+            }
+
+            .document-meta .branch-info {
+                background-color: rgba(255, 255, 255, 0.15);
+                padding: var(--spacing-xs) var(--spacing-sm);
+                border-radius: 4px;
+                font-family: var(--font-mono);
+                margin-bottom: var(--spacing-sm);
+                color: var(--link-color);
+            }
+
+            .author-line {
+                margin-bottom: var(--spacing-sm) 0;
+                font-size: 18px;
+                font-weight: 300;
+                color: var(--text-primary);
+            }
+
+        /* Main Content */
+        .document-content {
+            padding: 0 var(--spacing-xl);
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+
+        /* Headers with Pulsar Group styling */
+        h1:not(.header-text h1) {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            font-size: 2.25rem;
+            margin: var(--spacing-2xl) 0 var(--spacing-lg) 0;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-xs);
+            font-size: 1.75rem;
+            margin: var(--spacing-2xl) 0 var(--spacing-lg) 0;
+            font-weight: 500;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+            font-weight: 500;
+            
+        }
+
+        h4 {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+            font-weight: 500;
+        }
+
+        h5 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+            font-weight: 600;
+        }
+
+        /* Table of Contents with Lumina styling */
+        .toc {
+            background: linear-gradient(135deg, var(--lumina-pale-blue) 10%, var(--background-alt) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0 var(--spacing-2xl) 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: none;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .toc-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .toc ul {
+            display: flex;
+            flex-direction: column;
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-xl);
+            gap: var(--spacing-sm);
+        }
+
+        .toc li {
+            margin: 0;
+            font-weight: 400;
+            list-style-type: none;
+        }
+
+        .toc a {
+            color: var(--secondary-color);
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: var(--spacing-xs) 0;
+            display: inline-block;
+        }
+
+        .toc a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transform: translateX(4px);
+        }
+
+        /* Code styling with MD-dans font */
+        code {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            color: var(--error-color);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        pre {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: var(--font-mono);
+        }
+
+        /* Enhanced Code Block Styling */
+        .code-block {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: var(--spacing-lg) 0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .code-language {
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-content {
+            background: transparent;
+            border: none;
+            margin: 0;
+            padding: var(--spacing-lg);
+            overflow-x: auto;
+            box-shadow: none;
+        }
+
+        .code-content code {
+            display: block;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            white-space: pre;
+            font-family: var(--font-mono);
+        }
+
+        /* Inline code styling */
+        .inline-code {
+            background-color: rgba(53, 151, 254, 0.1);
+            color: var(--secondary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 1px solid rgba(53, 151, 254, 0.2);
+        }
+
+        /* Enhanced status badges with Lumina colors */
+        .new-badge {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--success-color) 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .improved-badge {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--lumina-lilac) 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Success/Error indicators */
+        .success-indicator {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .error-indicator {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        /* Enhanced section dividers with Lumina gradient */
+        .section-divider {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            margin: var(--spacing-2xl) 0;
+            border-radius: 1px;
+        }
+
+        /* Highlight boxes with Lumina styling */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--lumina-pale-yellow) 20%, var(--background-highlight) 100%);
+            border: 1px solid var(--warning-color);
+            border-left: 4px solid var(--warning-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 1px solid #bcc8d7;
+            border-left: 4px solid #6c757d;
+            border-radius: 8px;
+            padding: 18px;
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            font-size: 16px;
+            
+        }
+
+        .info-box p {
+            margin-top: 0;
+            margin-bottom: 0;  
+        }
+
+        .info-box p:last-of-type{
+            margin-bottom: 0;
+        }
+
+        .intro-section h4 {
+            margin-top: 0;
+        }
+
+        /* Enhanced statistics styling */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--background-alt) 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--lumina-lilac) 50%, var(--accent-color) 100%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+            font-family: var(--font-primary);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        /* Lists with better styling */
+        ul, ol {
+            margin: var(--spacing-lg) 0;
+            padding-left: var(--spacing-xl);
+        }
+
+        li {
+            margin: var(--spacing-sm) 0;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .document-footer {
+            background-color: var(--background-alt);
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo {
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        
+
+        /* Print optimizations */
+        @media print {
+            body {
+                font-size: 11pt;
+                line-height: 1.4;
+                max-width: 100%;
+            }
+            
+            .document-header {
+                background: var(--primary-color) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            h1, h2, h3, h4 {
+                page-break-after: avoid;
+            }
+            
+            .section-divider {
+                page-break-before: auto;
+            }
+            
+            .toc, .info-box, .highlight-box, .stat-card {
+                page-break-inside: avoid;
+            }
+            
+            pre {
+                page-break-inside: avoid;
+                font-size: 9pt;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .document-content {
+                padding: 0 var(--spacing-lg);
+            }
+            
+            .document-header {
+                padding: var(--spacing-lg);
+                background-attachment: scroll;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .company-logo {
+                height: 45px;
+                max-width: 160px;
+            }
+            
+            .document-meta {
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Floating Back to Top Button */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: auto;
+            min-width: 60px;
+            height: 50px;
+            padding: 0 16px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: var(--font-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .back-to-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top-btn:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .back-to-top-btn:active {
+            transform: translateY(0px);
+        }
+
+        .back-to-top-btn span {
+            line-height: 1;
+        }
+
+        /* Responsive adjustments for back to top */
+        @media (max-width: 768px) {
+            .back-to-top-btn {
+                min-width: 50px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 12px;
+                padding: 0 12px;
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-to-top-btn .text {
+                display: none;
+            }
+            .back-to-top-btn {
+                min-width: 45px;
+                width: 45px;
+                border-radius: 50%;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Document Header with Pulsar Group Branding -->
+    <header class="document-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="company-logo">
+                    <svg width="1011px" height="200px" viewBox="0 0 1011 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>Pulsar Group Logo</title>
+                        <g stroke="none" fill="none" fill-rule="nonzero">
+                            <path d="M93.9574468,55.5224586 L93.9574468,107.503546 C93.9574468,124.685579 101.134752,132.515366 114.619385,132.515366 C128.104019,132.515366 135.281324,124.468085 135.281324,107.503546 L135.281324,55.5224586 L150.288416,55.5224586 L150.288416,109.243499 C150.288416,133.602837 135.933806,146 114.619385,146 C93.5224586,146 78.9503546,133.602837 78.9503546,109.026005 L78.9503546,55.5224586 L93.9574468,55.5224586 Z M626.600473,54 C649.87234,54 659.659574,65.5271868 663.13948,83.3617021 L648.132388,83.3617021 L647.847327,82.6416198 C644.133751,73.4875192 638.259808,67.7021277 626.600473,67.7021277 C614.638298,67.7021277 600.501182,81.1867612 600.501182,100.108747 C600.501182,119.030733 610.723404,132.732861 627.252955,132.732861 C643.782506,132.732861 648.78487,124.033097 650.742317,111.635934 L631.385343,111.635934 L631.167849,111.41844 L631.167849,98.5862884 L664.879433,98.5862884 L664.879433,105.546099 C664.879433,130.122931 648.78487,146 627.035461,146 C605.286052,146 585.059102,127.513002 585.059102,100.108747 C585.059102,72.7044917 603.328605,54 626.600473,54 Z M799.725768,54 C823.867612,54 841.049645,73.356974 841.049645,99.891253 C841.049645,126.425532 823.867612,145.782506 799.725768,145.782506 L799.725768,146 C775.583924,146 758.619385,126.643026 758.619385,100.108747 C758.619385,73.5744681 775.583924,54 799.725768,54 Z M870.846336,55.5224586 L870.846336,107.503546 C870.846336,124.685579 878.023641,132.515366 891.508274,132.515366 C904.992908,132.515366 912.170213,124.468085 912.170213,107.503546 L912.170213,55.5224586 L927.177305,55.5224586 L927.177305,109.243499 C927.177305,133.602837 912.822695,146 891.508274,146 C870.411348,146 855.839243,133.602837 855.839243,109.026005 L855.839243,55.5224586 L870.846336,55.5224586 Z M271.432624,54 C289.484634,54 302.099291,63.787234 305.144208,78.5768322 L290.137116,78.5768322 C287.744681,71.8345154 282.089835,66.6146572 271.650118,66.6146572 C261.210402,66.6146572 255.555556,71.6170213 255.555556,79.0118203 C255.555556,86.4066194 259.252955,88.7990544 267.300236,90.5390071 L282.742317,94.2364066 C296.661939,97.498818 305.79669,105.546099 305.79669,118.813239 C305.79669,132.080378 292.529551,145.782506 274.042553,145.782506 C255.555556,145.782506 241.635934,136.212766 238.591017,119.683215 L254.033097,119.683215 L253.815603,119.900709 C256.643026,129.035461 264.255319,133.167849 274.042553,133.167849 C283.829787,133.167849 291.224586,128.165485 291.224586,119.900709 C291.224586,111.635934 287.527187,110.113475 278.392435,107.938534 L263.385343,104.241135 L262.629655,104.063104 C250.592777,101.135345 241.200946,94.3784436 241.200946,80.3167849 C241.200946,65.9621749 253.380615,54 271.432624,54 Z M445.862884,55.5224586 C464.349882,55.5224586 476.094563,64.8747045 476.094563,82.2742317 C476.094563,99.6737589 467.394799,105.763593 453.257683,107.938534 L479.13948,144.695035 L461.957447,144.695035 L437.163121,108.591017 L426.50591,108.591017 L426.50591,144.477541 L411.498818,144.477541 L411.498818,55.5224586 L445.862884,55.5224586 Z M979.810875,55.5224586 C998.297872,55.5224586 1010.26005,65.0921986 1010.26005,83.5791962 C1010.26005,102.066194 998.297872,111.41844 979.810875,111.41844 L960.453901,111.41844 L960.453901,144.695035 L945.446809,144.695035 L945.446809,55.5224586 L979.810875,55.5224586 Z M34.3640662,55.5224586 C52.8510638,55.5224586 64.8132388,65.0921986 64.8132388,83.5791962 C64.8132388,102.066194 52.8510638,111.41844 34.3640662,111.41844 L15.0070922,111.41844 L15.0070922,144.695035 L0,144.695035 L0,55.5224586 L34.3640662,55.5224586 Z M185.08747,55.5224586 L185.08747,131.210402 L227.933806,131.210402 L227.933806,144.695035 L170.080378,144.695035 L170.080378,55.5224586 L185.08747,55.5224586 Z M362.997636,55.5224586 L397.144208,144.695035 L381.702128,144.695035 L372.567376,120.118203 L338.420804,120.118203 L329.286052,144.695035 L314.061466,144.695035 L348.425532,55.5224586 L362.997636,55.5224586 Z M715.77305,55.5224586 C734.260047,55.5224586 746.004728,64.8747045 746.004728,82.2742317 C746.004728,99.6737589 737.304965,105.763593 723.167849,107.938534 L749.049645,144.695035 L731.867612,144.695035 L707.073286,108.591017 L696.416076,108.591017 L696.416076,144.477541 L681.408983,144.477541 L681.408983,55.5224586 L715.77305,55.5224586 Z M538.080378,54 L538.080378,85.9716312 L565.484634,69.4420804 L572.879433,81.6217494 L544.822695,98.5862884 L572.879433,115.550827 L565.484634,127.947991 L538.080378,111.41844 L538.080378,143.390071 L523.725768,143.390071 L523.725768,111.41844 L496.539007,127.947991 L489.144208,115.550827 L517.200946,98.5862884 L489.144208,81.6217494 L496.539007,69.4420804 L523.725768,85.9716312 L523.725768,54 L538.080378,54 Z M799.725768,67.4846336 C784.066194,67.4846336 773.843972,81.1867612 773.843972,99.891253 C773.843972,118.595745 784.066194,132.297872 799.725768,132.297872 C815.385343,132.297872 825.607565,118.595745 825.607565,99.891253 C825.607565,81.1867612 815.385343,67.4846336 799.725768,67.4846336 Z M355.602837,74.0094563 L343.423168,106.851064 L367.782506,106.851064 L355.602837,74.0094563 Z M33.929078,68.572104 L15.0070922,68.572104 L15.0070922,98.3687943 L33.929078,98.3687943 C44.3687943,98.3687943 49.8061466,92.0614657 49.8061466,83.5791962 C49.8061466,75.0969267 44.3687943,68.572104 33.929078,68.572104 Z M979.593381,68.572104 L960.671395,68.572104 L960.671395,98.3687943 L979.593381,98.3687943 C990.033097,98.3687943 995.470449,92.0614657 995.470449,83.5791962 C995.470449,75.0969267 990.033097,68.572104 979.593381,68.572104 Z M445.427896,68.3546099 L426.50591,68.3546099 L426.50591,95.7588652 L445.427896,95.7588652 C455.432624,95.7588652 461.08747,90.321513 461.08747,82.0567376 C461.08747,73.7919622 455.432624,68.3546099 445.427896,68.3546099 Z M715.338061,68.3546099 L696.416076,68.3546099 L696.416076,95.7588652 L715.338061,95.7588652 C725.34279,95.7588652 730.997636,90.321513 730.997636,82.0567376 C730.997636,73.7919622 725.34279,68.3546099 715.338061,68.3546099 Z" fill="#FFFFFF"></path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="header-text">
+                    <h1>Lumina UI Analysis</h1>
+                    <p class="subtitle">Design and Architecture Overview</p>
+                </div>
+            </div>
+            <div class="document-meta">
+                <div class="branch-info">feature/UXUI-698-add-lumina-ui-placeholder</div>
+                <div class="author-line"><strong>Date:</strong> December 14, 2025</div>
+                <div class="author-line"><strong>Author:</strong> Simon Allin</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Document Content -->
+    <main class="document-content">
+        
+    <div class="toc">
+        <h2><svg class="toc-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"><path d="M318.52-300.41q11.81 0 19.72-7.96 7.91-7.97 7.91-19.79 0-11.81-7.96-19.72-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.96-7.91 19.78t7.96 19.73q7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.97 7.91-19.78 0-11.82-7.96-19.73t-19.78-7.91q-11.82 0-19.73 7.96-7.91 7.97-7.91 19.78 0 11.82 7.96 19.73 7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.96 7.91-19.78t-7.96-19.73q-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.97-7.91 19.79 0 11.81 7.96 19.72 7.97 7.91 19.79 7.91Zm143.84 293.03h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17 0-7.25-4.87-12.01-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17t4.86 12.01q4.87 4.76 12.06 4.76Zm0-151.9h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.16 0-7.26-4.87-12.02-4.86-4.75-12.05-4.75H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.16 0 7.26 4.86 12.02 4.87 4.75 12.06 4.75Zm0-151.89h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17t-4.87-12.01q-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17 0 7.25 4.86 12.01 4.87 4.76 12.06 4.76ZM218.46-160q-24.58 0-41.52-16.94Q160-193.88 160-218.46v-523.08q0-24.58 16.94-41.52Q193.88-800 218.46-800h523.08q24.58 0 41.52 16.94Q800-766.12 800-741.54v523.08q0 24.58-16.94 41.52Q766.12-160 741.54-160H218.46Zm0-33.85h523.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-523.08q0-9.23-7.69-16.92-7.69-7.69-16.92-7.69H218.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v523.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69Zm-24.61-572.3V-193.85-766.15Z"/></svg>Table of Contents</h2>
+        <ul>
+            <li><a href="#i-introduction-context">I. Introduction & Context</a></li>
+            <li><a href="#ii-core-design-systems">II. Core Design Systems</a></li>
+            <li><a href="#iii-component-layout-architecture">III. Component & Layout Architecture</a></li>
+            <li><a href="#iv-utilities-patterns">IV. Utilities & Patterns</a></li>
+            <li><a href="#v-implementation-evaluation">V. Implementation & Evaluation</a></li>
+        </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h1 id="lumina-architecture-documentation">Lumina Architecture Documentation</h1><h2 id="i-introduction-context">I. Introduction & Context</h2><h3 id="ui-introduction">UI Introduction</h3><div class="intro-section" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 2rem; border-radius: 12px; border-left: 4px solid #3b82f6; margin: 2rem 0; font-size: 1.1em;"></p><h4 id="design-implementation">🎯 Design & Implementation</h4><p>The Lumina-App project was designed as a <strong>strategic overlay system</strong> - a specialized intelligence interface that operates seamlessly on top of existing MCD infrastructure without disrupting core functionality. This additive approach introduces advanced AI-powered news, expert suggestions and chat intelligence while fully preserving the original MCD capabilities..</p><p><strong>Implementation Strategy</strong>: Lumina functions as a <strong>cross-app system</strong>. Its entry point is placed in the Navigation app, while all operational logic resides in the MCD app. The strucutre was intended to aid maintainability, reusability, and supports future integrations through consistent component design and naming conventions.</p><p></div><h4 id="ai-identifiers-in-the-ui">🤖 AI Identifiers in the UI</h4><div class="info-box"></p><p>AI identifiers in the UI refer to how AI-powered features are distinguished from standard ones, helping users easily recognize when they are interacting with AI.</p><p></div><p><strong>Key Design Considerations</strong>:</p><p><ul><li>🔍 <strong>Visibility</strong>: How are AI features made noticeable to the user?</li><li>🎯 <strong>Differentiation</strong>: How are AI features distinguished from non-AI features?</li><li>🏷️ <strong>Clear Labeling</strong>: Explicit indication of AI-powered components and capabilities</li><li>💡 <strong>Intuitive Interaction</strong>: Users understand when AI is processing or providing insights</li></ul></p><p><strong>Implementation Strategy</strong>:</p><p><ul><li><strong>Visual Cues</strong>: Distinct styling, colors, and iconography for AI-powered components</li><li><strong>Contextual Indicators</strong>: Clear labeling and tooltips explaining AI functionality</li><li><strong>Progressive Disclosure</strong>: AI features enhance rather than overwhelm the core interface</li><li><strong>Consistent Patterns</strong>: Standardized AI identification across all Lumina components</li></ul></p><p>The goal is to ensure that users can easily recognize and understand when they are interacting with AI-powered functionalities within the interface, maintaining transparency and building user confidence in AI-assisted workflows.</p><h3 id="cross-app-architecture-overview">🚀 Cross-App Architecture Overview</h3><h4 id="navigation-app-trigger-only">Navigation App - Trigger Only</h4><div class="info-box"></p><p>Keep only the UI trigger in the Navigation app while housing all Lumina functionality in the MCD app.</p><p></div><p><strong>Implementation Strategy</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// NavigationBarContainerModern.tsx - Trigger component
+private toggleLuminaMenu() {
+    // Dispatch event to MCD app to toggle Lumina menu
+    this.props.eventBus.dispatch(EventType.ReloadIFrame, {
+        type: &#039;TOGGLE_LUMINA_MENU&#039;,
+        isOpen: !this.state.luminaMenuOpen,
+        timestamp: Date.now(),
+        source: &#039;navigation-app&#039;
+    });
+    
+    // Update local state for UI feedback
+    this.setState((prevState) =&gt; ({ luminaMenuOpen: !prevState.luminaMenuOpen }));
+}</code></pre>
+            </div></p><p><strong>Navigation App Responsibilities</strong>:</p><p><ul><li>🔘 Lumina trigger button rendering</li><li>🎬 LuminaLottie animation for visual feedback</li><li>💌 Event dispatching to MCD app</li><li>📊 Local state management for trigger button</li></ul></p><h4 id="mcd-app-complete-functionality-housing">MCD App - Complete Functionality Housing</h4><div class="info-box"></p><p>House all Lumina components, context, and business logic in the MCD app for centralized management but keep them seperate from the main mcd components.</p><p></div><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// LuminaManager.tsx - Event listener and portal manager
+export class LuminaManager extends Component&lt;ILuminaManagerProps, ILuminaManagerState&gt; {
+    public componentDidMount() {
+        // Listen for toggle events from Navigation app
+        if (this.props.eventBus) {
+            this.props.eventBus.on(EventType.ReloadIFrame, this.handleLuminaToggleEvent);
+        }
+    }
+
+    private handleLuminaToggleEvent = (data: any) =&gt; {
+        // Only handle Lumina-specific events from Navigation app
+        if (data.type === &#039;TOGGLE_LUMINA_MENU&#039; &amp;&amp; data.source === &#039;navigation-app&#039;) {
+            this.setState({
+                luminaMenuOpen: data.isOpen
+            });
+        }
+    }
+
+    public render(): JSX.Element | null {
+        if (!this.state.luminaMenuOpen) {
+            return null;
+        }
+
+        return createPortal(
+            &lt;AppProvider
+                initialUserLevel={LuminaAccessUserLevel.Full}
+                initialPanelContent={LuminaPanelContent.Summary}
+                initialStoriesUIMode={UIMode.Standard}
+            &gt;
+                &lt;DemoStateProvider&gt;
+                    &lt;LuminaMenuV2
+                        isOpen={this.state.luminaMenuOpen}
+                        onToggle={this.toggleLuminaMenu}
+                    /&gt;
+                &lt;/DemoStateProvider&gt;
+            &lt;/AppProvider&gt;,
+            document.body
+        );
+    }
+}</code></pre>
+            </div></p><p><strong>MCD App Integration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// RootComponent.tsx - Integration point
+return (
+    &lt;AppSettingsProvider appSettings={props.appSettings}&gt;
+        &lt;InternalAnalyticsProvider&gt;
+            &lt;Provider store={props.__Store.Store}&gt;
+                &lt;DiProvider&gt;
+                    &lt;&gt;
+                        {loaderState &amp;&amp; &lt;FullScreenLoaderComponent /&gt;}
+                        {/* Add LuminaManager to handle Lumina menu from Navigation app */}
+                        &lt;LuminaManager eventBus={getEventBus()} /&gt;
+                        &lt;Router history={props.__Store.History}&gt;
+                            {/* Routes */}
+                        &lt;/Router&gt;
+                    &lt;/&gt;
+                &lt;/DiProvider&gt;
+            &lt;/Provider&gt;
+        &lt;/InternalAnalyticsProvider&gt;
+    &lt;/AppSettingsProvider&gt;
+);</code></pre>
+            </div></p><p><strong>Cross-App Benefits</strong>:</p><p><ul><li>🔀 <strong>Clean Separation</strong>: Navigation handles UI trigger, MCD handles functionality</li><li>⚡ <strong>Performance</strong>: No code duplication between apps</li><li>🔧 <strong>Maintenance</strong>: Single source of truth for Lumina logic</li><li>📈 <strong>Scalability</strong>: Easy to extend without affecting navigation</li><li>💬 <strong>Event-Based Communication</strong>: Loose coupling through event system</li></ul></p><h2 id="ii-core-design-systems">II. Core Design Systems</h2><h3 id="asset-architecture-independent-scss-foundation">Asset Architecture - Independent SCSS Foundation</h3><div class="info-box"></p><p>Created a separate SCSS base structure independent from the main MCD application styling.</p><p></div><p><strong>Rationale</strong>:</p><p><ul><li>🎨 <strong>Visual Identity Separation</strong>: Lumina required a distinct visual language that differed significantly from MCD's enterprise-focused design system</li><li>🆓 <strong>Design System Independence</strong>: Avoided conflicts with existing MCD color palettes, spacing units, and component styling</li><li>🌙 <strong>Theming Flexibility</strong>: Enabled custom CSS variables (<code>--lumina-*</code>) for dynamic theming without affecting parent application</li><li>🔮 <strong>Future-Proofing</strong>: Isolated styling allows for easy theme evolution without impacting MCD's established design patterns</li></ul></p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">// Example: Independent color system with modern SCSS features
+$luminaColors: (
+    Lilac: #9ca3db,
+    Bermuda: #7dd3fc,
+    // ... distinct from MCD&#039;s color palette
+);
+
+// Modern CSS Grid and Flexbox utilities
+@mixin responsive-grid($min-width: 280px, $gap: 1rem) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+    gap: $gap;
+}</code></pre>
+            </div></p><h4 id="modern-css-standards-implementation">🚀 Modern CSS Standards Implementation</h4><div class="info-box"></p><p>Lumina's SCSS architecture prioritizes modern CSS standards including CSS Grid, Flexbox, Container Queries, and CSS Custom Properties for optimal performance and maintainability.</p><p></div><p><strong>Modern CSS Features Utilized</strong>:</p><p><ul><li>🔳 <strong>CSS Grid</strong>: Primary layout system for responsive story grids and dashboard layouts</li><li>🔄 <strong>Flexbox</strong>: Component-level alignment and distribution (navigation, buttons, badges)</li><li>🎨 <strong>CSS Custom Properties</strong>: Dynamic theming and runtime style updates (var(--background-color))</li><li>🌈 <strong>Color Management</strong>: Lumina-specific color palette with SCSS map integration</li></ul></p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">// Real CSS Grid implementation from _Components.Contacts.module.scss
+.contactsContainer.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding-top: settings.$spacing-unit-xxsmall;
+}
+
+// Multi-column layout system from _Components.StoriesLayout.module.scss
+.__multiColumnLayout {
+    display: flex;
+    height: 100%;
+    background: var(--background-color, #1a1a1a);
+    overflow: hidden;
+}
+
+// Using css color vars enables runtime theme switching without CSS recompilation
+.__storiesColumn {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-color, #f8f8f8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    height: 100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}</code></pre>
+            </div></p><p><strong>Performance Benefits</strong>:</p><p><ul><li>⚡ <strong>Reduced JavaScript</strong>: Layout handled by CSS Grid/Flexbox instead of JS calculations</li><li>🎯 <strong>Better Specificity</strong>: SCSS nesting and mixin system reduce cascade conflicts</li><li>📱 <strong>Advanced Responsiveness</strong>: Sophisticated breakpoint system with automated utility classes</li><li>🔧 <strong>Maintainable Code</strong>: SCSS architecture with settings, tools, and component organization</li></ul></p><h4 id="bem-methodology-implementation">🏗️ BEM Methodology Implementation</h4><div class="info-box"></p><p>Lumina adopts BEM (Block Element Modifier) CSS methodology for scalable, maintainable, and predictable component styling with clear naming conventions and modular architecture.</p><p></div><p><strong>BEM Structure in Lumina Components</strong>:</p><p><strong>Real BEM Implementation - Perspective Component</strong>:</p><p>The Perspective component demonstrates proper BEM methodology with clean block/element/modifier structure:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">// Real SCSS from _Components.Perspectives.module.scss
+.perspective {                              // Block - Independent component
+    // Styles
+    
+    &amp;:hover {
+        // Hover styles
+    }
+}
+
+.perspective--selected {                    // Modifier: perspective--selected
+    // Selected state styles
+}
+
+.perspective__content {                     // Element: perspective__content
+    // Content container styles
+}
+
+.perspective__title {                       // Element: perspective__title
+    // Title styles
+}
+
+.perspective__summary {                     // Element: perspective__summary
+    // Summary text styles
+}
+
+.perspective__tagGroups {                   // Element: perspective__tagGroups
+    // Tag groups container styles
+}
+
+.perspective__bar {                         // Element: perspective__bar
+    // Progress bar styles
+}
+
+.perspective__bar--animate {                // Modifier: perspective__bar--animate
+    animation: fillBar 1.0s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+}
+
+@keyframes fillBar {
+    0% { width: 0%; }
+    100% { width: var(--target-width); }
+}</code></pre>
+            </div></p><p><strong>TypeScript Integration with BEM</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">tsx</span>
+                </div>
+                <pre class="code-content"><code class="language-tsx">// Real usage from Perspective.tsx showing BEM class application
+const LuminaPerspective = ({ perspective, isSelected, animateBars, index }: Props) =&gt; {
+    return (
+        &lt;div 
+            className={`
+                ${Styles[&#039;perspective&#039;]} 
+                ${perspective.newsStories?.length &gt; 0 ? Styles[&#039;perspective--hasNewsStories&#039;] : &#039;&#039;} 
+                ${isSelected ? Styles[&#039;perspective--selected&#039;] : &#039;&#039;}
+            `}
+            style={{ 
+                &quot;--selected-news-border-color&quot;: selectedStoryColor,
+                &quot;--animation-delay&quot;: `${index * 0.2}s`
+            }}
+        &gt;
+            &lt;div className={Styles[&#039;perspective__content&#039;]}&gt;
+                &lt;div className={Styles[&#039;perspective__title&#039;]}&gt;
+                    {perspective.title}
+                &lt;/div&gt;
+                &lt;div className={Styles[&#039;perspective__summary&#039;]}&gt;
+                    {perspective.content}
+                &lt;/div&gt;
+                &lt;div className={Styles[&#039;perspective__tagGroups&#039;]}&gt;
+                    {/* Tag group components */}
+                &lt;/div&gt;
+                &lt;div 
+                    className={`
+                        ${Styles[&#039;perspective__bar&#039;]} 
+                        ${animateBars ? Styles[&#039;perspective__bar--animate&#039;] : &#039;&#039;}
+                    `}
+                    style={{ 
+                        &#039;--target-width&#039;: `${articleShare}%`,
+                        backgroundColor: selectedStoryColor 
+                    }}
+                &gt;
+                    &lt;span className={Styles[&#039;perspective__barLabel&#039;]}&gt;&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>BEM Benefits Demonstrated</strong>:</p><p><ul><li>🏗️ <strong>Clear Hierarchy</strong>: <code>.perspective</code> → <code>.perspective__content</code> → <code>.perspective__title</code></li><li>🎯 <strong>Modifier System</strong>: <code>--selected</code>, <code>--animate</code> for state variations</li><li>🔧 <strong>CSS Custom Properties</strong>: Dynamic theming with <code>--selected-news-border-color</code></li><li>⚡ <strong>Animation Control</strong>: <code>--animation-delay</code> and <code>--target-width</code> for coordinated effects</li></ul></p><p>This example demonstrates Lumina's strategic use of BEM methodology for complex UI components where custom styling provides clear semantic meaning and maintainable CSS architecture.</p><p><strong>BEM Advantages in Lumina Architecture</strong>:</p><p><ul><li>🏷️ <strong>Clear Naming</strong>: Component hierarchy and state are immediately visible</li><li>🔒 <strong>Scope Isolation</strong>: Each component's styles are self-contained and predictable  </li><li>🔄 <strong>Reusability</strong>: Modifiers enable consistent variations across components</li><li>📚 <strong>Self-Documenting</strong>: Class names describe both structure and purpose</li><li>🧪 <strong>Maintainable</strong>: Changes to one element don't affect unrelated components</li><li>🎯 <strong>Low Specificity</strong>: Flat CSS structure prevents specificity wars</li><li>🔧 <strong>Maintainable</strong>: Changes to elements don't affect other components</li></ul></p><p><strong>BEM Naming Convention Rules</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">// Block: Independent entity, meaningful on its own
+.lumina-menu { }
+
+// Element: Part of a block, no standalone meaning  
+.lumina-menu__item { }
+.lumina-menu__header { }
+
+// Modifier: Flags on blocks or elements, changes appearance/behavior
+.lumina-menu--expanded { }
+.lumina-menu__item--active { }
+.lumina-menu__item--disabled { }</code></pre>
+            </div></p><p><strong>Strategic Benefits</strong>:</p><p><ul><li>🏗️ <strong>Component Encapsulation</strong>: Each React component has its own BEM block</li><li>🎨 <strong>Theme Coordination</strong>: BEM modifiers work seamlessly with CSS custom properties</li><li>📱 <strong>Responsive Design</strong>: BEM structure supports breakpoint-specific modifications</li><li>🔄 <strong>CSS Modules Integration</strong>: TypeScript imports align perfectly with BEM methodology</li><li>⚡ <strong>Performance</strong>: Flat CSS structure enables efficient browser parsing</li></ul></p><h3 id="css-variable-system-for-theme-flexibility">CSS Variable System for Theme Flexibility</h3><div class="info-box"></p><p>Implemented a comprehensive CSS custom properties system to enable future dark/light theme support.</p><p></div><p><strong>Implementation Strategy</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">// Lumina Theme Variables
+:root {
+    --lumina-primary: #9ca3db;
+    --lumina-secondary: #7dd3fc;
+    --lumina-bg-primary: #ffffff;
+    --lumina-bg-secondary: #f8f9fa;
+    --lumina-text-primary: #1f2937;
+    --lumina-text-secondary: #6b7280;
+    --lumina-border: #e5e7eb;
+    --lumina-accent: #10b981;
+    --scrollbar-thumb: #c6c6c6;
+    --scrollbar-thumb-hover: #999;
+}
+
+[data-theme=&quot;dark&quot;] {
+    --lumina-bg-primary: #1f2937;
+    --lumina-bg-secondary: #111827;
+    --lumina-text-primary: #f9fafb;
+    --lumina-text-secondary: #d1d5db;
+    --lumina-border: #374151;
+}</code></pre>
+            </div></p><p><strong>Strategic Benefits</strong>:</p><p><ul><li>🔄 <strong>Theme Switching</strong>: Instant theme changes without CSS recompilation</li><li>👤 <strong>User Preference Support</strong>: Respects system dark/light mode preferences</li><li>✅ <strong>Consistency</strong>: Unified color management across all components</li><li>🔮 <strong>Future-Proofing</strong>: Easy addition of custom themes (high contrast, brand variations)</li><li>⚡ <strong>Performance</strong>: Theme changes don't require JavaScript recalculation</li></ul></p><h3 id="icon-library-system">Icon Library System</h3><div class="info-box"></p><p>Created a dedicated Lumina icon set independent from MCD's existing icon library.</p><p></div><p><strong>Icon Strategy</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Lumina icon system using standard IconSymbol enum
+export enum IconSymbol {
+    // Status &amp; Feedback
+    Loading = &quot;Loading&quot;,
+    Tick = &quot;Tick&quot;,
+    
+    // Content &amp; Media
+    Perspectives = &quot;Perspectives&quot;, 
+    Stories = &quot;Stories&quot;,
+    NewsArticle = &quot;NewsArticle&quot;,
+    NewsArticle2 = &quot;NewsArticle2&quot;,
+    Experts = &quot;Experts&quot;,
+    
+    // UI Controls
+    Settings = &quot;Settings&quot;,
+    Close = &quot;Close&quot;,
+    Expand = &quot;Expand&quot;,
+    Filter = &quot;Filter&quot;,
+    
+    // Navigation
+    DownArrow = &quot;DownArrow&quot;,
+    UpArrow = &quot;UpArrow&quot;,
+    Left = &quot;Left&quot;,
+    Right = &quot;Right&quot;
+}
+
+// Icon component usage with Lumina prefix
+import { Icon as LuminaIcon } from &#039;@luminaComponents/UI&#039;;
+import { IconSymbol } from &#039;@luminaEnums/enums&#039;;</code></pre>
+            </div></p><p><strong>Enum vs Magic String Rationale</strong>:</p><div class="info-box"></p><p>Adopted TypeScript enum pattern over magic strings for icon selection to improve code reliability, maintainability, and developer experience.</p><p></div><p><strong>Why Enums Over Magic Strings</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// ❌ Magic strings 
+&lt;LuminaIcon symbol=&quot;perspective&quot; /&gt;     // Typo leads to missing icon
+&lt;LuminaIcon symbol=&quot;Perspective&quot; /&gt;     // Case sensitivity issues  
+&lt;LuminaIcon symbol=&quot;perspectives&quot; /&gt;    // Plural confusion
+
+// ✅ Enum approach - Type-safe and reliable
+&lt;LuminaIcon symbol={IconSymbol.Perspectives} /&gt;  // IDE autocomplete
+&lt;LuminaIcon symbol={IconSymbol.Stories} /&gt;       // Compile-time validation
+&lt;LuminaIcon symbol={IconSymbol.NewsArticle} /&gt;   // Refactoring safety</code></pre>
+            </div></p><p><strong>Technical Benefits</strong>:</p><p><ul><li>🔒 <strong>Type Safety</strong>: Compile-time validation prevents typos and missing icons</li><li>🚀 <strong>IDE Support</strong>: Full autocomplete and IntelliSense for available icons</li><li>🔄 <strong>Refactoring Safety</strong>: Renaming enum values updates all usages automatically</li><li>📋 <strong>Self-Documentation</strong>: Enum provides clear inventory of available icons</li><li>🎯 <strong>Runtime Reliability</strong>: No broken icons from string mismatches</li><li>🛠️ <strong>Developer Experience</strong>: Reduces debugging time and icon-related errors</li></ul></p><p><strong>Visual Differentiation Rationale</strong>:</p><p><ul><li>🏷️ <strong>Brand Identity</strong>: Lumina icons use softer, more modern styling vs MCD's enterprise iconography</li><li>🤖 <strong>AI-Focused Design</strong>: Icons designed for AI/intelligence context rather than traditional monitoring</li><li>📈 <strong>Scalability</strong>: Independent icon system allows for specialized additions without MCD conflicts</li><li>✅ <strong>Consistency</strong>: Ensures visual coherence across all Lumina interfaces</li><li>� <strong>Library Separation</strong>: Separate icon library component removes naming clashes with MCD icon library and creates separation</li></ul></p><h3 id="ai-focused-styling-philosophy">AI-Focused Styling Philosophy</h3><div class="info-box"></p><p>Adopted emoji-driven, AI-friendly visual language instead of traditional enterprise metadata representation. This design follows the experience patterns of other AI tools, creating familiarity and clearly signaling to users that they are interacting with an AI-powered interface. </p><p></div><p><strong>Design Language Comparison</strong>:</p><h4 id="lumina-approach-ai-focused">✨ Lumina Approach (AI-Focused)</h4><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">tsx</span>
+                </div>
+                <pre class="code-content"><code class="language-tsx">// Sentiment with emoji indicators
+&lt;LuminaMetaTag emoji=&quot;😊&quot; label=&quot;Positive&quot; /&gt;
+&lt;LuminaMetaTag emoji=&quot;📍&quot; label=&quot;Location&quot; /&gt;
+&lt;LuminaMetaTag emoji=&quot;👁️&quot; label=&quot;Views&quot; /&gt;
+&lt;LuminaMetaTag emoji=&quot;🔥&quot; label=&quot;Breaking&quot; /&gt;
+
+// Heat indicators with visual metaphors
+&lt;StoryHeatBadge level=&quot;high&quot; emoji=&quot;🌡️&quot; /&gt;</code></pre>
+            </div></p><h4 id="traditional-mcd-approach">🏢 Traditional MCD Approach</h4><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">tsx</span>
+                </div>
+                <pre class="code-content"><code class="language-tsx">// Traditional icon-based metadata
+&lt;MetaTag icon=&quot;sentiment-positive&quot; label=&quot;Positive&quot; /&gt;
+&lt;MetaTag icon=&quot;location&quot; label=&quot;Location&quot; /&gt;
+&lt;MetaTag icon=&quot;eye&quot; label=&quot;Views&quot; /&gt;</code></pre>
+            </div></p><p><strong>AI-Focused Benefits</strong>:</p><p><ul><li>👥 <strong>Human-Friendly</strong>: Emojis provide immediate emotional/contextual understanding</li><li>♿ <strong>Accessibility</strong>: Universal symbol recognition across cultures and languages</li><li>💫 <strong>Modern Appeal</strong>: Aligns with contemporary AI interface expectations</li><li>🧠 <strong>Cognitive Load</strong>: Reduces mental processing time for understanding metadata</li><li>😊 <strong>Personality</strong>: Gives the AI assistant a more approachable, less corporate feel</li></ul></p><h2 id="iii-component-layout-architecture">III. Component & Layout Architecture</h2><h3 id="component-organization-strategy">Component Organization Strategy</h3><div class="info-box"></p><p>Implemented a domain-driven component architecture with clear separation of concerns and sophisticated sub-component organization.</p><p></div><p><strong>Detailed Component Hierarchy</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">plaintext</span>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">Components/
+├── Articles/                    # News article display &amp; interaction
+│   ├── NewsArticle.tsx         # Full article detail view
+│   ├── NewsArticleList.tsx     # Scrollable article list with outlet info
+│   └── NewsArticleCard.tsx     # Compact article preview
+├── Perspectives/               # Perspective analysis &amp; visualization
+│   ├── Perspective.tsx         # Main perspective component with breaking news badges
+│   ├── PerspectiveList.tsx     # List view with article share calculations
+│   ├── PerspectiveDrivers.tsx  # Expandable entity list management
+│   └── PerspectiveEntity.tsx   # Individual entity display with metadata
+├── Stories/                    # Story aggregation, heat indicators &amp; layout management
+│   ├── Story.tsx              # Story overview with metadata
+│   ├── StoryList.tsx          # Multi-story display with filtering
+│   ├── StoryHeatBadge.tsx     # Time-based heat visualization (uses storyMetadata utilities)
+│   ├── StoryVelocity.tsx      # Story momentum indicators
+│   └── StoriesLayout.tsx      # Master layout controller (single/multi-column system)
+├── Meta/                      # Metadata components (tags, sentiment)
+│   ├── MetaTag.tsx           # Generic tag with emoji support
+│   ├── Sentiment.tsx         # Sentiment analysis display
+│   └── MediaType.tsx         # Media type indicators
+└── UI/                       # Reusable interface elements
+    ├── Loader/               # Loading states
+    ├── Infographics/         # Data visualization components
+    ├── Avatar/               # User/entity avatars
+    ├── Breadcrumbs/          # Navigation components
+    └── Button/               # Interactive elements</code></pre>
+            </div></p><p><strong>Separation of Concerns Rationale</strong>:</p><p><ul><li>🏷️ <strong>Domain Separation</strong>: Each folder represents a distinct domain</li><li>🎯 <strong>Single Responsibility</strong>: Every component has one clear purpose</li><li>🔧 <strong>Pure Utility Functions</strong>: Business logic reusable utility functions and hooks</li><li>🔗 <strong>Composition Over Inheritance</strong>: Components combine through well-defined interfaces, not tight coupling</li></ul></p><h4 id="advanced-component-examples-perspectives">🔬 Advanced Component Examples - Perspectives</h4><div class="info-box"></p><p>Deep dive into domain-specific component architectures showing how complex UI features are built through systematic composition and strategic interface design.</p><p></div><p><strong>LuminaPerspective.tsx - Main orchestrator component</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Real interface from actual implementation
+interface LuminaPerspectiveProps {
+    perspective: PerspectiveWithShare;
+    index: number;
+    selectedStoryColor: string;     // Theme color injection
+    animateBars: boolean;           // Animation coordination
+    isSelected: boolean;            // Selection state
+    onClick: (perspective: PerspectiveDTO) =&gt; void;
+    showActionButton: boolean;      // Progressive disclosure
+    maxEntities: number;            // Entity display limit
+    articleShare: number;           // Calculated percentage  
+    articleCount: number;           // Total articles
+    totalArticles: number;          // Story context
+}
+
+// Component orchestrates all perspective sub-components
+const LuminaPerspective = ({ 
+    perspective, 
+    isSelected, 
+    animateBars, 
+    index,
+    selectedStoryColor,
+    articleShare,
+    onClick,
+    showActionButton,
+    maxEntities 
+}: LuminaPerspectiveProps) =&gt; {
+    return (
+        &lt;div 
+            className={`
+                ${Styles[&#039;perspective&#039;]} 
+                ${perspective.newsStories?.length &gt; 0 ? Styles[&#039;perspective--hasNewsStories&#039;] : &#039;&#039;} 
+                ${isSelected ? Styles[&#039;perspective--selected&#039;] : &#039;&#039;}
+            `}
+            style={{ 
+                &quot;--selected-news-border-color&quot;: selectedStoryColor,
+                &quot;--animation-delay&quot;: `${index * 0.2}s`
+            }}
+            onClick={() =&gt; onClick(perspective)}
+        &gt;
+            &lt;div className={Styles[&#039;perspective__content&#039;]}&gt;
+                &lt;div className={Styles[&#039;perspective__title&#039;]}&gt;
+                    {perspective.title}
+                &lt;/div&gt;
+                &lt;div className={Styles[&#039;perspective__summary&#039;]}&gt;
+                    {perspective.content}
+                &lt;/div&gt;
+                
+                &lt;PerspectiveDrivers
+                    entities={perspective.entities}
+                    maxEntities={maxEntities}
+                    selectedStoryColor={selectedStoryColor}
+                /&gt;
+                
+                &lt;div 
+                    className={`
+                        ${Styles[&#039;perspective__bar&#039;]} 
+                        ${animateBars ? Styles[&#039;perspective__bar--animate&#039;] : &#039;&#039;}
+                    `}
+                    style={{ 
+                        &#039;--target-width&#039;: `${articleShare}%`,
+                        backgroundColor: selectedStoryColor 
+                    }}
+                &gt;
+                    &lt;span className={Styles[&#039;perspective__barLabel&#039;]}&gt;
+                        {perspective.newsStories?.length || 0} articles
+                    &lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>PerspectiveDrivers.tsx - Smart expansion component</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Entity management with progressive disclosure
+interface PerspectiveDriversProps {
+    entities: PerspectiveEntity[];
+    maxEntities?: number;           // Default display limit
+    expandable?: boolean;           // User-controlled expansion
+    selectedStoryColor: string;     // Theme consistency
+    showRelevance?: boolean;        // Metadata toggle
+}
+
+const PerspectiveDrivers = ({ entities, maxEntities = 5, expandable = true }: Props) =&gt; {
+    const [expanded, setExpanded] = useState(false);
+    const displayEntities = expanded ? entities : entities.slice(0, maxEntities);
+    
+    return (
+        &lt;div className=&quot;perspective-drivers&quot;&gt;
+            {displayEntities.map((entity, index) =&gt; (
+                &lt;PerspectiveEntity 
+                    key={index}
+                    entity={entity}
+                    variant=&quot;compact&quot;
+                    showMetadata={true}
+                /&gt;
+            ))}
+            {expandable &amp;&amp; entities.length &gt; maxEntities &amp;&amp; (
+                &lt;button onClick={() =&gt; setExpanded(!expanded)}&gt;
+                    {expanded ? &#039;Show Less&#039; : `+${entities.length - maxEntities} more`}
+                &lt;/button&gt;
+            )}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>PerspectiveEntity.tsx - Individual entity display with rich metadata</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">interface PerspectiveEntityProps {
+    entity: PerspectiveEntity;
+    showMetadata?: boolean;         // Toggle additional entity info
+    onClick?: (entity: PerspectiveEntity) =&gt; void;
+    variant?: &#039;compact&#039; | &#039;detailed&#039; | &#039;card&#039;;
+    selectedStoryColor?: string;    // Theme coordination
+}
+
+const PerspectiveEntity = ({ entity, showMetadata, variant = &#039;compact&#039; }: Props) =&gt; {
+    const getEntityTypeEmoji = (type: PerspectiveEntityType): string =&gt; {
+        switch(type) {
+            case PerspectiveEntityType.Person: return &#039;👤&#039;;
+            case PerspectiveEntityType.Organization: return &#039;🏢&#039;;
+            case PerspectiveEntityType.Location: return &#039;📍&#039;;
+            case PerspectiveEntityType.Topic: return &#039;🏷️&#039;;
+            default: return &#039;📄&#039;;
+        }
+    };
+    
+    return (
+        &lt;div className={`perspective-entity perspective-entity--${variant}`}&gt;
+            &lt;div className=&quot;perspective-entity__name&quot;&gt;
+                {entity.name}
+            &lt;/div&gt;
+            {showMetadata &amp;&amp; (
+                &lt;div className=&quot;perspective-entity__metadata&quot;&gt;
+                    &lt;LuminaMetaTag 
+                        emoji={getEntityTypeEmoji(entity.type)}
+                        label={entity.type}
+                        size=&quot;small&quot;
+                    /&gt;
+                    {entity.relevance &amp;&amp; (
+                        &lt;span className=&quot;perspective-entity__relevance&quot;&gt;
+                            {Math.round(entity.relevance * 100)}% relevance
+                        &lt;/span&gt;
+                    )}
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><h4 id="advanced-component-examples-stories">🔬 Advanced Component Examples - Stories </h4><p><strong>StoriesLayout.tsx - Master layout controller</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Real responsive layout coordination
+interface StoriesLayoutProps {
+    selectedStory: TopStoriesDTO | null;
+    selectedStoryColor: string;
+    expandedView: boolean;          // Layout mode control
+    screenSizeTest: boolean;        // Responsive breakpoint
+}
+
+const StoriesLayout = ({ expandedView, screenSizeTest }: Props) =&gt; {
+    // Layout decision logic
+    const renderContent = () =&gt; {
+        if (expandedView &amp;&amp; screenSizeTest) {
+            return &lt;LuminaStoriesMultiColumnView {...props} /&gt;;
+        } else {
+            return &lt;LuminaStoriesSingleColumnView {...props} /&gt;;
+        }
+    };
+    
+    return &lt;&gt;{renderContent()}&lt;/&gt;;
+};</code></pre>
+            </div></p><p><strong>Story.tsx - Story overview with metadata</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Main story card component with rich metadata display
+interface StoryProps {
+    story: TopStoriesDTO;
+    isSelected: boolean;
+    onSelect: (story: TopStoriesDTO) =&gt; void;
+    selectedStoryColor: string;
+}
+
+const Story = ({ story, isSelected, onSelect, selectedStoryColor }: StoryProps) =&gt; {
+    const storyAge = getStoryAge(story.createdAt);
+    
+    return (
+        &lt;div 
+            className={`story ${isSelected ? &#039;story--selected&#039; : &#039;&#039;}`}
+            onClick={() =&gt; onSelect(story)}
+            style={{ borderColor: isSelected ? selectedStoryColor : &#039;transparent&#039; }}
+        &gt;
+            &lt;div className=&quot;story__header&quot;&gt;
+                &lt;h3 className=&quot;story__title&quot;&gt;{story.title}&lt;/h3&gt;
+                &lt;StoryHeatBadge createdAt={story.createdAt} /&gt;
+            &lt;/div&gt;
+            
+            &lt;div className=&quot;story__metadata&quot;&gt;
+                &lt;StoryVelocity 
+                    articleCount={story.articles?.length || 0}
+                    timeSpan={storyAge.hours}
+                /&gt;
+                &lt;span className=&quot;story__article-count&quot;&gt;
+                    {story.articles?.length || 0} articles
+                &lt;/span&gt;
+            &lt;/div&gt;
+            
+            &lt;div className=&quot;story__summary&quot;&gt;
+                {story.summary}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>StoryList.tsx - Multi-story display with filtering</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Manages collection of stories with optional filtering
+interface StoryListProps {
+    stories: TopStoriesDTO[];
+    selectedStory: TopStoriesDTO | null;
+    onSelectStory: (story: TopStoriesDTO) =&gt; void;
+    filter?: &#039;all&#039; | &#039;breaking&#039; | &#039;trending&#039;;
+    sortBy?: &#039;recency&#039; | &#039;articleCount&#039; | &#039;velocity&#039;;
+}
+
+const StoryList = ({ stories, selectedStory, onSelectStory, filter, sortBy }: StoryListProps) =&gt; {
+    const filteredStories = useMemo(() =&gt; {
+        // Filtering Logic
+        
+        return filtered;
+    }, [stories, filter, sortBy]);
+    
+    return (
+        &lt;div className=&quot;story-list&quot;&gt;
+            {filteredStories.map((story) =&gt; (
+                &lt;Story
+                    key={story.id}
+                    story={story}
+                    isSelected={selectedStory?.id === story.id}
+                    onSelect={onSelectStory}
+                    selectedStoryColor={getStoryColor(story)}
+                /&gt;
+            ))}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>StoryHeatBadge.tsx - Time-based heat visualization</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Real implementation using verified utility functions
+import { getStoryAge, StoryAge } from &#039;@luminaUtils/storyMetadata&#039;;
+
+interface StoryHeatBadgeProps {
+    createdAt: Date;
+    significance?: number;
+    className?: string;
+}
+
+const StoryHeatBadge = ({ createdAt, significance }: StoryHeatBadgeProps) =&gt; {
+    const storyAge: StoryAge = getStoryAge(createdAt);
+    
+    return (
+        &lt;div className={`heat-badge heat-badge--${storyAge.heat}`}&gt;
+            &lt;span className=&quot;heat-emoji&quot;&gt;{storyAge.emoji}&lt;/span&gt;
+            &lt;span className=&quot;heat-text&quot;&gt;{storyAge.displayText}&lt;/span&gt;
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>StoryVelocity.tsx - Story momentum indicators</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Calculates and displays story velocity (articles per hour)
+interface StoryVelocityProps {
+    articleCount: number;
+    timeSpan: number;           // Hours since story creation
+    showLabel?: boolean;
+}
+
+const StoryVelocity = ({ articleCount, timeSpan, showLabel = true }: StoryVelocityProps) =&gt; {
+    const velocity = timeSpan &gt; 0 ? (articleCount / timeSpan).toFixed(1) : 0;
+    
+    const getVelocityLevel = (): &#039;high&#039; | &#039;medium&#039; | &#039;low&#039; =&gt; {
+        if (Number(velocity) &gt; 5) return &#039;high&#039;;
+        if (Number(velocity) &gt; 2) return &#039;medium&#039;;
+        return &#039;low&#039;;
+    };
+    
+    const velocityLevel = getVelocityLevel();
+    
+    return (
+        &lt;div className={`story-velocity story-velocity--${velocityLevel}`}&gt;
+            &lt;span className=&quot;velocity-indicator&quot;&gt;
+                {velocityLevel === &#039;high&#039; &amp;&amp; &#039;🔥&#039;}
+                {velocityLevel === &#039;medium&#039; &amp;&amp; &#039;📈&#039;}
+                {velocityLevel === &#039;low&#039; &amp;&amp; &#039;📊&#039;}
+            &lt;/span&gt;
+            {showLabel &amp;&amp; (
+                &lt;span className=&quot;velocity-value&quot;&gt;
+                    {velocity} articles/hr
+                &lt;/span&gt;
+            )}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>Domain-Driven Benefits</strong>:</p><p><ul><li>🏗️ <strong>Stories as Master Controller</strong>: Clear ownership hierarchy - Stories coordinates, Perspectives analyze, Articles display</li><li>🔄 <strong>Zero Cross-Domain Dependencies</strong>: Perspectives don't import from Stories, Articles don't import from Perspectives</li><li>🎨 <strong>Theme Separation</strong>: Design tokens flow down through props, not imports</li><li>🧮 <strong>Business Logic Isolation</strong>: Calculations in utilities, UI logic in components, state in contexts</li><li>📊 <strong>Data Flow Clarity</strong>: Props flow down, events bubble up, contexts provide global state</li><li>🎯 <strong>Composition Over Configuration</strong>: Complex UIs built from simple, focused components</li></ul></p><h4 id="component-lumina-namespacing">🏷️ Component Lumina Namespacing</h4><div class="info-box"></p><p>Implemented a consistent naming convention that provides clear component identification and prevents naming conflicts with MCD components.</p><p></div><p><strong>Naming Strategy</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Lumina-prefixed components for clear identification
+export const LuminaNewsArticle = () =&gt; { /* ... */ };
+export const LuminaPerspective = () =&gt; { /* ... */ };
+export const LuminaStoryCard = () =&gt; { /* ... */ };
+export const LuminaHeatBadge = () =&gt; { /* ... */ };
+
+// Generic UI components with Lumina namespace
+export const LuminaLoader = () =&gt; { /* ... */ };
+export const LuminaButton = () =&gt; { /* ... */ };
+export const LuminaAvatar = () =&gt; { /* ... */ };</code></pre>
+            </div></p><p><strong>Benefits</strong>:</p><p><ul><li>🔍 <strong>Clear Component Origin</strong>: Instantly identifiable as Lumina components</li><li>🚫 <strong>Conflict Prevention</strong>: No naming collisions with existing MCD components  </li><li>🎯 <strong>Debugging Clarity</strong>: Component names in DevTools clearly indicate source app</li><li>📚 <strong>Documentation</strong>: Self-documenting code with explicit component ownership</li></ul></p><h4 id="webpack-alias-and-typescript-resolve-paths">⚙️ Webpack Alias and TypeScript Resolve Paths</h4><div class="info-box"></p><p>Configured path aliases to enable clean imports and improve developer experience across the Lumina component ecosystem.</p><p></div><p><strong>Webpack Configuration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">javascript</span>
+                </div>
+                <pre class="code-content"><code class="language-javascript">// webpack.config.js
+module.exports = {
+    resolve: {
+        alias: {
+            &#039;@luminaComponents&#039;: path.resolve(__dirname, &#039;src/Lumina-App/Components&#039;),
+            &#039;@luminaUtilities&#039;: path.resolve(__dirname, &#039;src/Lumina-App/Utilities&#039;),
+            &#039;@luminaAssets&#039;: path.resolve(__dirname, &#039;src/Lumina-App/Assets&#039;),
+            &#039;@luminaConfig&#039;: path.resolve(__dirname, &#039;src/Lumina-App/Config&#039;),
+            &#039;@luminaHooks&#039;: path.resolve(__dirname, &#039;src/Lumina-App/Hooks&#039;),
+            &#039;@luminaInterfaces&#039;: path.resolve(__dirname, &#039;src/Lumina-App/Interfaces&#039;),
+        }
+    }
+};</code></pre>
+            </div></p><p><strong>TypeScript Configuration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">json</span>
+                </div>
+                <pre class="code-content"><code class="language-json">// tsconfig.json
+{
+    &quot;compilerOptions&quot;: {
+        &quot;paths&quot;: {
+            &quot;@luminaComponents/*&quot;: [&quot;./src/Lumina-App/Components/*&quot;],
+            &quot;@luminaUtilities/*&quot;: [&quot;./src/Lumina-App/Utilities/*&quot;],
+            &quot;@luminaAssets/*&quot;: [&quot;./src/Lumina-App/Assets/*&quot;],
+            &quot;@luminaConfig/*&quot;: [&quot;./src/Lumina-App/Config/*&quot;],
+            &quot;@luminaHooks/*&quot;: [&quot;./src/Lumina-App/Hooks/*&quot;],
+            &quot;@luminaInterfaces/*&quot;: [&quot;./src/Lumina-App/Interfaces/*&quot;]
+        }
+    }
+}</code></pre>
+            </div></p><p><strong>Component Barrel Exports</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Components/index.ts - Main barrel file
+export * from &#039;./UI&#039;;
+export * from &#039;./Stories&#039;;  
+export * from &#039;./Perspectives&#039;;
+export * from &#039;./Articles&#039;;
+export * from &#039;./Meta&#039;;
+
+// Components/UI/index.ts - UI component barrel
+export { LuminaLoader, LuminaStoriesLoader } from &#039;./Loader&#039;;
+export { default as LuminaButton } from &#039;./Buttons/LuminaButton&#039;;
+export { default as LuminaAvatar } from &#039;./Avatar.tsx/Avatar&#039;;
+export { default as LuminaBreadcrumb } from &#039;./Breadcrumb&#039;;
+export { LuminaMenu, LuminaMenuButton, LuminaMenuItem } from &#039;./Menu&#039;;
+
+// Components/Stories/index.ts - Stories component barrel  
+export { default as LuminaStoriesLayout } from &#039;./StoriesLayout&#039;;
+export { default as LuminaTopStory } from &#039;./TopStory&#039;;
+export { default as LuminaStoriesList } from &#039;./StoriesList&#039;;
+export { default as LuminaStoriesMultiColumnView } from &#039;./MultiColumn/StoriesMultiColumnView&#039;;</code></pre>
+            </div></p><p><strong>Import Examples Using Barrels</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Clean barrel imports - multiple components from single import
+import { 
+    LuminaLoader, 
+    LuminaButton, 
+    LuminaAvatar 
+} from &#039;@luminaComponents/UI&#039;;
+
+import { 
+    LuminaStoriesLayout,
+    LuminaTopStory, 
+    LuminaStoriesList,
+    LuminaStoriesMultiColumnView 
+} from &#039;@luminaComponents/Stories&#039;;
+
+import { 
+    LuminaPerspective,
+    LuminaPerspectiveList,
+    LuminaPerspectiveDrivers,
+    LuminaPerspectiveEntity 
+} from &#039;@luminaComponents/Perspectives&#039;;
+
+// Utility and interface imports
+import { getStoryAge, generateStoryVelocity } from &#039;@luminaUtilities/storyMetadata&#039;;
+import { useResponsiveSetting } from &#039;@luminaHooks/useResponsiveSetting&#039;;
+import { StoryHeat, StoryAge } from &#039;@luminaInterfaces/Story&#039;;
+
+// Cross-app access from MCD components using barrels
+import { LuminaStoriesLayout, LuminaTopStory } from &#039;@luminaComponents/Stories&#039;;
+import { LuminaLoader, LuminaButton } from &#039;@luminaComponents/UI&#039;;</code></pre>
+            </div></p><p><strong>Advantages</strong>:</p><p><ul><li>📖 <strong>Import Clarity</strong>: <code>import { LuminaLoader } from '@luminaComponents/UI'</code> vs complex relative paths</li><li>🛢️ <strong>Barrel Efficiency</strong>: Multiple component imports from single barrel file reduce import statements</li><li>🔧 <strong>Refactoring Safety</strong>: Alias changes update all imports automatically, barrel exports centralize component access</li><li>🔄 <strong>Cross-App Access</strong>: MCD components can easily import Lumina components through clean barrel interfaces</li><li>👨‍💻 <strong>Developer Experience</strong>: Cleaner, more readable import statements with logical component grouping</li><li>🛠️ <strong>Tooling Support</strong>: Better IDE autocomplete and navigation with barrel-based component discovery</li><li>🎯 <strong>Bundle Optimization</strong>: Tree-shaking works efficiently with barrel exports for smaller bundle sizes</li></ul><h4 id="advanced-ui-components-navigation-entity-display">🧭 Advanced UI Components - Navigation & Entity Display</h4></p><div class="info-box"></p></p><p>Sophisticated navigation and entity display components that provide intuitive user pathfinding and context awareness throughout the Lumina interface.</p><p></div><p><strong>LuminaBreadcrumb System</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Actual interface from Breadcrumb.tsx
+export interface LuminaBreadcrumbItem {
+    label: string;
+    onClick?: () =&gt; void;
+    isActive?: boolean;
+}
+
+export interface LuminaBreadcrumbProps {
+    items: LuminaBreadcrumbItem[];
+    className?: string;
+}
+
+// Real component implementation
+const LuminaBreadcrumb = (props: LuminaBreadcrumbProps) =&gt; {
+    const { items, className } = props;
+    
+    return (
+        &lt;div className={`${Styles.breadcrumbs} ${className || &#039;&#039;}`}&gt;
+            {items.map((item, index) =&gt; (
+                &lt;div key={index} className={Styles.breadcrumbs__itemWrapper}&gt;
+                    {item.onClick ? (
+                        &lt;button
+                            role=&quot;button&quot;
+                            aria-roledescription={`Navigate to ${item.label}`}
+                            onClick={item.onClick}
+                            className={Styles.breadcrumbs__itemButton}
+                        &gt;
+                            {item.label}
+                        &lt;/button&gt;
+                    ) : (
+                        &lt;h2 className={Styles.breadcrumbs__itemTitle}&gt;
+                            {item.label}
+                        &lt;/h2&gt;
+                    )}
+                    {index &lt; items.length - 1 &amp;&amp; (
+                        &lt;span&gt;→&lt;/span&gt;
+                    )}
+                &lt;/div&gt;
+            ))}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><p><strong>Usage Examples from Actual Codebase</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// From StoriesSingleColumnBreadcrumb.tsx
+const breadcrumbItems: LuminaBreadcrumbItem[] = [];
+
+breadcrumbItems.push({ label: &#039;Stories&#039;, onClick: onBackToStories });
+
+if (selectedStory) {
+    breadcrumbItems.push({
+        label: truncateText(selectedStory.title, 20),
+        onClick: selectedPerspective || selectedNewsStory ? onBackToStory : undefined,
+        isActive: !selectedPerspective &amp;&amp; !selectedNewsStory
+    });
+}
+
+if (selectedPerspective) {
+    breadcrumbItems.push({
+        label: truncateText(selectedPerspective.title, 20),
+        onClick: selectedNewsStory ? onBackToPerspective : undefined,
+        isActive: !selectedNewsStory
+    });
+}
+
+// ContactsView.tsx usage
+&lt;LuminaBreadcrumb
+    items={[
+        { label: &#039;Suggested Contacts&#039;, onClick: onBackToList },
+        { label: contact.name }
+    ]}
+/&gt;</code></pre>
+            </div></p><p><strong>Breadcrumb System Benefits</strong>:</p><p><ul><li>🗺️ <strong>Context Awareness</strong>: Users understand their navigation path through Stories → Perspectives → Articles</li><li>📱 <strong>Text Truncation</strong>: <code>truncateText()</code> utility prevents overflow on mobile devices</li><li>♿ <strong>Accessibility</strong>: Semantic button elements with clear aria-roledescription attributes</li><li>🔗 <strong>Interactive Navigation</strong>: Click breadcrumbs to navigate back to previous levels</li><li>🎯 <strong>Simple Design</strong>: Minimal styling with arrow separators for clean visual hierarchy</li><li>🧠 <strong>State Management</strong>: Active states clearly indicate current navigation position</li></ul><h3 id="layout-system-single-vs-multi-column-views">Layout System: Single vs Multi-Column Views</h3><div class="info-box"></p><p>Developed a simple but effective dual-mode layout system that transforms the same components for different viewing experiences.</p><p></div><h4 id="single-column-view-architecture">📱 Single-Column View Architecture</h4><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Compact, mobile-friendly stacked layout managed by StoriesLayout
+&lt;StoriesLayout mode=&quot;single&quot;&gt;
+    &lt;div className=&quot;single-column-container&quot;&gt;
+        &lt;StoryList selectedStory={selectedStory} /&gt;
+        &lt;PerspectiveList 
+            selectedStory={selectedStory}
+            expandedView={false}          // Compact headers
+            showStoryContext={true}       // Include story information
+        /&gt;
+        &lt;NewsArticleList 
+            perspectives={selectedPerspectives}
+            showOutletInfo={true}         // Rich metadata display
+        /&gt;
+    &lt;/div&gt;
+&lt;/StoriesLayout&gt;</code></pre>
+            </div></p><h4 id="multi-column-view-architecture">🖥️ Multi-Column View Architecture</h4><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Desktop-optimized parallel workflow - Stories domain as master controller
+&lt;StoriesLayout mode=&quot;multi&quot; className=&quot;stories-layout&quot;&gt;
+    &lt;div className=&quot;__column __column--narrow&quot;&gt;
+        &lt;StoryList 
+            selectedStory={selectedStory}
+            onStorySelect={handleStoryChange}
+            showPreview={false}           // List-only mode
+        /&gt;
+    &lt;/div&gt;
+    &lt;div className=&quot;__column __column--standard&quot;&gt;
+        &lt;PerspectiveList 
+            selectedStory={selectedStory}
+            expandedView={true}           // Full headers hidden
+            showStoryContext={false}      // Context provided by adjacent column
+            animateBars={true}            // Performance animations
+        /&gt;
+    &lt;/div&gt;
+    &lt;div className=&quot;__column __column--expanded&quot;&gt;
+        &lt;NewsArticleList 
+            perspectives={selectedPerspectives}
+            selectedArticle={selectedArticle}
+            showFullContent={true}        // Detailed article view
+        /&gt;
+    &lt;/div&gt;
+&lt;/StoriesLayout&gt;</code></pre>
+            </div></p><p><strong>Smart Component Adaptation</strong>:</p><p><ul><li>❓ <strong>Conditional Rendering</strong>: Components show/hide elements based on layout context</li><li>📏 <strong>Dynamic Spacing</strong>: Padding and margins adjust to available space</li><li>⬆️ <strong>Progressive Enhancement</strong>: More features available in expanded layouts</li><li>✅ <strong>Consistent Data Flow</strong>: Same props work across all layout modes</li></ul></p><h4 id="fully-responsive-layout">📱 Fully Responsive Layout</h4><div class="info-box"></p><p>Both single-column and multi-column layouts are fully responsive and intelligently adapt to different screen sizes, ensuring optimal user experience across all devices. Im using custom hooks to achieve this wihch monitors screen size to manipulate the UI. </p><p></div><p><strong>Responsive Behavior</strong>:</p><p><ul><li>🖥️ <strong>Desktop (≥980px)</strong>: Multi-column layout available when <code>expandedView</code> is enabled</li><li>💻 <strong>Tablet/Medium (640px-980px)</strong>: Single-column layout regardless of <code>expandedView</code> setting</li><li>📱 <strong>Mobile (<640px)</strong>: Single-column layout with optimized touch interactions</li><li>🔄 <strong>Dynamic Switching</strong>: Layout responds to both screen size changes and user preference (<code>expandedView</code>)</li></ul></p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Real implementation from StoriesLayout.tsx
+const LuminaStoriesContent = ({}: LuminaStoriesProps) =&gt; {
+    const {
+        expandedView,
+        currentUserLevel: accessLevel,
+    } = useLuminaMenu();
+
+    // Breakpoint for responsive design
+    const breakPoint = &quot;desktop&quot;;
+    
+    // responsive boolean based on screen size
+    const screenSizeTest = useResponsiveSetting({ screenSize: breakPoint, direction: &quot;from&quot; });
+
+    // Render content based on expanded view state and screen size
+    const renderContent = () =&gt; {
+        // On expanded view with sufficient screen size, use multi-column layout
+        if (expandedView &amp;&amp; screenSizeTest) {
+            return (
+                &lt;LuminaStoriesMultiColumnView 
+                    selectedStory={selectedStory}
+                    selectedStoryColor={selectedStoryColor}
+                    // ... other props
+                /&gt;
+            );
+        }
+        // Non-expanded view or small screen - use single column layout
+        else {
+            return (
+                &lt;LuminaStoriesSingleColumnView 
+                    selectedStory={selectedStory} 
+                    displayedStories={displayedStories}
+                    // ... other props
+                /&gt;
+            );
+        }
+    };
+
+    return &lt;&gt;{renderContent()}&lt;/&gt;;
+};</code></pre>
+            </div></p><p><strong>Responsive Benefits</strong>:</p><p><ul><li>🎯 <strong>Consistent UX</strong>: Same functionality available across all device types</li><li>⚡ <strong>Performance</strong>: Optimized rendering based on available screen real estate  </li><li>🔧 <strong>Maintenance</strong>: Single codebase handles all responsive scenarios</li><li>👤 <strong>User Preference</strong>: Respects user's initial layout choice when screen size permits</li></ul><h3 id="event-communication">Event Communication</h3><div class="info-box"></p></p><p>Event-based communication between Navigation and MCD apps enables loose coupling while maintaining seamless user experience.</p><p></div><p><strong>Event Flow Architecture</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">plaintext</span>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">Navigation App                    MCD App
+┌─────────────────┐              ┌─────────────────────┐
+│ Lumina Trigger  │    Event     │ LuminaManager       │
+│ Button          │─────────────→│ Component           │
+│                 │   Dispatch   │                     │
+│ • Click Handler │              │ • Event Listener    │
+│ • Visual State  │              │ • Portal Creation   │
+│ • Animation     │              │ • Context Providers │
+└─────────────────┘              └─────────────────────┘
+        ↑                                 │
+        │         State Sync Event        │
+        └─────────────────────────────────┘</code></pre>
+            </div></p><p><strong>Event Types</strong>:</p><p><ul><li>🔄 <code>TOGGLE_LUMINA_MENU</code> - Navigation → MCD (open/close request)</li><li>🔄 <code>LUMINA_MENU_STATE_CHANGED</code> - MCD → Navigation (state synchronization)</li></ul></p><p><strong>Communication Benefits</strong>:</p><p><ul><li>🔗 <strong>Loose Coupling</strong>: Apps can evolve independently</li><li>🚌 <strong>Existing Infrastructure</strong>: Uses established eventBus system</li><li>🛡️ <strong>Error Resilience</strong>: Failed events don't break either app</li><li>🐛 <strong>Debugging</strong>: Clear event trail for troubleshooting</li></ul></p><h2 id="iv-utilities-patterns">IV. Utilities & Patterns</h2><h3 id="utilities-architecture">Utilities Architecture</h3><div class="info-box"></p><p>Created a comprehensive utilities system for shared business logic, calculations, and formatting functions.</p><p></div><h4 id="story-age-based-heat-system">🌡️ Story Age-Based Heat System</h4><div class="info-box"></p><p>The <code>getStoryAge</code> function calculates story "heat" based on time elapsed since creation, providing visual indicators that help users quickly identify the freshness and relevance of news stories.</p><p></div><p><strong>Heat Level Algorithm</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// storyMetadata.ts - Time-based heat calculation with visual feedback
+export const getStoryAge = (createdAt: Date): StoryAge =&gt; {
+    
+    // Age calculation Code
+
+    // 🔥 HOT (0-6 hours): Breaking news, immediate attention
+    if (ageInHours &lt;= 6) {
+        return {
+            heat: StoryHeat.HOT,
+            displayText: &#039;New today&#039;,
+            emoji: &#039;🔥&#039;,
+            color: &#039;#ef4444&#039;,           // Bright red
+            backgroundColor: &#039;#ef4444&#039;  // High urgency
+        };
+    }
+    // ⚡ WARM (6-24 hours): Recent, still relevant  
+    else if (ageInHours &lt;= 24) {
+        return {
+            heat: StoryHeat.WARM,
+            displayText: &#039;Today&#039;, 
+            emoji: &#039;⚡&#039;,
+            color: &#039;#f97316&#039;,           // Orange
+            backgroundColor: &#039;#f97316&#039;  // Medium priority
+        };
+    }
+    // 📰 COOLING (1-3 days): Established news
+    else if (ageInDays &lt;= 3) {
+        return {
+            heat: StoryHeat.COOLING,
+            displayText: `${ageInDays} day${ageInDays &gt; 1 ? &#039;s&#039; : &#039;&#039;}`,
+            emoji: &#039;📰&#039;,
+            color: &#039;#374151&#039;,           // Dark gray
+            backgroundColor: &#039;#fbbf24&#039;  // Yellow cooling
+        };
+    }
+    // 📄 COLD (3+ days): Archive material
+    else {
+        return {
+            heat: StoryHeat.COLD,
+            displayText: `${ageInDays} days`,
+            emoji: &#039;📄&#039;, 
+            color: &#039;#6b7280&#039;,           // Light gray
+            backgroundColor: &#039;#e5e7eb&#039;  // Minimal visibility
+        };
+    }
+};</code></pre>
+            </div></p><p><strong>Visual Heat Indicators</strong>:</p><p><ul><li><strong>🔥 HOT Stories</strong>: Red badges with fire emoji - immediate attention required</li><li><strong>⚡ WARM Stories</strong>: Orange badges with lightning - still trending </li><li><strong>📰 COOLING Stories</strong>: Yellow badges with newspaper - established news</li><li><strong>📄 COLD Stories</strong>: Gray badges with document - archival content</li></ul></p><p><strong>Usage in Components</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// StoryHeatBadge component usage
+const StoryHeatBadge = ({ createdAt }: Props) =&gt; {
+    const storyAge = getStoryAge(createdAt);
+    
+    return (
+        &lt;div 
+            className=&quot;heat-badge&quot;
+            style={{ 
+                color: storyAge.color,
+                backgroundColor: storyAge.backgroundColor 
+            }}
+        &gt;
+            {storyAge.emoji} {storyAge.displayText}
+        &lt;/div&gt;
+    );
+};</code></pre>
+            </div></p><h4 id="animation-system-implementation">🎬 Animation System Implementation</h4><div class="info-box"></p><p>Component-level animation coordination using CSS animations, React state management, and strategic timing patterns for smooth user experiences.</p><p></div><p><strong>CSS-Based Animation System</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">// LuminaMenu.module.scss - Perspective bar animations
+.__perspectiveBar {
+    width: 0%; // Always start at 0
+    height: 16px;
+    // other bar styles
+}
+
+.__perspectiveBar--animate {
+    animation: fillBar 1.0s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+}
+
+@keyframes fillBar {
+    0% { width: 0%; }
+    100% { width: var(--target-width); }
+}</code></pre>
+            </div></p><p><strong>React Animation Orchestration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// PerspectiveList.tsx - Real implementation
+const [animateBars, setAnimateBars] = useState(false);
+
+useEffect(() =&gt; {
+    if (selectedStory) {
+        // Reset all animations
+        setAnimateBars(false);
+        
+        // Trigger staggered entrance with delay
+        const timer = setTimeout(() =&gt; {
+            setAnimateBars(true);
+        }, 150);
+        
+        return () =&gt; clearTimeout(timer);
+    }
+}, [selectedStory?.ID]);</code></pre>
+            </div></p><p><strong>Lottie Animation Integration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">tsx</span>
+                </div>
+                <pre class="code-content"><code class="language-tsx">// LuminaLottie.tsx - Interactive Lottie animations
+const lottieRef = useRef&lt;any&gt;(null);
+
+const handleMouseEnter = () =&gt; {
+    if (lottieRef.current) lottieRef.current.play();
+};
+
+const handleMouseLeave = () =&gt; {
+    if (lottieRef.current) lottieRef.current.stop();
+};</code></pre>
+            </div></p><p><strong>Animation System Benefits</strong>:</p><p><ul><li>🔄 <strong>Staggered Timing</strong>: CSS animation-delay variables for coordinated list animations</li><li>🎨 <strong>Custom Easing</strong>: CSS cubic-bezier functions for natural motion feel</li><li>🧮 <strong>State Coordination</strong>: React state management triggers CSS animation sequences</li></ul></p><h4 id="news-article-counting-analysis">🧮 News Article Counting & Analysis</h4><div class="info-box"></p><p>The <code>newsCounter.ts</code> utility provides comprehensive analytics for tracking article distribution across stories, perspectives, and entities.</p><p></div><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// newsCounter.ts - Detailed article analytics
+export interface NewsArticleCount {
+    totalArticles: number;
+    breakdown: {
+        perspectiveArticles: number;
+        entityArticles: number;
+    };
+    byStory: Array&lt;{
+        storyId: number;
+        storyTitle: string;
+        articleCount: number;
+        perspectives: Array&lt;{
+            perspectiveTitle: string;
+            perspectiveArticles: number;
+            entityArticles: number;
+        }&gt;;
+    }&gt;;
+}
+
+export const countNewsArticles = (topStories: TopStoriesDTO[]): NewsArticleCount =&gt; {
+    let totalPerspectiveArticles = 0;
+    let totalEntityArticles = 0;
+    
+    topStories.forEach(story =&gt; {
+        story.perspectives.forEach(perspective =&gt; {
+            // Count articles at perspective level
+            totalPerspectiveArticles += perspective.newsStories?.length || 0;
+            
+            // Count articles at entity level
+            perspective.entities.forEach(entity =&gt; {
+                totalEntityArticles += entity.newsStories?.length || 0;
+            });
+        });
+    });
+    
+    return {
+        totalArticles: totalPerspectiveArticles + totalEntityArticles,
+        breakdown: { perspectiveArticles: totalPerspectiveArticles, entityArticles: totalEntityArticles },
+        byStory: /* detailed breakdown */
+    };
+};</code></pre>
+            </div></p><h4 id="date-number-formatters">📅 Date & Number Formatters</h4><div class="info-box"></p><p>Comprehensive formatting utilities for consistent date displays, number formatting, and view count presentations across the application.</p><p></div><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// formatters.ts - Localized formatting utilities
+export const formatDate = (
+    dateString: string, 
+    options: { includeTime?: boolean; monthFormat?: &#039;short&#039; | &#039;long&#039; | &#039;numeric&#039; } = {},
+    locale: string = &#039;en-GB&#039;
+): string =&gt; {
+    const formatOptions: Intl.DateTimeFormatOptions = {
+        day: &#039;numeric&#039;,
+        month: options.monthFormat || &#039;short&#039;,
+        year: &#039;numeric&#039;
+    };
+    
+    if (options.includeTime) {
+        formatOptions.hour = &#039;2-digit&#039;;
+        formatOptions.minute = &#039;2-digit&#039;;
+    }
+    
+    return new Intl.DateTimeFormat(locale, formatOptions).format(new Date(dateString));
+};
+
+export const formatViews = (views: number): string =&gt; {
+    if (views &lt; 1000) return views.toString();
+    if (views &lt; 1000000) return (views / 1000).toFixed(1) + &#039;K&#039;;
+    return (views / 1000000).toFixed(1) + &#039;M&#039;;
+};
+
+export const formatNumber = (num: number): string =&gt; {
+    return new Intl.NumberFormat(&#039;en-GB&#039;).format(num);
+};</code></pre>
+            </div></p><h4 id="color-manipulation-utilities">🎨 Color Manipulation Utilities</h4><div class="info-box"></p><p>Precise color manipulation functions for dynamic theming and consistent visual hierarchy across story elements.</p><p></div><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// colorFunctions.ts - Color manipulation utilities
+export function darkenColor(hex: string, amount = 0.2): string {
+    hex = hex.replace(/^#/, &#039;&#039;);
+    let num = parseInt(hex, 16);
+    let r = (num &gt;&gt; 16) &amp; 0xff;
+    let g = (num &gt;&gt; 8) &amp; 0xff;  
+    let b = num &amp; 0xff;
+    
+    r = Math.max(0, Math.floor(r * (1 - amount)));
+    g = Math.max(0, Math.floor(g * (1 - amount)));
+    b = Math.max(0, Math.floor(b * (1 - amount)));
+    
+    return &#039;#&#039; + ((1 &lt;&lt; 24) + (r &lt;&lt; 16) + (g &lt;&lt; 8) + b).toString(16).slice(1);
+}
+
+export function lightenColor(hex: string, amount = 0.2): string {
+    // Similar implementation for lightening colors
+    // Used for hover states and subtle background tints
+}</code></pre>
+            </div></p><p><strong>Usage in Components</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// TopStory.tsx - Dynamic color application
+import { darkenColor } from &#039;@luminaUtilities/colorFunctions&#039;;
+
+const storyBorderColor = darkenColor(newsColor, 0.15); // 15% darker for borders
+const storyBackgroundColor = lightenColor(newsColor, 0.9); // 90% lighter for backgrounds</code></pre>
+            </div></p><h4 id="story-driven-color-theming">🎨 Story-Driven Color Theming</h4><div class="info-box"></p><p>Intelligent color assignment system that provides consistent visual identity for each story while maintaining visual cohesion across the interface.</p><p></div><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Actual color assignment implementation from StoriesLayout.tsx
+const newsColorValues = Object.values(NewsColors); // Enum values array
+
+// Color assignment in StoriesList component
+&lt;LuminaTopStory
+    key={story.ID || index}
+    story={story}
+    accessLevel={accessLevel}
+    count={index + 1}
+    newsColor={newsColorValues[index % newsColorValues.length]} // Cycle through colors
+    isSelected={Boolean(selectedStory &amp;&amp; selectedStory.ID === story.ID)}
+    handleSelectedStoryClick={handleSelectedStoryClick}
+    handleSelectedStoryColorChange={handleSelectedStoryColorChange}
+/&gt;
+
+// Theme propagation through component tree
+&lt;PerspectiveList 
+    selectedStory={selectedStory}
+    selectedStoryColor={selectedStoryColor} // From state, not calculated
+/&gt;</code></pre>
+            </div></p><p><strong>Color Theming Benefits</strong>:</p><p><ul><li>🎨 <strong>Systematic Assignment</strong>: Colors assigned by story position for visual rhythm</li><li>📋 <strong>Predictable Patterns</strong>: Cycling through NewsColors enum provides consistent color order  </li><li>🌈 <strong>Balanced Distribution</strong>: Modulo operation ensures even color distribution across story lists</li><li>🧠 <strong>Position Memory</strong>: Users can identify story position by color pattern</li><li>🎯 <strong>Brand Consistency</strong>: All colors selected from approved NewsColors enum values</li></ul></p><h4 id="context-driven-architecture">🏗️ Context-Driven Architecture</h4><div class="info-box"></p><p>Sophisticated context system for global state management and feature access control, providing clean data flow throughout the component hierarchy.</p><p></div><p><strong>LuminaMenuContext - Layout & View Management</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">interface LuminaMenuContextType {
+    // UI State
+    expandedView: boolean;                    // Single vs multi-column toggle
+    menuExpanded: boolean;                    // Menu section expanded/collapsed
+    luminaPanelContent: LuminaPanelContent | null;
+    
+    // User State
+    currentUserLevel: LuminaAccessUserLevel;
+    
+    // Actions
+    setExpandedView: (expanded: boolean) =&gt; void;
+    setMenuExpanded: (expanded: boolean) =&gt; void;
+    setLuminaPanelContent: (content: LuminaPanelContent) =&gt; void;
+    
+    // Feature Access
+    getFeatureStatus: (key: string) =&gt; { enabled: boolean; userAccess?: LuminaAccessUserLevel };
+    getFeatureAccessLevel: (key: string) =&gt; LuminaAccessUserLevel;
+}
+
+// Usage across component hierarchy
+const { 
+    expandedView, 
+    currentUserLevel,
+    getFeatureStatus 
+} = useLuminaMenu();</code></pre>
+            </div></p><p><strong>Context Architecture Benefits</strong>:</p><p><ul><li>🌐 <strong>Global State Management</strong>: Single source of truth for application-wide state</li><li>🎯 <strong>Selective State Access</strong>: Direct access to global state without intermediate props</li><li>🔄 <strong>Reactive Updates</strong>: Automatic re-rendering when context values change</li><li>🧪 <strong>Testable Architecture</strong>: Easy to mock context values for isolated component testing</li><li>🎨 <strong>Theme Coordination</strong>: Centralized theme and color management across all components</li><li>⚙️ <strong>Feature Flags</strong>: Centralized control of animations and layout preferences</li><li>📊 <strong>Performance Optimization</strong>: Selective context consumption prevents unnecessary re-renders</li></ul></p><h4 id="context-vs-prop-drilling-strategic-implementation-patterns">🔄 Context vs Prop Drilling: Strategic Implementation Patterns</h4><div class="info-box"></p><p>Lumina demonstrates strategic use of React Context for core application state while maintaining prop drilling for component-specific data flow for performance and maintainability balance.</p><p></div><p><strong>Context Usage - Global Application State</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// LuminaMenuContext.tsx - Global layout and permission state
+interface LuminaMenuContextType {
+    // UI State
+    expandedView: boolean;              // Multi-column mode toggle
+    menuExpanded: boolean;              // Menu section state
+    luminaPanelContent: LuminaPanelContent | null;
+    
+    // User permissions &amp; access control
+    currentUserLevel: LuminaAccessUserLevel;
+    
+    // Actions
+    setExpandedView: (expanded: boolean) =&gt; void;
+    setMenuExpanded: (expanded: boolean) =&gt; void;
+    setLuminaPanelContent: (content: LuminaPanelContent) =&gt; void;
+    
+    // Feature Access
+    getFeatureStatus: (key: string) =&gt; { enabled: boolean; userAccess?: LuminaAccessUserLevel };
+    getFeatureAccessLevel: (key: string) =&gt; LuminaAccessUserLevel;
+}
+
+// Usage in deeply nested components
+const { expandedView, currentUserLevel } = useLuminaMenu();
+
+const renderStoryHeader = () =&gt; {
+    if (expandedView) return null; // Skip header in multi-column
+    return &lt;StoryHeader story={selectedStory} /&gt;;
+};
+
+// Permission-based rendering with feature flags
+const { enabled: showAdvanced } = getFeatureStatus(&#039;advancedAnalytics&#039;);
+const canShowAdvanced = currentUserLevel &gt;= LuminaAccessUserLevel.Advanced;</code></pre>
+            </div></p><p><strong>Prop Drilling Usage - Component-Specific Data</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// StoriesLayout.tsx -&gt; LuminaStoriesList.tsx -&gt; LuminaTopStory.tsx
+// Explicit prop drilling for story-specific data
+
+// LuminaStoriesList.tsx - Real implementation
+interface LuminaStoriesListProps {
+    displayedStories: TopStoriesDTO[];
+    newsColorValues: string[];
+    selectedStory?: TopStoriesDTO | null;
+    handleSelectedStoryClick: (story: TopStoriesDTO | null) =&gt; void;
+    handleSelectedStoryColorChange: (color: string) =&gt; void;
+    isLoading?: boolean;
+    isFiltering?: boolean;
+}
+
+const LuminaStoriesList = (props: LuminaStoriesListProps) =&gt; {
+    // Extract accessLevel from context, then pass as prop
+    const { currentUserLevel: accessLevel } = useLuminaMenu();
+    
+    return (
+        &lt;div&gt;
+            {displayedStories.map((story, index) =&gt; (
+                &lt;LuminaTopStory
+                    key={story.ID || index}
+                    story={story}
+                    count={index + 1}
+                    newsColor={newsColorValues[index % newsColorValues.length]}
+                    isSelected={Boolean(selectedStory &amp;&amp; selectedStory.ID === story.ID)}
+                    handleSelectedStoryClick={handleSelectedStoryClick}
+                    handleSelectedStoryColorChange={handleSelectedStoryColorChange}
+                /&gt;
+            ))}
+        &lt;/div&gt;
+    );
+};
+
+// LuminaTopStory.tsx - Receives props explicitly
+interface LuminaTopStoryProps {
+    story: TopStoriesDTO;                                       // Explicit story data
+    accessLevel: LuminaAccessUserLevel;                         // From context but passed as prop
+    count: number;                                              // Story position
+    newsColor: string;                                          // Component-specific styling
+    isSelected: boolean;                                        // Selection state
+    handleSelectedStoryClick: (story: TopStoriesDTO | null) =&gt; void;
+    handleSelectedStoryColorChange: (color: string) =&gt; void;
+}
+
+// Clear data flow - all dependencies explicit in props
+const LuminaTopStory = (props: LuminaTopStoryProps) =&gt; {
+    const { story, accessLevel, count, newsColor, isSelected, handleSelectedStoryClick } = props;
+    // All dependencies are explicit in props
+};</code></pre>
+            </div></p><p><strong>Strategic Decision Rationale</strong>:</p><p><strong>Context for:</strong></p><p><ul><li>✅ <strong>User Permissions</strong>: <code>accessLevel</code> needed across many components</li><li>✅ <strong>Layout State</strong>: <code>expandedView</code> affects rendering throughout app</li></ul></p><p><strong>Prop Drilling for:</strong></p><p><ul><li>✅ <strong>Story Data</strong>: Specific story objects passed to story components</li><li>✅ <strong>Event Handlers</strong>: Click handlers and callbacks remain explicit</li><li>✅ <strong>Component State</strong>: Local selections and UI state</li><li>✅ <strong>Performance Critical Paths</strong>: Avoiding context re-renders for frequently changing data</li></ul></p><p><strong>Benefits of Hybrid Approach</strong>:</p><p><ul><li>🎯 <strong>Performance</strong>: Context only for stable, global state</li><li>🔍 <strong>Debugging</strong>: Explicit props make data flow traceable</li><li>🧪 <strong>Testing</strong>: Easy to test components with explicit dependencies</li><li>📚 <strong>Maintainability</strong>: Clear separation between global and local concerns</li><li>🔄 <strong>Predictable Updates</strong>: Context updates only trigger necessary re-renders</li></ul><h3 id="component-patterns">Component Patterns</h3><div class="info-box"></p></p><p>Optimization patterns verified in the Lumina codebase that enhance performance and user experience through coordinated animations and efficient calculations.</p><p></div><p><strong>LuminaGenderChart.tsx - Interactive demographic display</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Actual component interface from GenderChart.tsx
+export interface LuminaGenderChartProps {
+    genderBreakdown?: GenderBreakdown[];
+    malePercentage?: number;
+    femalePercentage?: number;
+    orientation?: &#039;horizontal&#039; | &#039;vertical&#039;;
+    animated?: boolean;
+    showValues?: boolean;
+    className?: string;
+}
+
+// Real usage examples from the codebase
+&lt;LuminaGenderChart 
+    genderBreakdown={story.genderBreakdown}
+    malePercentage={story.demographicMalePercentage}
+    femalePercentage={story.demographicFemalePercentage}
+    orientation=&quot;horizontal&quot;
+    animated={true}
+    showValues={true}
+/&gt;
+
+// From ContactsView.tsx
+&lt;LuminaGenderChart 
+    genderBreakdown={contact.genderBreakdown}
+    orientation=&quot;horizontal&quot;
+    animated={true}
+    showValues={true}
+/&gt;</code></pre>
+            </div></p><h4 id="css-based-animation-coordination">🎬 CSS-Based Animation Coordination</h4><p><strong>PerspectiveList.tsx - Real animation implementation</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Verified animation state management
+const [animateBars, setAnimateBars] = useState(false);
+
+useEffect(() =&gt; {
+    if (selectedStory) {
+        setAnimateBars(false); // Reset
+        const timer = setTimeout(() =&gt; {
+            setAnimateBars(true); // Trigger
+        }, 150);
+        return () =&gt; clearTimeout(timer);
+    }
+}, [selectedStory &amp;&amp; selectedStory.ID]);
+
+// Pass to Perspective components
+&lt;LuminaPerspective
+    animateBars={animateBars}
+    // ... other props
+/&gt;</code></pre>
+            </div></p><p><strong>CSS Implementation from _Components.Perspectives.module.scss</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">.perspective__bar {
+    width: 0%; // Always start at 0
+    height: 16px;
+    // ... styling
+}
+
+.perspective__bar--animate {
+    animation: fillBar 1.0s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+}
+
+@keyframes fillBar {
+    0% { width: 0%; }
+    100% { width: var(--target-width); }
+}</code></pre>
+            </div></p><p><strong>Component Benefits</strong>:</p><p><ul><li>🤯 <strong>State Coordination</strong>: React state triggers CSS animation sequences</li><li>📊 <strong>Dynamic Calculations</strong>: Real-time article share computation with sorting</li><li>📝 <strong>Smart Truncation</strong>: Context-aware text limiting for UI consistency</li><li>🔄 <strong>Animation Timing</strong>: CSS variables enable coordinated staggered effects</li></ul></p><h4 id="article-share-calculations">📊 Article Share Calculations</h4><p><strong>From PerspectiveList.tsx - implementation</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Calculate total articles across all perspectives
+const totalArticles = selectedStory.perspectives.reduce((total, perspective) =&gt; {
+    return total + (perspective.newsStories &amp;&amp; perspective.newsStories.length || 0);
+}, 0);
+
+// Calculate article share for each perspective
+const perspectivesWithShare = selectedStory.perspectives.map(perspective =&gt; {
+    const articleCount = perspective.newsStories &amp;&amp; perspective.newsStories.length || 0;
+    const articleShare = totalArticles &gt; 0 ? (articleCount / totalArticles) * 100 : 0;
+    return {
+        ...perspective,
+        articleCount,
+        articleShare: Math.round(articleShare * 10) / 10 // Round to 1 decimal
+    };
+});
+
+// Sort by article share descending
+const sortedPerspectives = [...perspectivesWithShare].sort(
+    (a, b) =&gt; b.articleShare - a.articleShare
+);</code></pre>
+            </div></p><h4 id="text-truncation-utilities">✂️ Text Truncation Utilities</h4><p><strong>From StoriesSingleColumnBreadcrumb.tsx</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Simple text truncation utility
+const truncateText = (text: string, maxLength: number): string =&gt; {
+    if (text.length &lt;= maxLength) return text;
+    return text.substring(0, maxLength) + &#039;...&#039;;
+};
+
+// Usage in breadcrumbs
+breadcrumbItems.push({
+    label: truncateText(selectedStory.title, 20),
+    onClick: selectedPerspective || selectedNewsStory ? onBackToStory : undefined
+});</code></pre>
+            </div></p><h3 id="data-visualization">Data Visualization</h3><div class="info-box"></p><p>Data visualization components use strategic animations to enhance the perception of AI-powered calculations and truly dynamic, real-time data processing.</p><p></div><p><strong>Animation Philosophy for AI Context</strong>:</p><p><ul><li>🧠 <strong>Computational Feel</strong>: Animations suggest active AI processing and analysis</li><li>📈 <strong>Dynamic Data Perception</strong>: Smooth transitions reinforce that data is live and constantly updating</li><li>⚡ <strong>Intelligence Indicators</strong>: Progressive reveals simulate AI "thinking" through complex calculations</li><li>🎯 <strong>Cognitive Anchoring</strong>: Animated value changes help users trust the AI-generated insights</li></ul></p><h4 id="gender-distribution-visualization">📊 Gender Distribution Visualization</h4><p><strong>LuminaGenderChart.tsx - Interactive demographic display</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Actual component interface from GenderChart.tsx
+export interface LuminaGenderChartProps {
+    genderBreakdown?: GenderBreakdown[];
+    malePercentage?: number;
+    femalePercentage?: number;
+    orientation?: &#039;horizontal&#039; | &#039;vertical&#039;;
+    animated?: boolean;
+    showValues?: boolean;
+    className?: string;
+}
+
+// Real usage examples from the codebase
+&lt;LuminaGenderChart 
+    genderBreakdown={story.genderBreakdown}
+    malePercentage={story.demographicMalePercentage}
+    femalePercentage={story.demographicFemalePercentage}
+    orientation=&quot;horizontal&quot;
+    animated={true}
+    showValues={true}
+/&gt;</code></pre>
+            </div></p><h4 id="story-velocity-momentum-tracking">🚀 Story Velocity & Momentum Tracking</h4><p><strong>StoryMetadata.tsx - Actual velocity display component</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Real component usage from TopStory.tsx
+&lt;StoryMetadata 
+    velocity={story.velocity}        // Uses StoryVelocity interface
+    storyColor={newsColor}          // Color theming
+/&gt;
+
+// Actual StoryVelocity interface from storyMetadata.ts
+export interface StoryVelocity {
+    dailyCount: number;              // Articles per day
+    percentageChange: number;        // Percentage change from previous period
+    trendData: number[];            // 7-day trend array for mini charts
+    peakDay?: number;               // Day index when story peaked (0-6)
+    isRising: boolean;              // Whether trend is upward
+}</code></pre>
+            </div></p><p><ul><li>🔄 <code>TOGGLE_LUMINA_MENU</code> - Navigation → MCD (open/close request)</li><li>🔄 <code>LUMINA_MENU_STATE_CHANGED</code> - MCD → Navigation (state synchronization)</li></ul></p><h2 id="v-implementation-evaluation">V. Implementation & Evaluation</h2><h3 id="cross-app-architecture-structure">Cross-App Architecture Structure</h3><div class="info-box"></p><p>Lumina functionality is distributed across two apps: Navigation app handles the trigger UI, while MCD app contains all components, logic, and state management.</p><p></div><h4 id="navigation-app-structure-trigger-only">Navigation App Structure - Trigger Only</h4><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">plaintext</span>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">apps/navigation/src/Lumina-App/
+├── Animations/
+│   ├── LuminaLottie.tsx         ← ✅ Trigger button animation
+│   └── Lumina3Animated.json     ← ✅ Lottie animation data
+└── [all other directories removed] ← 🗑️ DELETED - Moved to MCD</code></pre>
+            </div></p><p><strong>Minimal Footprint</strong>:</p><p><ul><li>🎯 <strong>Single Responsibility</strong>: Only handles trigger button UI</li><li>🎨 <strong>Animation Only</strong>: Lottie animation for visual feedback</li><li>📡 <strong>Event Dispatch</strong>: Fires <code>TOGGLE_LUMINA_MENU</code> event to MCD app</li><li>⚡ <strong>Lightweight</strong>: No business logic or state management</li></ul></p><h4 id="mcd-app-structure-full-implementation">MCD App Structure - Full Implementation</h4><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">plaintext</span>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">apps/mcd/src/Lumina-App/
+├── Components/
+│   ├── NewsArticles/           ← News article components
+│   ├── Perspectives/           ← Perspective analysis components
+│   ├── Stories/                ← Story management components
+│   ├── Meta/                   ← Metadata components (tags, sentiment)
+│   ├── UI/                     ← Reusable UI components
+│   ├── Contacts/               ← Contact management
+│   ├── Content/                ← Content display components
+│   ├── Demo/                   ← Demo and example components
+│   ├── Features/               ← Feature-specific components
+│   ├── Layout/                 ← Layout components
+│   ├── Panels/                 ← Panel components
+│   ├── MediaAndIcon/           ← Media and icon components
+│   └── LuminaMenuV2.tsx        ← Main menu component
+├── Context/
+│   └── LuminaMenuContext.tsx   ← Global state management
+├── Utilities/
+│   ├── storyMetadata.ts        ← Story calculations
+│   ├── newsCounter.ts          ← Article analytics
+│   ├── colorFunctions.ts       ← Theme utilities
+│   └── formatters.ts           ← Data formatting
+├── Hooks/
+│   ├── useResponsiveSetting.ts ← Responsive breakpoints
+│   └── useLuminaMenu.ts        ← Context hook
+├── Interfaces/
+│   ├── Story.ts                ← Story type definitions
+│   ├── Perspective.ts          ← Perspective types
+│   └── NewsArticle.ts          ← Article types
+├── Enums/
+│   └── enums.ts                ← Enum definitions (IconSymbol, etc.)
+├── Config/
+│   └── luminaConfig.ts         ← Feature flags &amp; settings
+├── Assets/
+│   └── Scss/                   ← Lumina-specific styles
+│       ├── _Components.*.scss  ← Component stylesheets
+│       └── _Settings.scss      ← Theme variables
+├── Data/
+│   ├── topStories.ts           ← Top stories data
+│   └── contacts.ts             ← Contacts data
+├── Animations/
+│   └── LuminaLottie.tsx        ← Lottie animation component
+└── types/
+    └── *.d.ts                  ← Type declarations</code></pre>
+            </div></p><p><strong>Comprehensive Implementation</strong>:</p><p><ul><li>🏗️ <strong>Complete Component Library</strong>: All UI components and layouts</li><li>🌐 <strong>State Management</strong>: Context providers and hooks</li><li>🔧 <strong>Business Logic</strong>: Utilities for calculations and formatting</li><li>🎨 <strong>Independent Styling</strong>: Separate SCSS architecture</li><li>📊 <strong>Type Definitions</strong>: Full TypeScript interfaces</li><li>⚙️ <strong>Configuration</strong>: Feature flags and app settings</li></ul></p><h3 id="architectural-benefits">Architectural Benefits</h3><h4 id="maintainability-developer-experience">🔧 Maintainability & Developer Experience</h4><p><ul><li>1️⃣ <strong>Single Source of Truth</strong>: All Lumina components grouped in Lumina folder</li><li>🚧 <strong>Clear Boundaries</strong>: UI Components are separated from standard MCD elements and intentionally designed with a distinct look and feel</li><li>🏷️ <strong>Clear Namespacings</strong>: All Lumina components are namespaced to ensure easy access and straightforward understanding</li><li>👑 <strong>Clear Ownership</strong>: Developers know where to make changes</li><li>🎓 <strong>Onboarding</strong>: New developers can understand the flow quickly</li></ul></p><h3 id="comparative-analysis">Comparative Analysis</h3><div class="info-box"></p><p>Analysis demonstrating how Lumina's architectural approach addresses design and maintainability issues present in the existing MCD implementation/app.</p><p></div><h4 id="current-mcd-implementation-analysis-apps-mcd-src-sidecontainers">Current MCD Implementation Analysis (apps/mcd/src/SideContainers)</h4><h5 id="1-naming-convention">1. Naming Convention </h5><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">plaintext</span>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">MonitoringStories/
+├── MonitoringStories.tsx
+├── MonitoringStoriesStoryTab.tsx
+├── MonitoringStoriesPreview.tsx
+└── MonitoringStoriesPreviewPerspective.tsx</code></pre>
+            </div></p><p><strong>Issues</strong>:</p><p><ul><li>🔗 <strong>Tightly Coupled Naming</strong>: Everything prefixed with "Monitoring" limits reusability</li><li>🔒 <strong>Domain Lock-in</strong>: Naming tied to monitoring</li><li>📝 <strong>Verbose Naming</strong>: <code>MonitoringStoriesPreviewPerspective</code> is unnecessarily long</li></ul></p><h5 id="2-mixed-componentization-strategy-inline-style-usage">2. Mixed Componentization Strategy & Inline Style Usage</h5><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">tsx</span>
+                </div>
+                <pre class="code-content"><code class="language-tsx">// Some inline styling instead of reusable components
+&lt;div style={{
+    padding: &#039;4px 12px&#039;,
+    border: &#039;1px solid #e5e7eb&#039;,
+    borderRadius: &#039;16px&#039;,
+    fontSize: &#039;13px&#039;,
+    color: &#039;#6b7280&#039;
+}}&gt;
+    {tagGroupName}
+&lt;/div&gt;</code></pre>
+            </div></p><p><strong>Problems</strong>:</p><p><ul><li>⚠️ <strong>Inline Styles</strong>: Should only be used for dynamic themeing where neccesary</li><li>🔗 <strong>Tightly Coupled to MCD SCSS</strong>: Creates more complexity and harder to maintain visual seperation</li></ul></p><h4 id="my-approach">✨ My Approach</h4><h5 id="1-domain-agnostic-naming">1. <strong>Domain-Agnostic Naming</strong></h5><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// Reusable across contexts
+LuminaStoryList
+LuminaPerspective  
+LuminaNewsArticle
+LuminaMetaTag</code></pre>
+            </div></p><p><strong>Benefits</strong>:</p><p><ul><li>🔄 <strong>Reusability</strong>: Components work in different places where we want to represent AI</li><li>🏷️ <strong>Clear Identity</strong>: Lumina prefix provides clear ownership</li><li>🎯 <strong>Purpose-Driven</strong>: Names describe function, not specific use case</li></ul></p><h5 id="2-component-reusability">2. <strong>Component Reusability</strong></h5><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">tsx</span>
+                </div>
+                <pre class="code-content"><code class="language-tsx">// Same component works in multiple contexts
+&lt;LuminaMetaTag 
+    emoji=&quot;🏷️&quot; 
+    label={tagGroup.name}
+    size=&quot;small&quot;
+    type=&quot;generic&quot;
+/&gt;
+
+// Political stories context
+&lt;LuminaMetaTag emoji=&quot;🏛️&quot; label=&quot;Politics&quot; size=&quot;medium&quot; type=&quot;category&quot; /&gt;
+
+// Social stories context  
+&lt;LuminaMetaTag emoji=&quot;👥&quot; label=&quot;Social&quot; size=&quot;large&quot; type=&quot;trending&quot; /&gt;</code></pre>
+            </div></p><p><strong>Advantages</strong>:</p><p><ul><li>🎯 <strong>Single Responsibility</strong>: One component, multiple use cases</li><li>🔧 <strong>Easy Maintenance</strong>: Changes propagate automatically</li><li>✅ <strong>Consistent Behavior</strong>: Same interaction patterns everywhere</li><li>🎨 <strong>New AI Design System</strong>: Unified styling approach</li></ul></p><h5 id="3-theme-aware-styling">3. Theme-Aware Styling</h5><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">.lumina-story-card {
+    background-color: var(--lumina-bg-primary);
+    border: 1px solid var(--lumina-border);
+    color: var(--lumina-text-primary);
+    font-family: var(--lumina-font-family);
+}</code></pre>
+            </div></p><p><strong>Improved Features</strong>:</p><p><ul><li>🌙 <strong>Theme Support</strong>: Automatic dark/light mode switching</li><li>🎨 <strong>Design Consistency</strong>: Unified color palette across AI components</li><li>🔧 <strong>Easy Customization</strong>: Change themes without touching component code</li><li>📱 <strong>Responsive Design</strong>: Variables adapt to different screen contexts</li></ul></p><h4 id="comparison">📊 Comparison</h4><p><table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;"></p><p><thead></p><p><tr style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white;"></p><p><th style="padding: 12px 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #1d4ed8;">Aspect</th></p><p><th style="padding: 12px 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #1d4ed8;">MCD Current</th></p><p><th style="padding: 12px 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #1d4ed8;">Lumina Approach</th></p><p></tr></p><p></thead></p><p><tbody></p><p><tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;"></p><p><td style="padding: 12px 16px; font-weight: 600;"><strong>Reusability</strong></td></p><p><td style="padding: 12px 16px;">Single use only</td></p><p><td style="padding: 12px 16px;">Cross-domain ready</td></p><p></tr></p><p><tr style="background-color: white; border-bottom: 1px solid #e2e8f0;"></p><p><td style="padding: 12px 16px; font-weight: 600;"><strong>Maintenance</strong></td></p><p><td style="padding: 12px 16px;">Being embedded in MCD components blurs the lines</td></p><p><td style="padding: 12px 16px;">Single source</td></p><p></tr></p><p><tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;"></p><p><td style="padding: 12px 16px; font-weight: 600;"><strong>Theme Support</strong></td></p><p><td style="padding: 12px 16px;">Theme swtiching only with webpack environment variable passed to scss</td></p><p><td style="padding: 12px 16px;">CSS variables</td></p><p></tr></p><p><tr style="background-color: white; border-bottom: 1px solid #e2e8f0;"></p><p><td style="padding: 12px 16px; font-weight: 600;"><strong>Naming Clarity</strong></td></p><p><td style="padding: 12px 16px;">Domain-locked</td></p><p><td style="padding: 12px 16px;">Purpose-driven</td></p><p></tr></p><p><tr style="background-color: white;"></p><p><td style="padding: 12px 16px; font-weight: 600;"><strong>Style Separation</strong></td></p><p><td style="padding: 12px 16px;">Lumina styles mixed with MCD</td></p><p><td style="padding: 12px 16px;">Independent style system</td></p><p></tr></p><p></tbody></p><p></table></p><div class="intro-section" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 2rem; border-radius: 12px; border-left: 4px solid #3b82f6; margin: 2rem 0; font-size: 1.1em;"></p><h4 id="summary">🎯 Summary</h4><p>This document describes my <strong>systematic design decisions</strong> and how they were intended as a carefully considered collection of components in a  <strong>reusable, maintainable, and scalable system</strong> for future AI development across the entire MCD ecosystem. I focused on creating an approach that sets clear ownership boundaries, and excellent developer experience.</p><ul><li>🏗️ <strong>Separation of Concerns</strong>: Seperate from MCD styles</li><li>🔄 <strong>Composition Over Configuration</strong>: Build complex UIs from simple, reusable parts</li><li>🎨 <strong>Design System Thinking</strong>: Consistent patterns</li><li>🌙 <strong>Future-Proofing</strong>: Theme system ready for evolving design requirements</li><li>📚 <strong>Developer Experience</strong>: Clear naming and component boundaries reduce cognitive load</li></ul><p></div>
+
+    </main>
+
+    <!-- Document Footer -->
+    <footer class="document-footer">
+        <div class="footer-logo">Pulsar Group</div>
+        <p>Confidential Technical Documentation</p>
+    </footer>
+
+    <!-- Floating Back to Top Button -->
+    <div id="back-to-top" class="back-to-top-btn" onclick="scrollToTop()" title="Back to top">
+        <span>↑</span>
+        <span class="text">To Top</span>
+    </div>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide button based on scroll position
+        function handleScroll() {
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (backToTopBtn) {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            }
+        }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            handleScroll(); // Check initial scroll position
+        });
+    </script>
+</body>
+</html>
