@@ -814,11 +814,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#v-implementation-evaluation">V. Implementation & Evaluation</a>
-                    <ul>
-                        <li><a href="#architectural-benefits">Architectural Benefits</a></li>
-                        <li><a href="#comparative-analysis">Comparative Analysis</a></li>
-                    </ul>
+                    <a href="#v-summary">V. Summary</a>
                 </li>
             </ul>
         </div>
@@ -987,7 +983,7 @@ $luminaColors: (
     grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
     gap: $gap;
 }</code></pre>
-            </div></p><h4 id="modern-css-standards-implementation">🚀 Modern CSS Standards Implementation</h4><div class="info-box"></p><p>Lumina's SCSS architecture prioritizes modern CSS standards including CSS Grid, Flexbox, Container Queries, and CSS Custom Properties.</p><p></div><p><strong>Modern CSS Features Utilized</strong>:</p><p><ul><li>🔳 <strong>CSS Grid</strong>: Primary layout system for responsive story grids and dashboard layouts</li><li>🔄 <strong>Flexbox</strong>: Component-level alignment and distribution (navigation, buttons, badges)</li><li>🎨 <strong>CSS Custom Properties</strong>: Dynamic theming and runtime style updates (var(--background-color))</li><li>🌈 <strong>Color Management</strong>: Lumina-specific color palette with SCSS map integration</li></ul></p><p><div class="code-block">
+            </div></p><h4 id="modern-css-standards-implementation">🚀 Modern CSS Standards Implementation</h4><div class="info-box"></p><p>Lumina's SCSS architecture prioritizes modern CSS standards including CSS Grid, Flexbox, Container Queries, and CSS Custom Properties. I have 10+ years of CSS development and always look to embrace the latest methodologies.</p><p></div><p><strong>Modern CSS Features Utilized</strong>:</p><p><ul><li>🔳 <strong>CSS Grid</strong>: Primary layout system for responsive story grids and dashboard layouts</li><li>🔄 <strong>Flexbox</strong>: Component-level alignment and distribution (navigation, buttons, badges)</li><li>🎨 <strong>CSS Custom Properties</strong>: Dynamic theming and runtime style updates (var(--background-color))</li><li>🌈 <strong>Color Management</strong>: Lumina-specific color palette with SCSS map integration</li></ul></p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">scss</span>
                 </div>
@@ -1018,7 +1014,7 @@ $luminaColors: (
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 }</code></pre>
-            </div></p><p><strong>Performance Benefits</strong>:</p><p><ul><li>⚡ <strong>Reduced JavaScript</strong>: Layout handled by CSS Grid/Flexbox instead of JS calculations</li><li>🎯 <strong>Better Specificity</strong>: SCSS nesting and mixin system reduce cascade conflicts</li><li>📱 <strong>Advanced Responsiveness</strong>: Sophisticated breakpoint system with automated utility classes</li><li>🔧 <strong>Maintainable Code</strong>: SCSS architecture with settings, tools, and component organization</li></ul></p><h4 id="bem-methodology-implementation">🏗️ BEM Methodology Implementation</h4><div class="info-box"></p><p>Lumina adopts BEM (Block Element Modifier) CSS methodology for scalable, maintainable, and predictable component styling with clear naming conventions and modular architecture.</p><p></div><p><strong>BEM Structure in Lumina Components</strong>:</p><p><strong>Real BEM Implementation - Perspective Component</strong>:</p><p>The Perspective component demonstrates proper BEM methodology with clean block/element/modifier structure:</p><p><div class="code-block">
+            </div></p><p><strong>Performance Benefits</strong>:</p><p><ul><li>⚡ <strong>Reduced JavaScript</strong>: Layout handled by CSS Grid/Flexbox instead of JS calculations</li><li>🎯 <strong>Better Specificity</strong>: SCSS nesting and mixin system reduce cascade conflicts</li><li>📱 <strong>Advanced Responsiveness</strong>: Sophisticated breakpoint system with automated utility classes</li><li>🔧 <strong>Maintainable Code</strong>: SCSS architecture with settings, tools, and component organization</li></ul></p><h4 id="bem-methodology-implementation">🏗️ BEM Methodology Implementation</h4><div class="info-box"></p><p>Lumina adopts BEM (Block Element Modifier) CSS methodology for scalable, maintainable, and predictable component styling with clear naming conventions and modular architecture. I adopted BEM after dealing with CSS specificity nightmares in previous projects - trying to override styles with increasingly long selector chains was painful. BEM's flat structure and clear naming made it obvious where styles were coming from, and SCSS nesting made the syntax more readable while still outputting proper BEM classes.</p><p></div><p><strong>BEM Structure in Lumina Components</strong>:</p><p><strong>Real BEM Implementation - Perspective Component</strong>:</p><p>The Perspective component demonstrates proper BEM methodology with clean block/element/modifier structure:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">scss</span>
                 </div>
@@ -1123,7 +1119,7 @@ const LuminaPerspective = ({ perspective, isSelected, animateBars, index }: Prop
 .lumina-menu--expanded { }
 .lumina-menu__item--active { }
 .lumina-menu__item--disabled { }</code></pre>
-            </div></p><p><strong>Strategic Benefits</strong>:</p><p><ul><li>🏗️ <strong>Component Encapsulation</strong>: Each React component has its own BEM block</li><li>🎨 <strong>Theme Coordination</strong>: BEM modifiers work seamlessly with CSS custom properties</li><li>🔄 <strong>CSS Modules Integration</strong>: TypeScript imports align perfectly with BEM methodology</li><li>⚡ <strong>Performance</strong>: Flat CSS structure enables efficient browser parsing</li></ul></p><h3 id="css-variable-system-for-theme-flexibility">CSS Variable System for Theme Flexibility</h3><div class="info-box"></p><p>Implemented CSS custom properties to enable future dark/light theme support.</p><p></div><p><div class="code-block">
+            </div></p><p><strong>Strategic Benefits</strong>:</p><p><ul><li>🏗️ <strong>Component Encapsulation</strong>: Each React component has its own BEM block</li><li>🎨 <strong>Theme Coordination</strong>: BEM modifiers work seamlessly with CSS custom properties</li><li>🔄 <strong>CSS Modules Integration</strong>: TypeScript imports align perfectly with BEM methodology</li><li>⚡ <strong>Performance</strong>: Flat CSS structure enables efficient browser parsing</li></ul></p><h3 id="css-variable-system-for-theme-flexibility">CSS Variable System for Theme Flexibility</h3><div class="info-box"></p><p>Implemented CSS custom properties to enable future dark/light theme support. Even though dark mode isn't built yet, I set up CSS variables from the start because I knew we'd want it eventually. It's much easier to use <code>var(--lumina-bg-primary)</code> throughout the codebase now than to refactor hundreds of hardcoded color values later. Plus, it lets me quickly test different color schemes by just changing the root variables.</p><p></div><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">scss</span>
                 </div>
@@ -1147,6 +1143,16 @@ const LuminaPerspective = ({ perspective, isSelected, animateBars, index }: Prop
     --lumina-text-primary: #f9fafb;
     --lumina-text-secondary: #d1d5db;
     --lumina-border: #374151;
+}</code></pre>
+            </div></p><h5 id="3-theme-aware-styling">3. Theme-Aware Styling</h5><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">scss</span>
+                </div>
+                <pre class="code-content"><code class="language-scss">.lumina-story-card {
+    background-color: var(--lumina-bg-primary);
+    border: 1px solid var(--lumina-border);
+    color: var(--lumina-text-primary);
+    font-family: var(--lumina-font-family);
 }</code></pre>
             </div></p><p><strong>Benefits</strong>:</p><p><ul><li>🔄 <strong>Theme Switching</strong>: Instant theme changes without CSS recompilation if enabled</li><li>👤 <strong>User Preference Support</strong>: Can be built to respect system dark/light mode preferences</li><li>✅ <strong>Consistency</strong>: Unified color management across all components</li><li>🔮 <strong>Future-Proofing</strong>: Easy addition of custom themes (high contrast, brand variations)</li></ul></p><h3 id="icon-library-system">Icon Library System</h3><div class="info-box"></p><p>Created a dedicated Lumina icon set independent from MCD's existing icon library.</p><p></div><p><div class="code-block">
                 <div class="code-header">
@@ -1181,7 +1187,7 @@ export enum IconSymbol {
 // Icon component usage with Lumina prefix
 import { Icon as LuminaIcon } from &#039;@luminaComponents/UI&#039;;
 import { IconSymbol } from &#039;@luminaEnums/enums&#039;;</code></pre>
-            </div></p><p><strong>Enum vs Magic String Rationale</strong>:</p><div class="info-box"></p><p>Adopted TypeScript enum pattern over magic strings for icon selection to improve code reliability, maintainability, and developer experience.</p><p></div><p><div class="code-block">
+            </div></p><p><strong>Enum vs Magic String Rationale</strong>:</p><div class="info-box"></p><p>Adopted TypeScript enum pattern over magic strings for icon selection to improve code reliability, maintainability, and developer experience. I went with enums after spending too much time debugging missing icons caused by typos like "perpective" instead of "perspective". With enums, TypeScript catches these mistakes at compile time, and my IDE autocompletes the icon names so I don't have to remember exact strings. It's a small thing that saves surprising amounts of debugging time.</p><p></div><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
@@ -1215,7 +1221,7 @@ import { IconSymbol } from &#039;@luminaEnums/enums&#039;;</code></pre>
 &lt;MetaTag icon=&quot;sentiment-positive&quot; label=&quot;Positive&quot; /&gt;
 &lt;MetaTag icon=&quot;location&quot; label=&quot;Location&quot; /&gt;
 &lt;MetaTag icon=&quot;eye&quot; label=&quot;Views&quot; /&gt;</code></pre>
-            </div></p><p><strong>AI-Focused Benefits</strong>:</p><p><ul><li>👥 <strong>Human-Friendly</strong>: Emojis provide immediate emotional/contextual understanding</li><li>♿ <strong>Accessibility</strong>: Universal symbol recognition across cultures and languages</li><li>💫 <strong>Modern Appeal</strong>: Aligns with contemporary AI interface expectations</li><li>🧠 <strong>Cognitive Load</strong>: Reduces mental processing time for understanding metadata</li><li>😊 <strong>Personality</strong>: Gives the AI assistant a more approachable, less corporate feel</li></ul></p><h2 id="iii-component-layout-architecture">III. Component & Layout Architecture</h2><h3 id="component-organization">Component Organization</h3><div class="info-box"></p><p>Components are organized by purpose (Articles, Perspectives, Stories) with each having a specific job.</p><p></div><p><strong>Detailed Component Hierarchy</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>AI-Focused Benefits</strong>:</p><p><ul><li>👥 <strong>Human-Friendly</strong>: Emojis provide immediate emotional/contextual understanding</li><li>♿ <strong>Accessibility</strong>: Universal symbol recognition across cultures and languages</li><li>💫 <strong>Modern Appeal</strong>: Aligns with contemporary AI interface expectations</li><li>🧠 <strong>Cognitive Load</strong>: Reduces mental processing time for understanding metadata</li><li>😊 <strong>Personality</strong>: Gives the AI assistant a more approachable, less corporate feel</li></ul></p><h2 id="iii-component-layout-architecture">III. Component & Layout Architecture</h2><h3 id="component-organization">Component Organization</h3><div class="info-box"></p><p>Components are organized by purpose (Articles, Perspectives, Stories) with each having a specific job. I initially tried grouping everything in a single "Components" folder, but it quickly became unwieldy. Breaking it down by domain (Stories, Articles, Perspectives) made it much easier to find what I needed and mentally separate concerns when working on different features.</p><p></div><p><strong>Detailed Component Hierarchy</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">plaintext</span>
                 </div>
@@ -1635,7 +1641,7 @@ export const LuminaHeatBadge = () =&gt; { /* ... */ };
 export const LuminaLoader = () =&gt; { /* ... */ };
 export const LuminaButton = () =&gt; { /* ... */ };
 export const LuminaAvatar = () =&gt; { /* ... */ };</code></pre>
-            </div></p><p><strong>Benefits</strong>:</p><p><ul><li>🔍 <strong>Clear Component Origin</strong>: Instantly identifiable as Lumina components</li><li>🚫 <strong>Conflict Prevention</strong>: No naming collisions with existing MCD components  </li><li>🎯 <strong>Debugging Clarity</strong>: Component names in DevTools clearly indicate source app</li><li>📚 <strong>Documentation</strong>: Self-documenting code with explicit component ownership</li></ul></p><h4 id="webpack-alias-and-typescript-resolve-paths">⚙️ Webpack Alias and TypeScript Resolve Paths</h4><div class="info-box"></p><p>Configured path aliases to enable clean imports and improve developer experience across the Lumina component ecosystem.</p><p></div><p><strong>Webpack Configuration</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>Benefits</strong>:</p><p><ul><li>🔍 <strong>Clear Component Origin</strong>: Instantly identifiable as Lumina components</li><li>🚫 <strong>Conflict Prevention</strong>: No naming collisions with existing MCD components  </li><li>🎯 <strong>Debugging Clarity</strong>: Component names in DevTools clearly indicate source app</li><li>📚 <strong>Documentation</strong>: Self-documenting code with explicit component ownership</li></ul></p><h4 id="webpack-alias-and-typescript-resolve-paths">⚙️ Webpack Alias and TypeScript Resolve Paths</h4><div class="info-box"></p><p>Configured path aliases to enable clean imports and improve developer experience across the Lumina component ecosystem. From experience with component imports I get tired of wrestling with relative import paths like <code>../../../Components/UI/Loader</code> that would break every time I moved a file. Setting up these aliases saves countless headaches - now imports are predictable and refactoring doesn't break everything. This is also somehting I have championed in MCD itself. </p><p></div><p><strong>Webpack Configuration</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">javascript</span>
                 </div>
@@ -1669,7 +1675,7 @@ module.exports = {
         }
     }
 }</code></pre>
-            </div></p><p><strong>Component Barrel Exports</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>Component Barrel Exports</strong> (setting these up was tedious but worth it - now I can import multiple components from one line instead of having 15 separate import statements at the top of every file):</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
@@ -1777,23 +1783,6 @@ export enum LuminaPanelContent {
     Stories = &quot;Stories&quot;,                      // News analysis
     SuggestedContacts = &quot;SuggestedContacts&quot;  // Expert recommendations
 }</code></pre>
-            </div></p><p><strong>Context Integration</strong>:</p><p><div class="code-block">
-                <div class="code-header">
-                    <span class="code-language">typescript</span>
-                </div>
-                <pre class="code-content"><code class="language-typescript">// LuminaMenuContext.tsx - Panel state management
-interface LuminaMenuContextType {
-    luminaPanelContent: LuminaPanelContent | null;
-    setLuminaPanelContent: (content: LuminaPanelContent) =&gt; void;
-    getFeatureAccessLevel: (key: string) =&gt; LuminaAccessUserLevel;
-}
-
-// Usage in navigation components
-const { setLuminaPanelContent } = useLuminaMenu();
-
-const handleNavigation = (panel: LuminaPanelContent) =&gt; {
-    setLuminaPanelContent(panel);
-};</code></pre>
             </div></p><p><strong>Panel Management Benefits</strong>:</p><p><ul><li>🎯 <strong>Centralized Control</strong>: Single source of truth for active panel state</li><li>🔒 <strong>Access Control Integration</strong>: Each panel receives appropriate access level from context</li><li>🔄 <strong>Lazy Rendering</strong>: Only active panel is rendered, improving performance</li><li>📱 <strong>Clean Separation</strong>: Each panel is an independent component with its own logic</li><li>🎨 <strong>Consistent Layout</strong>: All panels render within the same container structure</li></ul></p><p><strong>Navigation Flow</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">plaintext</span>
@@ -2056,7 +2045,7 @@ const StoryHeatBadge = ({ createdAt }: Props) =&gt; {
         &lt;/div&gt;
     );
 };</code></pre>
-            </div></p><h4 id="animation-system-implementation">🎬 Animation System Implementation</h4><div class="info-box"></p><p>Component-level animation coordination using CSS animations, React state management, and timing patterns for smooth user experiences.</p><p></div><p><strong>CSS-Based Animation System</strong>:</p><p><div class="code-block">
+            </div></p><h4 id="animation-system-implementation">🎬 Animation System Implementation</h4><div class="info-box"></p><p>Component-level animation coordination using CSS animations, React state management, and timing patterns for smooth user experiences. I chose CSS animations over JavaScript libraries like Framer Motion because I wanted lightweight, performant animations without adding another dependency. CSS animations are also easier to debug with browser dev tools, and I have more control over the exact timing and easing curves.</p><p></div><p><strong>CSS-Based Animation System</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">scss</span>
                 </div>
@@ -2273,31 +2262,11 @@ const {
     currentUserLevel,
     getFeatureStatus 
 } = useLuminaMenu();</code></pre>
-            </div></p><p><strong>Context Architecture Benefits</strong>:</p><p><ul><li>🌐 <strong>Global State Management</strong>: Single source of truth for application-wide state</li><li>🎯 <strong>Selective State Access</strong>: Direct access to global state without intermediate props</li><li>🔄 <strong>Reactive Updates</strong>: Automatic re-rendering when context high level values change</li><li>⚙️ <strong>Feature Flags</strong>: Centralized control of user access to sections</li><li>📊 <strong>Performance Optimization</strong>: Selective context consumption prevents unnecessary re-renders</li></ul></p><h4 id="context-vs-prop-drilling-strategic-implementation-patterns">🔄 Context vs Prop Drilling: Strategic Implementation Patterns</h4><div class="info-box"></p><p>React Context manages global state like layout mode and user permissions across all components.</p><p></div><p><strong>Context Usage - Global Application State</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>Context Architecture Benefits</strong>:</p><p><ul><li>🌐 <strong>Global State Management</strong>: Single source of truth for application-wide state</li><li>🎯 <strong>Selective State Access</strong>: Direct access to global state without intermediate props</li><li>🔄 <strong>Reactive Updates</strong>: Automatic re-rendering when context high level values change</li><li>⚙️ <strong>Feature Flags</strong>: Centralized control of user access to sections</li><li>📊 <strong>Performance Optimization</strong>: Selective context consumption prevents unnecessary re-renders</li></ul></p><h4 id="context-vs-prop-drilling-strategic-implementation-patterns">🔄 Context vs Prop Drilling: Strategic Implementation Patterns</h4><div class="info-box"></p><p>React Context manages global state like layout mode and user permissions across all components. I learned this the hard way - initially I was passing <code>expandedView</code> and <code>currentUserLevel</code> through 4-5 levels of components. When I needed to add a new global state variable, I had to update every single component in the chain. Moving to Context for truly global state (like layout mode and user permissions) while keeping props for component-specific data was a game changer for maintainability.</p><p></div><p><strong>Context Usage - Global Application State</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
-                <pre class="code-content"><code class="language-typescript">// LuminaMenuContext.tsx - Global layout and permission state
-interface LuminaMenuContextType {
-    // UI State
-    expandedView: boolean;              // Multi-column mode toggle
-    menuExpanded: boolean;              // Menu section state
-    luminaPanelContent: LuminaPanelContent | null;
-    
-    // User permissions &amp; access control
-    currentUserLevel: LuminaAccessUserLevel;
-    
-    // Actions
-    setExpandedView: (expanded: boolean) =&gt; void;
-    setMenuExpanded: (expanded: boolean) =&gt; void;
-    setLuminaPanelContent: (content: LuminaPanelContent) =&gt; void;
-    
-    // Feature Access
-    getFeatureStatus: (key: string) =&gt; { enabled: boolean; userAccess?: LuminaAccessUserLevel };
-    getFeatureAccessLevel: (key: string) =&gt; LuminaAccessUserLevel;
-}
-
-// Usage in deeply nested components
+                <pre class="code-content"><code class="language-typescript">// Usage in deeply nested components
 const { expandedView, currentUserLevel } = useLuminaMenu();
 
 const renderStoryHeader = () =&gt; {
@@ -2362,7 +2331,7 @@ const LuminaTopStory = (props: LuminaTopStoryProps) =&gt; {
     const { story, count, newsColor, isSelected, handleSelectedStoryClick } = props;
     // All dependencies are explicit in props
 };</code></pre>
-            </div></p><p><strong>Context for:</strong></p><p><ul><li>✅ <strong>User Permissions</strong>: <code>accessLevel</code> needed across many components</li><li>✅ <strong>Layout State</strong>: <code>expandedView</code> affects rendering throughout app</li></ul></p><p><strong>Prop Drilling for:</strong></p><p><ul><li>✅ <strong>Story Data</strong>: Specific story objects passed to story components</li><li>✅ <strong>Event Handlers</strong>: Click handlers and callbacks remain explicit</li><li>✅ <strong>Component State</strong>: Local selections and UI state</li><li>✅ <strong>Performance Critical Paths</strong>: Avoiding context re-renders for frequently changing data</li></ul></p><p><strong>Benefits of Hybrid Approach</strong>:</p><p><ul><li>🎯 <strong>Performance</strong>: Context only for stable, global state</li><li>🔍 <strong>Debugging</strong>: Explicit props make data flow traceable</li><li>🧪 <strong>Testing</strong>: Easy to test components with explicit dependencies</li><li>📚 <strong>Maintainability</strong>: Clear separation between global and local concerns</li><li>🔄 <strong>Predictable Updates</strong>: Context updates only trigger necessary re-renders</li></ul></p><h4 id="demo-state-system-localstorage-backed-interactivity">🎭 Demo State System - LocalStorage-Backed Interactivity</h4><div class="info-box"></p><p>Uses localStorage to simulate Follow, Connect, Bookmark, and Like buttons without needing a real backend. This isnt intended to be a final solution just a placeholder.</p><p></div><p><strong>DemoStateContext Architecture</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>Context for:</strong></p><p><ul><li>✅ <strong>User Permissions</strong>: <code>accessLevel</code> needed across many components</li><li>✅ <strong>Layout State</strong>: <code>expandedView</code> affects rendering throughout app</li></ul></p><p><strong>Prop Drilling for:</strong></p><p><ul><li>✅ <strong>Story Data</strong>: Specific story objects passed to story components</li><li>✅ <strong>Event Handlers</strong>: Click handlers and callbacks remain explicit</li><li>✅ <strong>Component State</strong>: Local selections and UI state</li><li>✅ <strong>Performance Critical Paths</strong>: Avoiding context re-renders for frequently changing data</li></ul></p><p><strong>Benefits of Hybrid Approach</strong>:</p><p><ul><li>🎯 <strong>Performance</strong>: Context only for stable, global state</li><li>🔍 <strong>Debugging</strong>: Explicit props make data flow traceable</li><li>🧪 <strong>Testing</strong>: Easy to test components with explicit dependencies</li><li>📚 <strong>Maintainability</strong>: Clear separation between global and local concerns</li><li>🔄 <strong>Predictable Updates</strong>: Context updates only trigger necessary re-renders</li></ul></p><h4 id="demo-state-system-localstorage-backed-interactivity">🎭 Demo State System - LocalStorage-Backed Interactivity</h4><div class="info-box"></p><p>Uses localStorage to simulate Follow, Connect, Bookmark, and Like buttons without needing a real backend. This isnt intended to be a final solution just a placeholder. I built this in about an hour to make the demo feel interactive - originally it was just going to track "follows" but then I realized I could use the same pattern for bookmarks, likes, and connections. It's been surprisingly useful for showcasing the UI to stakeholders without needing to spin up a full backend. The state persists between sessions which makes demos feel more "real" even though it's all client-side.</p><p></div><p><strong>DemoStateContext Architecture</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
@@ -2585,39 +2554,130 @@ const { data: topStories } = await fetchTopStories();
 ├── topStories.ts          # Main story data with nested perspectives and articles
 ├── contacts.ts            # Suggested contacts with expertise and relevance
 └── mockDataGenerator.ts   # (Optional) Utility to generate additional mock data</code></pre>
-            </div></p><p><strong>Advantages for Development</strong>:</p><p><ul><li>🚀 <strong>Immediate Development</strong>: No waiting for backend APIs to be ready</li><li>🧪 <strong>Predictable Testing</strong>: Consistent data enables reliable UI testing</li><li>🎨 <strong>Design Iteration</strong>: Quickly test different data scenarios</li><li>📱 <strong>Offline Development</strong>: Full functionality without network connectivity</li><li>🔄 <strong>Rapid Prototyping</strong>: Add new fields to mock data before API changes</li><li>🎯 <strong>Production Parity</strong>: When APIs are ready, minimal code changes required</li></ul></p><p>This approach enabled rapid UI development and comprehensive testing while maintaining a clear path to production integration. The mock data is a temporary scaffold, not a permanent solution.</p><h3 id="component-patterns">Component Patterns</h3><div class="info-box"></p><p>Optimization patterns verified in the Lumina codebase that enhance performance and user experience through coordinated animations and efficient calculations.</p><p></div><p><strong>LuminaGenderChart.tsx - Interactive demographic display</strong>:</p><p><div class="code-block">
+            </div></p><p><strong>Advantages for Development</strong>:</p><p><ul><li>🚀 <strong>Immediate Development</strong>: No waiting for backend APIs to be ready</li><li>🧪 <strong>Predictable Testing</strong>: Consistent data enables reliable UI testing</li><li>🎨 <strong>Design Iteration</strong>: Quickly test different data scenarios</li><li>📱 <strong>Offline Development</strong>: Full functionality without network connectivity</li><li>🔄 <strong>Rapid Prototyping</strong>: Add new fields to mock data before API changes</li><li>🎯 <strong>Production Parity</strong>: When APIs are ready, minimal code changes required</li></ul></p><p>This approach enabled rapid UI development and comprehensive testing while maintaining a clear path to production integration. The mock data is a temporary scaffold, not a permanent solution.</p><h4 id="ui-configuration-system-feature-management">⚙️ UI Configuration System - Feature Management</h4><div class="info-box"></p><p>I created this basic config.ts file to serve as a centralized UI controller that manages feature availability, navigation panels, and user access levels without code changes. I used this to mimic real user permissions and feature access potentially to be hooked up to real config later.</p><p>Me and Kyle spoke about allowing users with lower level accounts to see limited Lumina functionality and data so this was a way for me to test this out</p><p>This configuration-driven approach enables rapid feature management and provides a clear migration path from static config to dynamic API-driven feature flags in production. </p><p>The config is accessed via a react context provider so when updated will re-render all components. </p><p></div><p><strong>Configuration Architecture</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
-                <pre class="code-content"><code class="language-typescript">// Actual component interface from GenderChart.tsx
-export interface LuminaGenderChartProps {
-    genderBreakdown?: GenderBreakdown[];
-    malePercentage?: number;
-    femalePercentage?: number;
-    orientation?: &#039;horizontal&#039; | &#039;vertical&#039;;
-    animated?: boolean;
-    showValues?: boolean;
-    className?: string;
-}
+                <pre class="code-content"><code class="language-typescript">// Config/config.ts - Centralized feature management
+import { IconSymbol } from &quot;@luminaEnums/enums&quot;;
+import { LuminaPanelContent } from &quot;@luminaEnums/enums&quot;;
+import { LuminaAccessUserLevel } from &quot;@luminaEnums/enums&quot;;   
 
-// Real usage examples from the codebase
-&lt;LuminaGenderChart 
-    genderBreakdown={story.genderBreakdown}
-    malePercentage={story.demographicMalePercentage}
-    femalePercentage={story.demographicFemalePercentage}
-    orientation=&quot;horizontal&quot;
-    animated={true}
-    showValues={true}
-/&gt;
+export const luminaSettingsConfig = [
+    {
+        moduleName: &quot;Summary&quot;,
+        description: &quot;Launch pad with key stats &amp; insights&quot;,
+        content: LuminaPanelContent.Summary,
+        key: &quot;summary&quot;,
+        enabled: false,                           // Toggle feature on/off
+        userAccess: LuminaAccessUserLevel.Basic,  // Minimum access required
+        icon: &quot;Summary&quot; as IconSymbol
+    },
+    {
+        moduleName: &quot;Stories&quot;,
+        description: &quot;Your key stories and perspectives&quot;,
+        content: LuminaPanelContent.Stories,
+        key: &quot;showStories&quot;,
+        enabled: true,
+        userAccess: LuminaAccessUserLevel.Full,
+        icon: &quot;Stories&quot; as IconSymbol
+    },
+    {
+        moduleName: &quot;Daily Digest&quot;,
+        description: &quot;Get a summary of daily activities&quot;,
+        content: LuminaPanelContent.DailyDigest,
+        key: &quot;enableDailyDigest&quot;,
+        enabled: false,
+        userAccess: LuminaAccessUserLevel.Basic,
+        icon: &quot;Digest&quot; as IconSymbol
+    },
+    {
+        moduleName: &quot;Ask Lumina&quot;,
+        description: &quot;Get answers to your questions&quot;,
+        content: LuminaPanelContent.AskLumina,
+        key: &quot;askLuminaAvailable&quot;,
+        enabled: true,
+        userAccess: LuminaAccessUserLevel.Full,
+        icon: &quot;Chat&quot; as IconSymbol
+    },
+    {
+        moduleName: &quot;Contacts&quot;,
+        description: &quot;Suggested expert contacts&quot;,
+        content: LuminaPanelContent.SuggestedContacts,
+        key: &quot;suggestedContacts&quot;,
+        enabled: true,
+        userAccess: LuminaAccessUserLevel.Full,
+        icon: &quot;Experts&quot; as IconSymbol
+    },
+];</code></pre>
+            </div></p><p><strong>Configuration Usage - Dynamic Feature Control</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// LuminaMenuContext.tsx - Config integration
+import { luminaSettingsConfig } from &#039;@luminaConfig/config&#039;;
 
-// From ContactsView.tsx
-&lt;LuminaGenderChart 
-    genderBreakdown={contact.genderBreakdown}
-    orientation=&quot;horizontal&quot;
-    animated={true}
-    showValues={true}
-/&gt;</code></pre>
-            </div></p><h4 id="css-based-animation-coordination">🎬 CSS-Based Animation Coordination</h4><p><strong>PerspectiveList.tsx - Real animation implementation</strong>:</p><p><div class="code-block">
+const getFeatureStatus = (key: string) =&gt; {
+    const feature = luminaSettingsConfig.find(config =&gt; config.key === key);
+    if (!feature) return { enabled: false };
+    
+    return {
+        enabled: feature.enabled,
+        userAccess: feature.userAccess
+    };
+};
+
+const getFeatureAccessLevel = (key: string): LuminaAccessUserLevel =&gt; {
+    const feature = luminaSettingsConfig.find(config =&gt; config.key === key);
+    return feature?.userAccess || LuminaAccessUserLevel.None;
+};
+
+// Component usage - Conditional rendering based on config
+const { getFeatureStatus } = useLuminaMenu();
+const { enabled: showStories } = getFeatureStatus(&#039;showStories&#039;);
+
+{showStories &amp;&amp; &lt;LuminaStoriesPanel /&gt;}</code></pre>
+            </div></p><p><strong>Navigation Menu Generation</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// LuminaMenuV2.tsx - Dynamic menu from config
+import { luminaSettingsConfig } from &#039;@luminaConfig/config&#039;;
+
+const menuItems = luminaSettingsConfig
+    .filter(config =&gt; config.enabled)  // Only show enabled features
+    .map(config =&gt; ({
+        label: config.moduleName,
+        description: config.description,
+        icon: config.icon,
+        panel: config.content,
+        onClick: () =&gt; setLuminaPanelContent(config.content)
+    }));
+
+// Renders menu items dynamically
+{menuItems.map(item =&gt; (
+    &lt;LuminaMenuItem
+        key={item.panel}
+        icon={item.icon}
+        label={item.label}
+        description={item.description}
+        onClick={item.onClick}
+        isActive={luminaPanelContent === item.panel}
+    /&gt;
+))}</code></pre>
+            </div></p><p><strong>Configuration Benefits</strong>:</p><p><ul><li>🎛️ <strong>Centralized Control</strong>: Single file manages all feature availability</li><li>🔐 <strong>Access Management</strong>: Granular user level controls per feature</li><li>🚀 <strong>Fast Iteration</strong>: Enable/disable features without code changes</li><li>🧪 <strong>Testing Flexibility</strong>: Easily test different feature combinations</li><li>📱 <strong>Dynamic Menus</strong>: Navigation automatically adapts to enabled features</li><li>🎯 <strong>Production Ready</strong>: Configuration can be moved to backend API responses</li><li>🔄 <strong>Scalability</strong>: Add new features by adding config objects</li></ul></p><p><strong>Configuration to API Migration</strong>:</p><p><div class="code-block">
+                <div class="code-header">
+                    <span class="code-language">typescript</span>
+                </div>
+                <pre class="code-content"><code class="language-typescript">// CURRENT: Static configuration file
+import { luminaSettingsConfig } from &#039;@luminaConfig/config&#039;;
+
+// FUTURE: Dynamic configuration from API
+const { data: luminaSettingsConfig } = await fetchUserFeatures(userId);
+
+// Component code remains unchanged - same interface
+const { enabled } = getFeatureStatus(&#039;showStories&#039;);</code></pre>
+            </div></p><p><strong>Configuration Pattern Use Cases</strong>:</p><p><ul><li>🎛️ <strong>Feature Flags</strong>: A/B testing and gradual rollouts</li><li>👥 <strong>User Tiers</strong>: Different features for Basic vs Full access levels</li><li>🧪 <strong>Development</strong>: Quickly enable/disable WIP features</li><li>📊 <strong>Analytics</strong>: Track which features are most used</li><li>🔧 <strong>Maintenance</strong>: Disable features without deployment</li></ul><h3 id="component-patterns">Component Patterns</h3><div class="info-box"></p></p><p>Optimization patterns verified in the Lumina codebase that enhance performance and user experience through coordinated animations and efficient calculations.</p><p></div><h4 id="css-based-animation-coordination">🎬 CSS-Based Animation Coordination</h4><p><strong>PerspectiveList.tsx - Real animation implementation</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
@@ -2658,7 +2718,7 @@ useEffect(() =&gt; {
     0% { width: 0%; }
     100% { width: var(--target-width); }
 }</code></pre>
-            </div></p><p><strong>Component Benefits</strong>:</p><p><ul><li>🤯 <strong>State Coordination</strong>: React state triggers CSS animation sequences</li><li>📊 <strong>Dynamic Calculations</strong>: Real-time article share computation with sorting</li><li>📝 <strong>Smart Truncation</strong>: Context-aware text limiting for UI consistency</li><li>🔄 <strong>Animation Timing</strong>: CSS variables enable coordinated staggered effects</li></ul></p><h4 id="article-share-calculations">📊 Article Share Calculations</h4><p><strong>From PerspectiveList.tsx - implementation</strong>:</p><p><div class="code-block">
+            </div></p><h4 id="article-share-calculations">📊 Article Share Calculations</h4><p><strong>From PerspectiveList.tsx - implementation</strong>:</p><p><div class="code-block">
                 <div class="code-header">
                     <span class="code-language">typescript</span>
                 </div>
@@ -2765,49 +2825,7 @@ export interface StoryVelocity {
     peakDay?: number;               // Day index when story peaked (0-6)
     isRising: boolean;              // Whether trend is upward
 }</code></pre>
-            </div></p><p><ul><li>🔄 <code>TOGGLE_LUMINA_MENU</code> - Navigation → MCD (open/close request)</li><li>🔄 <code>LUMINA_MENU_STATE_CHANGED</code> - MCD → Navigation (state synchronization)</li></ul></p><h2 id="v-implementation-evaluation">V. Implementation & Evaluation</h2><h3 id="architectural-benefits">Architectural Benefits</h3><h4 id="maintainability-developer-experience">🔧 Maintainability & Developer Experience</h4><p><ul><li>1️⃣ <strong>Single Source of Truth</strong>: All Lumina components grouped in Lumina folder</li><li>🚧 <strong>Clear Boundaries</strong>: UI Components are separated from standard MCD elements and intentionally designed with a distinct look and feel</li><li>🏷️ <strong>Clear Namespacings</strong>: All Lumina components are namespaced to ensure easy access and straightforward understanding</li><li>👑 <strong>Clear Ownership</strong>: Developers know where to make changes</li><li>🎓 <strong>Onboarding</strong>: New developers can understand the flow quickly</li></ul></p><h3 id="comparative-analysis">Comparative Analysis</h3><div class="info-box"></p><p>Analysis demonstrating how Lumina's architectural approach addresses design and maintainability issues present in the existing MCD implementation/app.</p><p></div><h4 id="current-mcd-implementation-analysis-apps-mcd-src-sidecontainers">Current MCD Implementation Analysis (apps/mcd/src/SideContainers)</h4><h5 id="1-naming-convention">1. Naming Convention </h5><p><div class="code-block">
-                <div class="code-header">
-                    <span class="code-language">plaintext</span>
-                </div>
-                <pre class="code-content"><code class="language-plaintext">MonitoringStories/
-├── MonitoringStories.tsx
-├── MonitoringStoriesStoryTab.tsx
-├── MonitoringStoriesPreview.tsx
-└── MonitoringStoriesPreviewPerspective.tsx</code></pre>
-            </div></p><p><strong>Issues</strong>:</p><p><ul><li>🔗 <strong>Tightly Coupled Naming</strong>: Everything prefixed with "Monitoring" limits reusability</li><li>🔒 <strong>Domain Lock-in</strong>: Naming tied to monitoring</li><li>📝 <strong>Verbose Naming</strong>: <code>MonitoringStoriesPreviewPerspective</code> is unnecessarily long</li></ul></p><h5 id="2-mixed-componentization-strategy-inline-style-usage">2. Mixed Componentization Strategy & Inline Style Usage</h5><p><div class="code-block">
-                <div class="code-header">
-                    <span class="code-language">tsx</span>
-                </div>
-                <pre class="code-content"><code class="language-tsx">// Some inline styling instead of reusable components
-&lt;div style={{
-    padding: &#039;4px 12px&#039;,
-    border: &#039;1px solid #e5e7eb&#039;,
-    borderRadius: &#039;16px&#039;,
-    fontSize: &#039;13px&#039;,
-    color: &#039;#6b7280&#039;
-}}&gt;
-    {tagGroupName}
-&lt;/div&gt;</code></pre>
-            </div></p><p><strong>Problems</strong>:</p><p><ul><li>⚠️ <strong>Inline Styles</strong>: Should only be used for dynamic themeing where neccesary</li><li>🔗 <strong>Tightly Coupled to MCD SCSS</strong>: Creates more complexity and harder to maintain visual seperation</li></ul></p><h4 id="my-approach">✨ My Approach</h4><h5 id="1-domain-agnostic-naming">1. <strong>Domain-Agnostic Naming</strong></h5><p><div class="code-block">
-                <div class="code-header">
-                    <span class="code-language">typescript</span>
-                </div>
-                <pre class="code-content"><code class="language-typescript">// Reusable across contexts
-LuminaStoryList
-LuminaPerspective  
-LuminaNewsArticle
-LuminaMetaTag</code></pre>
-            </div></p><p><strong>Benefits</strong>:</p><p><ul><li>🔄 <strong>Reusability</strong>: Components work in different places where we want to represent AI</li><li>🏷️ <strong>Clear Identity</strong>: Lumina prefix provides clear ownership</li><li>🎯 <strong>Purpose-Driven</strong>: Names describe function, not specific use case</li></ul></p><h5 id="3-theme-aware-styling">3. Theme-Aware Styling</h5><p><div class="code-block">
-                <div class="code-header">
-                    <span class="code-language">scss</span>
-                </div>
-                <pre class="code-content"><code class="language-scss">.lumina-story-card {
-    background-color: var(--lumina-bg-primary);
-    border: 1px solid var(--lumina-border);
-    color: var(--lumina-text-primary);
-    font-family: var(--lumina-font-family);
-}</code></pre>
-            </div></p><p><strong>Improved Features</strong>:</p><p><ul><li>🌙 <strong>Theme Support</strong>: Automatic dark/light mode switching</li><li>🎨 <strong>Design Consistency</strong>: Unified color palette across AI components</li><li>🔧 <strong>Easy Customization</strong>: Change themes without touching component code</li><li>📱 <strong>Responsive Design</strong>: Variables adapt to different screen contexts</li></ul></p><div class="intro-section" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 2rem; border-radius: 12px; border-left: 4px solid #3b82f6; margin: 2rem 0; font-size: 1.1em;"></p><h4 id="summary">🎯 Summary</h4><p>This document describes my <strong>systematic design decisions</strong> and how they were intended as a carefully considered collection of components in a  <strong>reusable, maintainable, and scalable system</strong> for future AI development across the entire MCD ecosystem. I focused on creating an approach that sets clear ownership boundaries, and excellent developer experience.</p><ul><li>🏗️ <strong>Separation of Concerns</strong>: Separate from MCD styles</li><li>🔄 <strong>Composition Over Configuration</strong>: Build complex UIs from simple, reusable parts</li><li>🎨 <strong>Design System Thinking</strong>: Consistent patterns</li><li>🎨 <strong>New AI Design System</strong>: Unified styling approach</li><li>🌙 <strong>Future-Proofing</strong>: Theme system ready for evolving design requirements</li><li>📚 <strong>Developer Experience</strong>: Clear naming and component boundaries reduce cognitive load</li><li>✅ <strong>Consistent Behavior</strong>: Same interaction patterns everywhere</li></ul><p></div>
+            </div></p><p><ul><li>🔄 <code>TOGGLE_LUMINA_MENU</code> - Navigation → MCD (open/close request)</li><li>🔄 <code>LUMINA_MENU_STATE_CHANGED</code> - MCD → Navigation (state synchronization)</li></ul></p><h2 id="v-summary">V. Summary</h2><div class="intro-section" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 2rem; border-radius: 12px; border-left: 4px solid #3b82f6; margin: 2rem 0; font-size: 1.1em;"></p><p>This architecture establishes a <strong>reusable, maintainable, and scalable system</strong> for AI development across the MCD ecosystem, focusing on clear boundaries and excellent developer experience.</p><ul><li>🏗️ <strong>Clear Boundaries</strong>: Lumina components are separated from MCD with distinct styling and organized in dedicated folders</li><li>👑 <strong>Clear Ownership</strong>: Developers know exactly where to make changes</li><li>🎓 <strong>Easy Onboarding</strong>: New developers can understand the architecture quickly</li><li>🔄 <strong>Composition Over Configuration</strong>: Build complex UIs from simple, reusable parts</li><li>🔄 <strong>Reusability</strong>: Components work in different places where we want to represent AI</li><li>🎯 <strong>Purpose-Driven</strong>: Component names describe function, not specific use case</li><li>� <strong>Consistent Design System</strong>: Unified AI-focused styling and patterns throughout</li><li>📱 <strong>Responsive Design</strong>: Uses JS event listeners and css breakpoints to optimise the UI</li><li>🌙 <strong>Future-Proofing</strong>: Theme system ready for evolving requirements including dark/light mode switching</li><li>✅ <strong>Predictable Behavior</strong>: Same interaction patterns everywhere</li></ul><p></div>
     </main>
 
     <!-- Document Footer -->
