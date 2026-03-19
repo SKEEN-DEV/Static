@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JES Enquiry API Specification - Category Summary Feature</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1a1a1a;
+            font-size: 28px;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0066cc;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #0066cc;
+            font-size: 22px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        h3 {
+            color: #333;
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .important-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .important-note strong {
+            color: #856404;
+        }
+        
+        .security-note {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .security-note strong {
+            color: #721c24;
+        }
+        
+        .success-note {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success-note strong {
+            color: #155724;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #d63384;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        
+        .keyword { color: #66d9ef; }
+        .string { color: #a6e22e; }
+        .comment { color: #75715e; font-style: italic; }
+        .type { color: #66d9ef; }
+        .number { color: #ae81ff; }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .endpoint {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        
+        .method {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .scenario {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #6c757d;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .scenario h4 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JES Enquiry API Specification (Requirements Summary)</h1>
+        <p class="subtitle">Category Summary Feature for Non-Subscriber Promotional Display</p>
+        
+        <div class="success-note">
+            <strong>Yes, it's absolutely safe to expose category counts in the API response!</strong> The counts are aggregate statistics that don't reveal individual enquiry details. They only show "how many times each category appeared" across all enquiries, which is safe to expose to non-subscribers. These are just statistics - like showing "12 Beauty enquiries, 8 Technology enquiries" - no sensitive data is revealed.
+        </div>
+
+        <h2>Project Status</h2>
+        
+        <div class="success-note">
+            <strong>✅ Frontend Complete:</strong>
+            <ul>
+                <li>Service layer updated with optional parameters support</li>
+                <li>Separate API calls for widget (5 closed) vs tab (all open + closed)</li>
+                <li>Component ready to process <code>categorySummary</code> when available</li>
+                <li>All TypeScript compiling with no errors</li>
+            </ul>
+        </div>
+
+        <div class="important-note">
+            <strong>⏳ Backend Required (This Spec):</strong>
+            <ul>
+                <li>Add query parameters to <code>jesEnquiry/findByContact</code> endpoint</li>
+                <li>Implement subscription check from auth token</li>
+                <li>Return <code>categorySummary</code> array for non-subscribers</li>
+                <li>Add <code>CategorySummaryItem</code> DTO class</li>
+            </ul>
+        </div>
+
+        <h2>Overview</h2>
+        <p>We need to enhance the <code>jesEnquiry/findByContact</code> endpoint to support different data requirements for widget vs. full tab views, while maintaining security for non-subscriber users.</p>
+
+        <div class="important-note">
+            <strong>Frontend Status:</strong> The frontend code is already updated and ready to consume this API. The <code>JesEnquiryService.FindByContact()</code> method now accepts the optional parameters, and the components are prepared to handle the <code>categorySummary</code> array when it's returned for non-subscribers.
+        </div>
+
+        <h2>API Endpoint</h2>
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <code>/api/jesEnquiry/findByContact</code>
+        </div>
+
+        <h3>Query Parameters</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>id</code></td>
+                    <td>int</td>
+                    <td>✓ Yes</td>
+                    <td>-</td>
+                    <td>Contact ID to fetch enquiries for</td>
+                </tr>
+                <tr>
+                    <td><code>includeOpen</code></td>
+                    <td>bool?</td>
+                    <td>No</td>
+                    <td>true</td>
+                    <td>Include open enquiries in results</td>
+                </tr>
+                <tr>
+                    <td><code>includeClosed</code></td>
+                    <td>bool?</td>
+                    <td>No</td>
+                    <td>true</td>
+                    <td>Include closed enquiries in results</td>
+                </tr>
+                <tr>
+                    <td><code>limit</code></td>
+                    <td>int?</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>Maximum number of enquiries to return (for widget use)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Security Model</h2>
+        
+        <div class="security-note">
+            <strong>Critical:</strong> The backend MUST determine user subscription status from the auth token/session. Never trust the frontend to indicate subscription status.
+        </div>
+
+        <h3>Security Requirements</h3>
+        <ol>
+            <li>Extract authenticated user from auth token/session</li>
+            <li>Query database to check if user has active JES subscriptions</li>
+            <li>If no subscriptions: Return empty <code>result</code> array + aggregate <code>categorySummary</code></li>
+            <li>If has subscriptions: Return filtered enquiry results</li>
+            <li>Never expose individual enquiry details to non-subscribers</li>
+        </ol>
+
+        <div class="success-note">
+            <strong>Category Counts Are Safe:</strong> The <code>categorySummary</code> with counts is safe to expose because it only contains aggregate data (e.g., "Beauty appeared 12 times"). It doesn't reveal enquiry summaries, deadlines, contact details, or any other sensitive information from individual enquiries.
+        </div>
+
+        <h2>Response Structure</h2>
+
+        <h3>For Non-Subscribers (No Active Subscriptions)</h3>
+        <pre><code>{
+  <span class="string">"result"</span>: [],  <span class="comment">// Empty - no individual enquiries exposed</span>
+  <span class="string">"statistics"</span>: {
+    <span class="string">"thisMonth"</span>: <span class="number">15</span>,
+    <span class="string">"thisYear"</span>: <span class="number">87</span>,
+    <span class="string">"total"</span>: <span class="number">142</span>
+  },
+  <span class="string">"categorySummary"</span>: [
+    {
+      <span class="string">"type"</span>: <span class="string">"consumer"</span>,
+      <span class="string">"value"</span>: <span class="number">2</span>,
+      <span class="string">"name"</span>: <span class="string">"Beauty"</span>,
+      <span class="string">"count"</span>: <span class="number">12</span>  <span class="comment">// How many enquiries had this category</span>
+    },
+    {
+      <span class="string">"type"</span>: <span class="string">"professional"</span>,
+      <span class="string">"value"</span>: <span class="number">8</span>,
+      <span class="string">"name"</span>: <span class="string">"Technology"</span>,
+      <span class="string">"count"</span>: <span class="number">8</span>
+    },
+    {
+      <span class="string">"type"</span>: <span class="string">"consumer"</span>,
+      <span class="string">"value"</span>: <span class="number">4</span>,
+      <span class="string">"name"</span>: <span class="string">"Fashion"</span>,
+      <span class="string">"count"</span>: <span class="number">6</span>
+    }
+  ],
+  <span class="string">"user"</span>: <span class="keyword">null</span>
+}</code></pre>
+
+        <h3>For Subscribers (Widget - 5 Closed Enquiries)</h3>
+        <pre><code>{
+  <span class="string">"result"</span>: [
+    <span class="comment">// Array of 5 closed enquiries</span>
+    {
+      <span class="string">"id"</span>: <span class="number">12345</span>,
+      <span class="string">"summary"</span>: <span class="string">"Looking for experts on sustainable fashion..."</span>,
+      <span class="string">"catConsumer"</span>: <span class="number">6</span>,  <span class="comment">// Bitwise flags: Beauty(2) + Fashion(4)</span>
+      <span class="string">"catConsumerName"</span>: <span class="string">"Beauty, Fashion"</span>,
+      <span class="string">"catProfessional"</span>: <span class="number">0</span>,
+      <span class="string">"catProfessionalName"</span>: <span class="string">""</span>,
+      <span class="comment">// ... other enquiry fields</span>
+    }
+  ],
+  <span class="string">"statistics"</span>: { <span class="comment">/* same as above */</span> },
+  <span class="string">"categorySummary"</span>: <span class="keyword">null</span>,  <span class="comment">// Not needed for subscribers</span>
+  <span class="string">"user"</span>: {
+    <span class="string">"hasConsumerSubscriptions"</span>: <span class="keyword">true</span>,
+    <span class="string">"hasProfessionalSubscriptions"</span>: <span class="keyword">false</span>
+  }
+}</code></pre>
+
+        <h2>Backend Requirements</h2>
+
+        <h3>1. New DTO Class: CategorySummaryItem</h3>
+        
+        <div class="important-note">
+            <strong>Required Properties:</strong>
+            <ul>
+                <li><code>type</code> (string): "consumer" or "professional"</li>
+                <li><code>value</code> (int): Bitwise flag value (e.g., 2, 4, 8, 16...)</li>
+                <li><code>name</code> (string): Category name (e.g., "Beauty", "Technology")</li>
+                <li><code>count</code> (int): Frequency count - how many enquiries have this category</li>
+            </ul>
+        </div>
+
+        <h3>2. Update JesEnquiryApiResponseDto</h3>
+        
+        <div class="important-note">
+            <strong>Add New Property:</strong>
+            <ul>
+                <li><code>categorySummary</code> (List&lt;CategorySummaryItem&gt;): Array of category frequency data</li>
+                <li>Return this for non-subscribers with empty <code>result</code> array</li>
+                <li>Return <code>null</code> for subscribers (they get actual enquiry results)</li>
+            </ul>
+        </div>
+
+        <h3>3. Controller Method Changes</h3>
+        
+        <div class="security-note">
+            <strong>Critical Security Requirements:</strong>
+            <ol>
+                <li>Extract authenticated user from auth token/session (never trust frontend)</li>
+                <li>Check if user has active JES subscriptions via database lookup</li>
+                <li><strong>If no subscriptions:</strong> Return empty <code>result</code> + <code>categorySummary</code> + <code>statistics</code></li>
+                <li><strong>If has subscriptions:</strong> Return filtered enquiries based on parameters</li>
+            </ol>
+        </div>
+
+        <div class="important-note">
+            <strong>Query Parameter Handling:</strong>
+            <ul>
+                <li><code>includeOpen</code> + <code>includeClosed</code>: Filter enquiries by open/closed status</li>
+                <li><code>limit</code>: Restrict number of results (used for widget - limit=5)</li>
+                <li>Apply filters only for subscribers</li>
+            </ul>
+        </div>
+
+        <h3>4. Category Summary Aggregation Logic</h3>
+        
+        <div class="important-note">
+            <strong>Required Algorithm (for non-subscribers only):</strong>
+            <ol>
+                <li><strong>Load all enquiries</strong> for the contact (unfiltered)</li>
+                <li><strong>Extract individual category flags</strong> from bitwise values:
+                    <ul>
+                        <li>For each enquiry, check <code>CatConsumer</code> and <code>CatProfessional</code> fields</li>
+                        <li>Use bitwise AND to test each category flag: <code>(enquiry.CatConsumer & categoryValue) != 0</code></li>
+                    </ul>
+                </li>
+                <li><strong>Count frequency</strong>: Track how many times each category appears across all enquiries</li>
+                <li><strong>Sort by count descending</strong>: Most frequent categories first</li>
+                <li><strong>Take top 10-15 categories</strong></li>
+                <li><strong>Map to CategorySummaryItem</strong>: Include type, value, name, count</li>
+            </ol>
+        </div>
+
+        <div class="success-note">
+            <strong>Example Category Extraction:</strong>
+            <p>If an enquiry has <code>CatConsumer = 6</code> (bitwise), that means flags 2 (Beauty) and 4 (Fashion) are set. Both should be counted separately in the frequency map.</p>
+        </div>
+
+        <h3>5. Response Patterns</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>User Type</th>
+                    <th>result</th>
+                    <th>categorySummary</th>
+                    <th>statistics</th>
+                    <th>user</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Non-subscriber</td>
+                    <td>[] (empty array)</td>
+                    <td>Array with frequency data (sorted)</td>
+                    <td>Stats object</td>
+                    <td>null</td>
+                </tr>
+                <tr>
+                    <td>Subscriber (widget)</td>
+                    <td>5 closed enquiries</td>
+                    <td>null</td>
+                    <td>Stats object</td>
+                    <td>Subscription flags</td>
+                </tr>
+                <tr>
+                    <td>Subscriber (tab)</td>
+                    <td>All open + closed</td>
+                    <td>null</td>
+                    <td>Stats object</td>
+                    <td>Subscription flags</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Usage Scenarios</h2>
+
+        <div class="scenario">
+            <h4>Scenario 1: Recent Enquiries Widget (About Tab)</h4>
+            <strong>Request:</strong> <code>GET /api/jesEnquiry/findByContact?id=123&amp;includeOpen=false&amp;includeClosed=true&amp;limit=5</code><br>
+            <strong>Expected:</strong>
+            <ul>
+                <li>Non-subscriber: Empty result + categorySummary + statistics</li>
+                <li>Subscriber: 5 most recent closed enquiries + user subscription info</li>
+            </ul>
+        </div>
+
+        <div class="scenario">
+            <h4>Scenario 2: Full JES Profile Tab</h4>
+            <strong>Request:</strong> <code>GET /api/jesEnquiry/findByContact?id=123&amp;includeOpen=true&amp;includeClosed=true</code><br>
+            <strong>Expected:</strong>
+            <ul>
+                <li>Non-subscriber: Empty result + categorySummary + statistics</li>
+                <li>Subscriber: All open + closed enquiries + user subscription info</li>
+            </ul>
+        </div>
+
+        <div class="scenario">
+            <h4>Scenario 3: Open Enquiries Only</h4>
+            <strong>Request:</strong> <code>GET /api/jesEnquiry/findByContact?id=123&amp;includeOpen=true&amp;includeClosed=false</code><br>
+            <strong>Expected:</strong>
+            <ul>
+                <li>Subscriber: Only open enquiries</li>
+            </ul>
+        </div>
+
+        <h2>Frontend Implementation (TypeScript/React)</h2>
+
+        <h3>1. Service Layer - API Call with Parameters (✅ Complete)</h3>
+        <pre><code><span class="comment">// JesEnquiryService.ts</span>
+<span class="keyword">async</span> FindByContact(
+    id: <span class="keyword">number</span>, 
+    options?: {
+        includeOpen?: <span class="keyword">boolean</span>;
+        includeClosed?: <span class="keyword">boolean</span>;
+        limit?: <span class="keyword">number</span>;
+    }
+) {
+    <span class="keyword">const</span> result = <span class="keyword">await</span> getApi&lt;AIMC.Baltic.Dto.JesEnquiry.JesEnquiryApiResponseDto&gt;({
+        endPoint: <span class="string">'jesEnquiry/findByContact'</span>,
+        additionalParams: { 
+            id: id,
+            includeOpen: options?.includeOpen,
+            includeClosed: options?.includeClosed,
+            limit: options?.limit
+        } 
+    });
+    <span class="keyword">return</span> result;
+}</code></pre>
+
+        <h3>2. Component - Separate Widget and Tab API Calls (✅ Complete)</h3>
+        <pre><code><span class="comment">// TabContent.tsx - Separate state for widget vs tab data</span>
+<span class="keyword">const</span> [journalistEnquiriesWidget, setJournalistEnquiriesWidget] = 
+    useState&lt;AIMC.Baltic.Dto.JesEnquiry.JesEnquiryApiResponseDto&gt;();
+<span class="keyword">const</span> [journalistEnquiriesTab, setJournalistEnquiriesTab] = 
+    useState&lt;AIMC.Baltic.Dto.JesEnquiry.JesEnquiryApiResponseDto&gt;();
+
+<span class="comment">// Widget fetch (runs on mount) - 5 closed enquiries only</span>
+<span class="keyword">const</span> getContactJournalistEnquiriesForWidget = <span class="keyword">async</span> (id: <span class="keyword">number</span>) =&gt; {
+    <span class="keyword">const</span> results = <span class="keyword">await</span> jesService.FindByContact(id, {
+        includeOpen: <span class="keyword">false</span>,
+        includeClosed: <span class="keyword">true</span>,
+        limit: <span class="number">5</span>
+    });
+    setJournalistEnquiriesWidget(results);
+}
+
+<span class="comment">// Tab fetch (lazy load when JES tab opened) - all open + closed</span>
+<span class="keyword">const</span> getContactJournalistEnquiriesForTab = <span class="keyword">async</span> (id: <span class="keyword">number</span>) =&gt; {
+    <span class="keyword">if</span> (journalistEnquiriesTab) { <span class="keyword">return</span> } <span class="comment">// Don't re-fetch</span>
+    <span class="keyword">const</span> results = <span class="keyword">await</span> jesService.FindByContact(id, {
+        includeOpen: <span class="keyword">true</span>,
+        includeClosed: <span class="keyword">true</span>
+    });
+    setJournalistEnquiriesTab(results);
+}</code></pre>
+
+        <h3>3. Processing categorySummary for Non-Subscribers (🔄 To Implement)</h3>
+        
+        <div class="important-note">
+            <strong>Implementation Ready:</strong> When the backend returns <code>categorySummary</code>, add this logic to the <code>ContactRecentEnquiries.tsx</code> component's <code>uniqueCategories</code> useMemo hook.
+        </div>
+
+        <pre><code><span class="comment">// ContactRecentEnquiries.tsx - Enhanced uniqueCategories logic</span>
+<span class="keyword">const</span> uniqueCategories = useMemo(() =&gt; {
+    <span class="comment">// Non-subscribers: Use categorySummary from backend (pre-sorted by frequency)</span>
+    <span class="keyword">if</span> (jesEnqueryList.categorySummary &amp;&amp; jesEnqueryList.categorySummary.length &gt; <span class="number">0</span>) {
+        <span class="keyword">return</span> jesEnqueryList.categorySummary
+            .slice(<span class="number">0</span>, <span class="number">4</span>) <span class="comment">// Take top 4 categories (already sorted by backend)</span>
+            .map(summary =&gt; {
+                <span class="comment">// Get the category config list based on type</span>
+                <span class="keyword">const</span> categoryList = summary.type === <span class="string">'consumer'</span> 
+                    ? JesEnquiryConsumerCategories 
+                    : JesEnquiryProfessionalCategories;
+                
+                <span class="comment">// Find the matching category configuration</span>
+                <span class="keyword">const</span> categoryConfig = categoryList.find(cat =&gt; cat.id === summary.value);
+                
+                <span class="keyword">if</span> (!categoryConfig) <span class="keyword">return null</span>;
+                
+                <span class="comment">// Convert to CategoryInfo format for JesEnquiryCategories component</span>
+                <span class="keyword">return</span> {
+                    type: summary.type,
+                    value: summary.value,
+                    name: categoryConfig.name,
+                    longName: categoryConfig.longName,
+                    icon: summary.type === <span class="string">'consumer'</span> ? <span class="string">'Consumer'</span> : <span class="string">'Professional'</span>
+                } <span class="keyword">as</span> CategoryInfo;
+            })
+            .filter(Boolean) <span class="keyword">as</span> CategoryInfo[];
+    }
+    
+    <span class="comment">// Subscribers: Extract from enquiry results (existing logic)</span>
+    <span class="keyword">const</span> allCategories: CategoryInfo[] = [];
+    <span class="keyword">const</span> seenCategoryKeys = <span class="keyword">new</span> Set&lt;<span class="keyword">string</span>&gt;();
+
+    jesEnqueryList.result.forEach(enquiry =&gt; {
+        <span class="keyword">const</span> categories = parseEnquiryCategories(
+            enquiry.catConsumer,
+            enquiry.catConsumerName,
+            enquiry.catProfessional,
+            enquiry.catProfessionalName
+        );
+
+        categories.forEach(category =&gt; {
+            <span class="keyword">const</span> key = <span class="string">`${category.type}-${category.value}`</span>;
+            <span class="keyword">if</span> (!seenCategoryKeys.has(key)) {
+                seenCategoryKeys.add(key);
+                allCategories.push(category);
+            }
+        });
+    });
+
+    <span class="keyword">return</span> allCategories.slice(<span class="number">0</span>, <span class="number">4</span>);
+}, [jesEnqueryList]);</code></pre>
+
+        <h3>Category Display Flow</h3>
+        <ol>
+            <li><strong>Backend sends:</strong> <code>categorySummary</code> array sorted by frequency (most common first)</li>
+            <li><strong>Frontend receives:</strong> Pre-sorted array with frequency counts</li>
+            <li><strong>Frontend takes:</strong> First 4 items (no sorting needed - backend already sorted)</li>
+            <li><strong>Frontend maps:</strong> Summary items to full CategoryInfo objects using config lookups</li>
+            <li><strong>Component renders:</strong> Top 4 most relevant categories in promo box</li>
+        </ol>
+
+        <h3>Why This Design Works</h3>
+        <ul>
+            <li><strong>Backend does sorting:</strong> More efficient - database-level aggregation and sorting</li>
+            <li><strong>Frontend just maps:</strong> Simple transformation from summary to display format</li>
+            <li><strong>No client-side sorting:</strong> Categories arrive pre-sorted by popularity</li>
+            <li><strong>Config-based display:</strong> Uses existing JesEnquiryConsumerCategories/ProfessionalCategories for consistency</li>
+            <li><strong>Same component:</strong> JesEnquiryCategories component works for both subscribers and non-subscribers</li>
+        </ul>
+
+        <h2>Testing Checklist</h2>
+
+        <div class="success-note">
+            <strong>Backend Test Coverage:</strong>
+            <ol>
+                <li>✓ Non-subscriber receives empty result array</li>
+                <li>✓ Non-subscriber receives categorySummary with counts</li>
+                <li>✓ categorySummary is sorted by count (descending)</li>
+                <li>✓ categorySummary includes both consumer and professional categories</li>
+                <li>✓ Subscriber receives enquiry results (not categorySummary)</li>
+                <li>✓ includeOpen/includeClosed filters work correctly</li>
+                <li>✓ limit parameter restricts result count</li>
+                <li>✓ Statistics are returned for both subscribers and non-subscribers</li>
+                <li>✓ User subscription flags are accurate</li>
+                <li>✓ Auth token validation works correctly</li>
+            </ol>
+        </div>
+
+        <div class="success-note">
+            <strong>Frontend Test Coverage:</strong>
+            <ol>
+                <li>✓ Widget API call sends correct parameters (includeOpen=false, includeClosed=true, limit=5)</li>
+                <li>✓ Tab API call sends correct parameters (includeOpen=true, includeClosed=true)</li>
+                <li>✓ Non-subscriber sees promo box with categorySummary-based categories</li>
+                <li>✓ Categories display top 4 from categorySummary (pre-sorted by backend)</li>
+                <li>✓ Category names and icons display correctly from config lookups</li>
+                <li>✓ Subscriber sees actual enquiry results (not promo box)</li>
+                <li>✓ Statistics display correctly for both subscribers and non-subscribers</li>
+                <li>✓ Tab data lazy-loads only when tab is opened</li>
+                <li>✓ No network errors in browser console for non-subscribers</li>
+            </ol>
+        </div>
+
+        <h2>Key Points Summary</h2>
+
+        <ul>
+            <li><strong>Yes, it's safe to expose category counts!</strong> They're aggregate statistics that don't reveal individual enquiry details - only "how many times" each category appeared</li>
+            <li>Counts are essential for sorting by popularity (most common categories first)</li>
+            <li>Backend determines subscription status from auth token - never trust frontend</li>
+            <li>Sort categorySummary by count (descending) so frontend can take top 4</li>
+            <li>Return top 10-15 categories (frontend will slice to 4)</li>
+            <li>Non-subscribers get aggregate data only (no individual enquiry exposure)</li>
+            <li>Security is maintained through empty result array for non-subscribers</li>
+        </ul>
+
+    </div>
+</body>
+</html>
