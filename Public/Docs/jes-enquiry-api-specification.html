@@ -211,7 +211,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>JES Enquiry API Specification (Requirements Summary)</h1>
+        <h1>JES Enquiry API Specification</h1>
         <p class="subtitle">Category Summary Feature for Non-Subscriber Promotional Display</p>
         
         <div class="success-note">
@@ -273,25 +273,18 @@
                     <td>Contact ID to fetch enquiries for</td>
                 </tr>
                 <tr>
-                    <td><code>includeEnquiries</code></td>
-                    <td>bool</td>
-                    <td>No</td>
-                    <td>false</td>
-                    <td>Frontend request to include enquiry details (subject to backend permission check)</td>
-                </tr>
-                <tr>
                     <td><code>includeOpen</code></td>
                     <td>bool?</td>
                     <td>No</td>
                     <td>true</td>
-                    <td>Include open enquiries in results (only applied if user has access)</td>
+                    <td>Include open enquiries in results</td>
                 </tr>
                 <tr>
                     <td><code>includeClosed</code></td>
                     <td>bool?</td>
                     <td>No</td>
                     <td>true</td>
-                    <td>Include closed enquiries in results (only applied if user has access)</td>
+                    <td>Include closed enquiries in results</td>
                 </tr>
                 <tr>
                     <td><code>limit</code></td>
@@ -382,112 +375,177 @@
   }
 }</code></pre>
 
-        <h2>Backend Requirements</h2>
+        <h2>Backend Implementation</h2>
 
-        <h3>1. New DTO Class: CategorySummaryItem</h3>
-        
         <div class="important-note">
-            <strong>Required Properties:</strong>
-            <ul>
-                <li><code>type</code> (string): "consumer" or "professional"</li>
-                <li><code>value</code> (int): Bitwise flag value (e.g., 2, 4, 8, 16...)</li>
-                <li><code>name</code> (string): Category name (e.g., "Beauty", "Technology")</li>
-                <li><code>count</code> (int): Frequency count - how many enquiries have this category</li>
-            </ul>
-        </div>
-
-        <h3>2. Update JesEnquiryApiResponseDto</h3>
-        
-        <div class="important-note">
-            <strong>Add New Property:</strong>
-            <ul>
-                <li><code>categorySummary</code> (List&lt;CategorySummaryItem&gt;): Array of category frequency data</li>
-                <li>Return this for non-subscribers with empty <code>result</code> array</li>
-                <li>Return <code>null</code> for subscribers (they get actual enquiry results)</li>
-            </ul>
-        </div>
-
-        <h3>3. Controller Method Changes</h3>
-        
-        <div class="security-note">
-            <strong>Critical Security Requirements:</strong>
-            <ol>
-                <li>Extract authenticated user from auth token/session (never trust frontend)</li>
-                <li>Check if user has active JES subscriptions via database lookup</li>
-                <li><strong>If no subscriptions:</strong> Return empty <code>result</code> + <code>categorySummary</code> + <code>statistics</code></li>
-                <li><strong>If has subscriptions:</strong> Return filtered enquiries based on parameters</li>
-            </ol>
+            <strong>Implementation Examples Below:</strong> The C# code examples below are Copilot-generated reference implementations showing one approach to the requirements. Feel free to adapt to your existing patterns, codebase conventions, and architecture. The critical requirements are: the JSON response format, security model (auth token validation), query parameter handling, and category frequency aggregation logic.
         </div>
 
         <div class="important-note">
-            <strong>Query Parameter Handling:</strong>
-            <ul>
-                <li><code>includeOpen</code> + <code>includeClosed</code>: Filter enquiries by open/closed status</li>
-                <li><code>limit</code>: Restrict number of results (used for widget - limit=5)</li>
-                <li>Apply filters only for subscribers</li>
-            </ul>
+            <strong>Note on Property Naming:</strong> The DTO classes below use camelCase properties to match the JSON response examples. Follow your existing project conventions - if you typically use PascalCase properties with JSON serialization configured to convert to camelCase, that's fine. The JSON responses shown above are what the frontend expects to receive.
         </div>
 
-        <h3>4. Category Summary Aggregation Logic</h3>
+        <h3>New DTO Class</h3>
+        <pre><code><span class="keyword">public class</span> <span class="type">CategorySummaryItem</span>
+{
+    <span class="keyword">public string</span> type { <span class="keyword">get</span>; <span class="keyword">set</span>; }      <span class="comment">// "consumer" or "professional"</span>
+    <span class="keyword">public int</span> value { <span class="keyword">get</span>; <span class="keyword">set</span>; }         <span class="comment">// Bitwise flag value (e.g., 2, 4, 8)</span>
+    <span class="keyword">public string</span> name { <span class="keyword">get</span>; <span class="keyword">set</span>; }       <span class="comment">// Category name (e.g., "Beauty", "Technology")</span>
+    <span class="keyword">public int</span> count { <span class="keyword">get</span>; <span class="keyword">set</span>; }        <span class="comment">// Frequency count across all enquiries</span>
+}</code></pre>
+
+        <h3>Update Existing DTO</h3>
+        <pre><code><span class="keyword">public class</span> <span class="type">JesEnquiryApiResponseDto</span>
+{
+    <span class="keyword">public</span> List&lt;JesEnquiryApiResponseResultDto&gt; result { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> JesEnquiryStatisticsDto statistics { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    
+    <span class="comment">// Add this new property:</span>
+    <span class="keyword">public</span> List&lt;CategorySummaryItem&gt; categorySummary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    
+    <span class="keyword">public</span> JesEnquiryUserDto user { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}</code></pre>
+
+        <h3>Controller Method Implementation</h3>
         
         <div class="important-note">
-            <strong>Required Algorithm (for non-subscribers only):</strong>
-            <ol>
-                <li><strong>Load all enquiries</strong> for the contact (unfiltered)</li>
-                <li><strong>Extract individual category flags</strong> from bitwise values:
-                    <ul>
-                        <li>For each enquiry, check <code>CatConsumer</code> and <code>CatProfessional</code> fields</li>
-                        <li>Use bitwise AND to test each category flag: <code>(enquiry.CatConsumer & categoryValue) != 0</code></li>
-                    </ul>
-                </li>
-                <li><strong>Count frequency</strong>: Track how many times each category appears across all enquiries</li>
-                <li><strong>Sort by count descending</strong>: Most frequent categories first</li>
-                <li><strong>Take top 10-15 categories</strong></li>
-                <li><strong>Map to CategorySummaryItem</strong>: Include type, value, name, count</li>
-            </ol>
+            <strong>Implementation Note:</strong> This example assumes you have <code>GetAuthenticatedUser()</code>, <code>_jesService.UserHasActiveSubscriptions()</code>, and similar helper methods. Adapt the auth/subscription checking logic to match your existing patterns. The key requirement is: backend validates permissions from auth token and applies business logic based on the request.
         </div>
-
-        <div class="success-note">
-            <strong>Example Category Extraction:</strong>
-            <p>If an enquiry has <code>CatConsumer = 6</code> (bitwise), that means flags 2 (Beauty) and 4 (Fashion) are set. Both should be counted separately in the frequency map.</p>
-        </div>
-
-        <h3>5. Response Patterns</h3>
         
-        <table>
-            <thead>
-                <tr>
-                    <th>User Type</th>
-                    <th>result</th>
-                    <th>categorySummary</th>
-                    <th>statistics</th>
-                    <th>user</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Non-subscriber</td>
-                    <td>[] (empty array)</td>
-                    <td>Array with frequency data (sorted)</td>
-                    <td>Stats object</td>
-                    <td>null</td>
-                </tr>
-                <tr>
-                    <td>Subscriber (widget)</td>
-                    <td>5 closed enquiries</td>
-                    <td>null</td>
-                    <td>Stats object</td>
-                    <td>Subscription flags</td>
-                </tr>
-                <tr>
-                    <td>Subscriber (tab)</td>
-                    <td>All open + closed</td>
-                    <td>null</td>
-                    <td>Stats object</td>
-                    <td>Subscription flags</td>
-                </tr>
-            </tbody>
-        </table>
+        <pre><code>[<span class="type">HttpGet</span>(<span class="string">"findByContact"</span>)]
+<span class="keyword">public async</span> Task&lt;JesEnquiryApiResponseDto&gt; FindByContact(
+    <span class="keyword">int</span> id,
+    <span class="keyword">bool</span> includeEnquiries = <span class="keyword">false</span>,
+    <span class="keyword">bool</span>? includeOpen = <span class="keyword">true</span>,
+    <span class="keyword">bool</span>? includeClosed = <span class="keyword">true</span>,
+    <span class="keyword">int</span>? limit = <span class="keyword">null</span>)
+{
+    <span class="comment">// 1. Get authenticated user from auth token/session</span>
+    <span class="keyword">var</span> currentUser = GetAuthenticatedUser();
+    
+    <span class="comment">// 2. Validate permission: Check if user has active JES subscriptions</span>
+    <span class="keyword">var</span> userHasSubscriptions = <span class="keyword">await</span> _jesService.UserHasActiveSubscriptions(currentUser.Id);
+    
+    <span class="comment">// 3. Apply business logic: frontend requests enquiries, backend enforces permission</span>
+    <span class="keyword">bool</span> shouldReturnEnquiries = includeEnquiries && userHasSubscriptions;
+    
+    <span class="comment">// 4. Get statistics (always return)</span>
+    <span class="keyword">var</span> statistics = <span class="keyword">await</span> _jesService.GetContactStatistics(id);
+    
+    <span class="comment">// 5. If not authorized to view enquiries: Return summary only</span>
+    <span class="keyword">if</span> (!shouldReturnEnquiries)
+    {
+        <span class="keyword">var</span> categorySummary = <span class="keyword">await</span> BuildCategorySummary(id);
+        
+        <span class="keyword">return new</span> JesEnquiryApiResponseDto
+        {
+            result = <span class="keyword">new</span> List&lt;JesEnquiryApiResponseResultDto&gt;(),
+            statistics = statistics,
+            categorySummary = categorySummary,
+            user = <span class="keyword">null</span>
+        };
+    }
+    
+    <span class="comment">// 6. User is authorized: Build query with filters</span>
+    <span class="keyword">var</span> query = _dbContext.JesEnquiries.Where(e =&gt; e.ContactId == id);
+    
+    <span class="comment">// Apply open/closed filters</span>
+    <span class="keyword">if</span> (includeOpen == <span class="keyword">true</span> &amp;&amp; includeClosed == <span class="keyword">false</span>)
+        query = query.Where(e =&gt; e.IsOpen);
+    <span class="keyword">else if</span> (includeOpen == <span class="keyword">false</span> &amp;&amp; includeClosed == <span class="keyword">true</span>)
+        query = query.Where(e =&gt; !e.IsOpen);
+    
+    <span class="comment">// Apply limit</span>
+    <span class="keyword">if</span> (limit.HasValue)
+        query = query.Take(limit.Value);
+    
+    <span class="keyword">var</span> enquiries = <span class="keyword">await</span> query.ToListAsync();
+    
+    <span class="comment">// 7. Build user subscription info</span>
+    <span class="keyword">var</span> userDto = <span class="keyword">new</span> JesEnquiryUserDto
+    {
+        hasConsumerSubscriptions = <span class="keyword">await</span> _jesService.HasConsumerSubscriptions(currentUser.Id),
+        hasProfessionalSubscriptions = <span class="keyword">await</span> _jesService.HasProfessionalSubscriptions(currentUser.Id)
+    };
+    
+    <span class="keyword">return new</span> JesEnquiryApiResponseDto
+    {
+        result = MapToDto(enquiries),
+        statistics = statistics,
+        categorySummary = <span class="keyword">null</span>, <span class="comment">// Not needed for subscribers</span>
+        user = userDto
+    };
+}</code></pre>
+
+        <h3>Category Summary Builder (Helper Method)</h3>
+        
+        <div class="important-note">
+            <strong>Performance Note:</strong> This implementation loads all enquiries for frequency analysis. If contact enquiry counts are typically high, consider adding selected columns only (<code>.Select(e => new { e.CatConsumer, e.CatProfessional })</code>) or implementing caching for frequently accessed contacts.
+        </div>
+        
+        <pre><code><span class="keyword">private async</span> Task&lt;List&lt;CategorySummaryItem&gt;&gt; BuildCategorySummary(<span class="keyword">int</span> contactId)
+{
+    <span class="comment">// Get all enquiries for this contact (unfiltered)</span>
+    <span class="keyword">var</span> allEnquiries = <span class="keyword">await</span> _dbContext.JesEnquiries
+        .Where(e =&gt; e.ContactId == contactId)
+        .ToListAsync();
+    
+    <span class="comment">// Dictionary to track category frequency: (type, value) -&gt; count</span>
+    <span class="keyword">var</span> categoryFrequency = <span class="keyword">new</span> Dictionary&lt;(<span class="keyword">string</span> type, <span class="keyword">int</span> value), <span class="keyword">int</span>&gt;();
+    
+    <span class="comment">// Extract individual flags from bitwise values and count occurrences</span>
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> enquiry <span class="keyword">in</span> allEnquiries)
+    {
+        <span class="comment">// Process consumer categories</span>
+        <span class="keyword">if</span> (enquiry.CatConsumer &gt; 0)
+        {
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> category <span class="keyword">in</span> JesEnquiryConsumerCategories.All)
+            {
+                <span class="keyword">if</span> ((enquiry.CatConsumer &amp; category.Value) != 0)
+                {
+                    <span class="keyword">var</span> key = (<span class="string">"consumer"</span>, category.Value);
+                    categoryFrequency[key] = categoryFrequency.GetValueOrDefault(key, 0) + 1;
+                }
+            }
+        }
+        
+        <span class="comment">// Process professional categories</span>
+        <span class="keyword">if</span> (enquiry.CatProfessional &gt; 0)
+        {
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> category <span class="keyword">in</span> JesEnquiryProfessionalCategories.All)
+            {
+                <span class="keyword">if</span> ((enquiry.CatProfessional &amp; category.Value) != 0)
+                {
+                    <span class="keyword">var</span> key = (<span class="string">"professional"</span>, category.Value);
+                    categoryFrequency[key] = categoryFrequency.GetValueOrDefault(key, 0) + 1;
+                }
+            }
+        }
+    }
+    
+    <span class="comment">// Convert to list, sort by frequency (descending), and take top 10</span>
+    <span class="keyword">var</span> result = categoryFrequency
+        .OrderByDescending(kvp =&gt; kvp.Value)
+        .Take(10)
+        .Select(kvp =&gt; <span class="keyword">new</span> CategorySummaryItem
+        {
+            type = kvp.Key.type,
+            value = kvp.Key.value,
+            name = GetCategoryName(kvp.Key.type, kvp.Key.value),
+            count = kvp.Value
+        })
+        .ToList();
+    
+    <span class="keyword">return</span> result;
+}
+
+<span class="keyword">private string</span> GetCategoryName(<span class="keyword">string</span> type, <span class="keyword">int</span> value)
+{
+    <span class="keyword">if</span> (type == <span class="string">"consumer"</span>)
+        <span class="keyword">return</span> JesEnquiryConsumerCategories.All.FirstOrDefault(c =&gt; c.Value == value)?.Name ?? <span class="string">""</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> JesEnquiryProfessionalCategories.All.FirstOrDefault(c =&gt; c.Value == value)?.Name ?? <span class="string">""</span>;
+}</code></pre>
 
         <h2>Usage Scenarios</h2>
 
@@ -513,7 +571,7 @@
 
         <div class="scenario">
             <h4>Scenario 3: Open Enquiries Only</h4>
-            <strong>Request:</strong> <code>GET /api/jesEnquiry/findByContact?id=123&amp;includeEnquiries=true&amp;includeOpen=true&amp;includeClosed=false</code><br>
+            <strong>Request:</strong> <code>GET /api/jesEnquiry/findByContact?id=123&amp;includeOpen=true&amp;includeClosed=false</code><br>
             <strong>Expected:</strong>
             <ul>
                 <li>Subscriber: Only open enquiries</li>
@@ -527,7 +585,6 @@
 <span class="keyword">async</span> FindByContact(
     id: <span class="keyword">number</span>, 
     options?: {
-        includeEnquiries?: <span class="keyword">boolean</span>;
         includeOpen?: <span class="keyword">boolean</span>;
         includeClosed?: <span class="keyword">boolean</span>;
         limit?: <span class="keyword">number</span>;
@@ -537,7 +594,6 @@
         endPoint: <span class="string">'jesEnquiry/findByContact'</span>,
         additionalParams: { 
             id: id,
-            includeEnquiries: options?.includeEnquiries,
             includeOpen: options?.includeOpen,
             includeClosed: options?.includeClosed,
             limit: options?.limit
