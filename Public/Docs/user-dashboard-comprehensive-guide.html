@@ -1,0 +1,3411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Comprehensive Technical Guide - Lumina Documentation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Pulsar Group Documentation Template Styling */
+        
+        /* CSS Variables for easy customization */
+        :root {
+            /* Lumina Brand Colors */
+            --primary-color: #3597FE;
+            --secondary-color: #0042FF;
+            --accent-color: #54FFB1;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #FF4C4C;
+            --info-color: #2196F3;
+            
+            /* Lumina Palette Colors */
+            --lumina-pale-blue: #94C0FF;
+            --lumina-lilac: #D6C5EF;
+            --lumina-light-green: #C9FFE7;
+            --lumina-pale-yellow: #F0EB7E;
+            --lumina-skin: #F8D0C0;
+            
+            /* Text Colors */
+            --text-primary: #121212;
+            --text-secondary: #404040;
+            --text-muted: #808080;
+            --link-color: #0066CC;
+            --link-hover: #004999;
+            
+            /* Background Colors */
+            --background: #FFFFFF;
+            --background-alt: #F8FAFC;
+            --background-highlight: #FFF9C4;
+            --border-color: #8FBCFF;
+            
+            /* Typography */
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            
+            /* Spacing */
+            --header-height: 120px;
+            --content-max-width: 1200px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 0;
+            margin: 0;
+            background-color: var(--background);
+            font-size: 14px;
+        }
+
+        /* Header */
+        .document-header {
+            background-image: url('Img/subjectHeader/Large.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-2xl) 0;   
+            position: relative;
+            overflow: hidden;
+            min-height: 160px;
+        }
+
+        .document-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(53, 151, 254, 0.15) 0%, rgba(0, 66, 255, 0.25) 100%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-lg);
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+            font-weight: 300;
+        }
+
+        .header-text .subtitle {
+            margin: 0;
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        .document-meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            text-align: right;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .author-line {
+            margin-bottom: var(--spacing-sm) 0;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .document-content {
+            padding: 0 var(--spacing-xl);
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        /* Headers */
+        h1:not(.header-text h1) {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: var(--spacing-md);
+        }
+
+        h3 {
+            color: var(--text-primary);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.2rem;
+        }
+
+        h4 {
+            color: var(--text-secondary);
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Paragraphs */
+        p {
+            margin: var(--spacing-md) 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-xl);
+        }
+
+        li {
+            margin: var(--spacing-xs) 0;
+        }
+
+        /* Code blocks */
+        code {
+            background-color: var(--background-alt);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        pre {
+            background-color: var(--background-alt);
+            border-left: 4px solid var(--primary-color);
+            padding: var(--spacing-md);
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+            background-color: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        th {
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--border-color);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--background-alt);
+        }
+
+        /* Info boxes */
+        .info-box {
+            padding: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            border-radius: 4px;
+            border-left: 4px solid;
+        }
+
+        .info-box.info {
+            background-color: rgba(33, 150, 243, 0.1);
+            border-color: var(--info-color);
+        }
+
+        .info-box.warning {
+            background-color: rgba(255, 152, 0, 0.1);
+            border-color: var(--warning-color);
+        }
+
+        .info-box.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-color: var(--success-color);
+        }
+
+        .info-box.error {
+            background-color: rgba(255, 76, 76, 0.1);
+            border-color: var(--error-color);
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* Widget sections */
+        .widget-section {
+            background-color: var(--background-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .widget-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .widget-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .feature-card {
+            background-color: var(--background);
+            padding: var(--spacing-md);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        /* Links */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background-color: var(--background-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: var(--spacing-md);
+        }
+
+        .toc li {
+            margin: var(--spacing-sm) 0;
+        }
+
+        .toc a {
+            color: var(--text-primary);
+        }
+
+        .toc a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .document-meta {
+                text-align: left;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="document-header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>User Dashboard</h1>
+                <p class="subtitle">Comprehensive Technical Guide & Implementation Reference</p>
+            </div>
+            <div class="document-meta">
+                <div class="author-line">Development Documentation</div>
+                <div>Last Updated: May 20, 2026</div>
+                <div>Version: 2.0</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="document-content">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#overview">1. Dashboard Overview</a></li>
+                <li><a href="#client-preset-selector">2. Client Preset Selector & Permission System</a>
+                    <ul>
+                        <li><a href="#preset-overview">2.1 Overview</a></li>
+                        <li><a href="#preset-options">2.2 The Five Preset Options</a></li>
+                        <li><a href="#permission-mappings">2.3 Permission Mappings</a></li>
+                        <li><a href="#legacy-modern-permissions">2.4 Legacy vs Modern Permissions</a></li>
+                        <li><a href="#technical-implementation">2.5 Technical Implementation</a></li>
+                    </ul>
+                </li>
+                <li><a href="#polling-refresh">3. Polling & Refresh Mechanism</a></li>
+                <li><a href="#new-item-tracking">4. New Item Tracking System</a></li>
+                <li><a href="#quick-actions">5. Quick Actions Bar</a></li>
+                <li><a href="#unified-search">6. Unified Search Overlay</a>
+                    <ul>
+                        <li><a href="#search-work-mode">6.1 Work Mode Search</a></li>
+                        <li><a href="#search-media-mode">6.2 Media Mode Search</a></li>
+                        <li><a href="#search-algorithm">6.3 Search Algorithm & Result Mixing</a></li>
+                    </ul>
+                </li>
+                <li><a href="#widgets">7. Widget Implementations</a>
+                    <ul>
+                        <li><a href="#widget-quick-stats">7.1 Quick Stats</a></li>
+                        <li><a href="#widget-my-interactions">7.2 My Interactions</a></li>
+                        <li><a href="#widget-incoming-interactions">7.3 Incoming Interactions</a></li>
+                        <li><a href="#widget-subjects">7.4 Subjects</a></li>
+                        <li><a href="#widget-groups">7.5 Groups</a></li>
+                        <li><a href="#widget-top-completers">7.6 Interactions Leaderboard (TopCompleters)</a></li>
+                        <li><a href="#widget-distributions">7.7 Distributions</a></li>
+                        <li><a href="#widget-jes-enquiries">7.8 JES Enquiries</a></li>
+                        <li><a href="#widget-forward-features">7.9 Forward Features</a></li>
+                        <li><a href="#widget-feature-groups">7.10 Feature Groups</a></li>
+                        <li><a href="#widget-latest-monitoring">7.11 Latest Monitoring</a></li>
+                        <li><a href="#widget-activity">7.12 Recent Activity</a></li>
+                        <li><a href="#widget-interactions-over-time">7.13 Interactions Over Time</a></li>
+                        <li><a href="#widget-work-distribution">7.14 Work Distribution</a></li>
+                        <li><a href="#widget-global-work-distribution">7.15 Global Work Distribution</a></li>
+                        <li><a href="#widget-political-groups">7.16 Political Groups</a></li>
+                    </ul>
+                </li>
+                <li><a href="#common-components">8. Shared Components</a></li>
+                <li><a href="#architecture">9. Technical Architecture</a>
+                    <ul>
+                        <li><a href="#architecture-directory">9.1 Directory Structure</a></li>
+                        <li><a href="#architecture-principles">9.2 Architecture Principles</a></li>
+                        <li><a href="#architecture-flow">9.3 How It All Fits Together</a></li>
+                        <li><a href="#architecture-widget-registration">9.4 Widget Registration Process</a></li>
+                    </ul>
+                </li>
+                <li><a href="#future-improvements">10. Future Improvements</a></li>
+            </ul>
+        </div>
+
+        <!-- Overview -->
+        <h1 id="overview">1. Dashboard Overview</h1>
+        
+        <p>The User Dashboard is a comprehensive, real-time monitoring interface that provides users with instant visibility into their key tasks, content, and data across the MCD platform. Built with React/TypeScript, it features automatic polling, new item detection, and responsive widget-based architecture.</p>
+
+        <div class="info-box info">
+            <div class="info-box-title">Key Capabilities</div>
+            <ul>
+                <li><strong>Real-time Updates:</strong> Automatic polling every 60 seconds keeps data fresh</li>
+                <li><strong>New Item Tracking:</strong> Visual highlighting of new items with 2-hour timeout</li>
+                <li><strong>Responsive Design:</strong> Widgets adapt to different screen sizes</li>
+                <li><strong>Quick Actions:</strong> Fast access to create contacts, outlets, interactions, subjects, and distributions</li>
+                <li><strong>Unified Search:</strong> Powerful search overlay with mode toggle (Your Work / Media)</li>
+                <li><strong>Permission-Based:</strong> Widgets and actions respect user permissions via demo mode configuration</li>
+            </ul>
+        </div>
+
+        <div class="info-box success">
+            <div class="info-box-title">✅ Organizational Improvements (May 2026)</div>
+            <p>The dashboard codebase has been refactored with domain-driven architecture improvements:</p>
+            <ul>
+                <li><strong>Priority 1:</strong> Common UI components centralized in <code>Components/Common/UI/</code></li>
+                <li><strong>Priority 2:</strong> Hooks organized by domain into <code>Hooks/Config/</code> and <code>Hooks/Data/</code></li>
+                <li><strong>Priority 3:</strong> Settings consolidated in <code>Components/Settings/</code></li>
+                <li><strong>Priority 4:</strong> Promo components extracted to <code>Components/Promos/</code></li>
+                <li><strong>Priority 5:</strong> Types organized into <code>Types/Config/</code> and <code>Types/Core/</code></li>
+            </ul>
+            <p>See <a href="#architecture">Section 9: Technical Architecture</a> for complete folder structure and how everything fits together.</p>
+        </div>
+
+        <h2>Dashboard Location</h2>
+        <p><strong>File Path:</strong> <code>/apps/mcd/src/Containers2/UserDashboard/UserDashboard.tsx</code></p>
+        <p><strong>Route:</strong> <code>/dashboard</code></p>
+
+        <!-- Client Preset Selector & Permission System -->
+        <h1 id="client-preset-selector">2. Client Preset Selector & Permission System</h1>
+
+        <h2 id="preset-overview">2.1 Overview</h2>
+
+        <p>The Client Preset Selector is a powerful feature located in the dashboard header that allows developers and admins to control which dashboard widgets and features are visible based on simulated or real user permissions. This is essential for testing different client configurations and preparing for production deployment.</p>
+
+        <div class="info-box info">
+            <div class="info-box-title">📍 Location</div>
+            <p><strong>Component:</strong> <code>Components/ClientPresetSelector/ClientPresetSelector.tsx</code></p>
+            <p><strong>Position:</strong> Dashboard header, next to the greeting message</p>
+            <p><strong>Visibility:</strong> Shown to SysAdmin users only (controlled by <code>AuthToken.HasSysAdminRole()</code>)</p>
+        </div>
+
+        <h3>Why Client Presets Exist</h3>
+        <p>Different Vuelio clients have vastly different subscriptions and feature access. Some are SRM-focused (interactions, subjects, contacts), others are media-focused (monitoring, distributions, journalist enquiries), and enterprise clients have everything. The preset selector lets you:</p>
+        <ul>
+            <li>✅ Test the dashboard as different client types without multiple accounts</li>
+            <li>✅ Verify permission logic works correctly before production release</li>
+            <li>✅ Demo specific feature sets to potential clients</li>
+            <li>✅ Switch between real auth-based permissions and custom configurations</li>
+            <li>✅ Ensure locked widget promos display correctly when features are unavailable</li>
+        </ul>
+
+        <h2 id="preset-options">2.2 The Five Preset Options</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>1️⃣ Real Client Permissions</h4>
+                <p><strong>ID:</strong> <code>realClient</code></p>
+                <p><strong>Purpose:</strong> Use actual user permissions from the authentication token</p>
+                <p><strong>Behavior:</strong> Calls <code>getRealUserPermissions(auth)</code> to map <code>AccessArea</code> flags to dashboard modules</p>
+                <p><strong>Use Case:</strong> Production mode - dashboard reflects what the logged-in user actually has access to</p>
+                <p><strong>Toggle Visibility:</strong> DashboardDemoToggle is <strong>hidden</strong></p>
+            </div>
+            <div class="feature-card">
+                <h4>2️⃣ Custom</h4>
+                <p><strong>ID:</strong> <code>custom</code></p>
+                <p><strong>Purpose:</strong> Manually select which modules to enable via checkboxes</p>
+                <p><strong>Behavior:</strong> Shows the DashboardDemoToggle component with individual module toggles</p>
+                <p><strong>Use Case:</strong> Testing specific combinations of features, debugging edge cases</p>
+                <p><strong>Toggle Visibility:</strong> DashboardDemoToggle is <strong>visible</strong></p>
+                <p><strong>Default State:</strong> All modules enabled by default</p>
+            </div>
+            <div class="feature-card">
+                <h4>3️⃣ SRM Only</h4>
+                <p><strong>ID:</strong> <code>srmOnly</code></p>
+                <p><strong>Purpose:</strong> Stakeholder Relationship Management features only</p>
+                <p><strong>Enabled Modules:</strong>
+                    <ul>
+                        <li>✅ Interactions</li>
+                        <li>✅ Subjects</li>
+                        <li>✅ Groups</li>
+                        <li>✅ Distributions</li>
+                        <li>❌ JES Enquiries</li>
+                        <li>❌ Political Groups</li>
+                        <li>❌ Forward Features</li>
+                        <li>❌ Feature Groups</li>
+                        <li>❌ Latest Monitoring</li>
+                    </ul>
+                </p>
+                <p><strong>Use Case:</strong> Pure SRM clients (corporate comms teams)</p>
+            </div>
+            <div class="feature-card">
+                <h4>4️⃣ Media Client</h4>
+                <p><strong>ID:</strong> <code>media</code></p>
+                <p><strong>Purpose:</strong> Media monitoring and journalist engagement features</p>
+                <p><strong>Enabled Modules:</strong>
+                    <ul>
+                        <li>❌ Interactions</li>
+                        <li>❌ Subjects</li>
+                        <li>✅ Groups</li>
+                        <li>✅ JES Enquiries</li>
+                        <li>❌ Political Groups</li>
+                        <li>✅ Distributions</li>
+                        <li>✅ Forward Features</li>
+                        <li>✅ Feature Groups</li>
+                        <li>❌ Latest Monitoring</li>
+                    </ul>
+                </p>
+                <p><strong>Use Case:</strong> PR agencies, media monitoring clients</p>
+            </div>
+            <div class="feature-card">
+                <h4>5️⃣ Enterprise</h4>
+                <p><strong>ID:</strong> <code>enterprise</code></p>
+                <p><strong>Purpose:</strong> All features enabled</p>
+                <p><strong>Enabled Modules:</strong> ✅ <strong>Everything</strong></p>
+                <p><strong>Use Case:</strong> Full-suite enterprise clients, testing all features simultaneously</p>
+            </div>
+        </div>
+
+        <h2 id="permission-mappings">2.3 Permission Mappings</h2>
+
+        <p>Each dashboard module (widget group) maps to specific <code>AccessArea</code> permission flags from the authentication system. The system supports both <strong>legacy Vuelio permissions</strong> and <strong>modern MCD permissions</strong> for backward compatibility.</p>
+
+        <h3>Complete Permission Mapping Table</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Dashboard Module</th>
+                    <th>Widgets Controlled</th>
+                    <th>AccessArea Permission(s)</th>
+                    <th>Helper Function</th>
+                    <th>Value(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>interactions</strong></td>
+                    <td>My Interactions, Incoming Interactions, Interactions Leaderboard, and interaction charts</td>
+                    <td><code>Interaction</code> OR <code>MCDInteraction</code></td>
+                    <td><code>HasAccessToInteractionsOrIsSysadmin()</code></td>
+                    <td>4 or 8388608</td>
+                </tr>
+                <tr>
+                    <td><strong>subjects</strong></td>
+                    <td>Subjects widget</td>
+                    <td><code>Subject</code></td>
+                    <td><code>HasAccessToSubjectsOrIsSysadmin()</code></td>
+                    <td>4194304</td>
+                </tr>
+                <tr>
+                    <td><strong>groups</strong></td>
+                    <td>Groups widget</td>
+                    <td><code>Database</code> OR <code>MCDDatabase</code></td>
+                    <td><code>HasAccessArea()</code> (manual check)</td>
+                    <td>1 or 8192</td>
+                </tr>
+                <tr>
+                    <td><strong>jesEnquiries</strong></td>
+                    <td>JES Enquiries widget</td>
+                    <td><code>Jes</code></td>
+                    <td><code>HasAccessArea(AccessArea.Jes)</code></td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <td><strong>politicalGroups</strong></td>
+                    <td>Political Groups widget</td>
+                    <td><code>MCDPoliticalDatabase</code> OR <code>PoliticalDatabase</code></td>
+                    <td><code>HasAccessArea()</code> (manual check)</td>
+                    <td>67108864 or 512</td>
+                </tr>
+                <tr>
+                    <td><strong>distributions</strong></td>
+                    <td>Distributions widget</td>
+                    <td><code>Release</code> OR <code>MCDRelease</code></td>
+                    <td><code>HasAccessToReleasesOrIsSysadmin()</code></td>
+                    <td>2 or 1048576</td>
+                </tr>
+                <tr>
+                    <td><strong>forwardFeatures</strong></td>
+                    <td>Forward Features widget</td>
+                    <td><code>Release</code> OR <code>MCDRelease</code></td>
+                    <td><code>HasAccessToReleasesOrIsSysadmin()</code></td>
+                    <td>2 or 1048576</td>
+                </tr>
+                <tr>
+                    <td><strong>featureGroups</strong></td>
+                    <td>Feature Groups widget</td>
+                    <td><code>MCDPoliticalMonitoring</code></td>
+                    <td><code>HasAccessArea(AccessArea.MCDPoliticalMonitoring)</code></td>
+                    <td>16777216</td>
+                </tr>
+                <tr>
+                    <td><strong>latestMonitoring</strong></td>
+                    <td>Latest Monitoring widget</td>
+                    <td><code>MediaMonitoring</code></td>
+                    <td><code>HasAccessToMediaMonitoringOrIsSysadmin()</code></td>
+                    <td>131072</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box warning">
+            <div class="info-box-title">⚠️ Bitwise Flag System</div>
+            <p>AccessArea values use <strong>bitwise flags</strong> (powers of 2: 1, 2, 4, 8, 16, 32...) for efficient storage. Multiple permissions can be combined in a single number using OR operations. Example: A user with <code>Database (1) + Interaction (4) + Jes (32) = 37</code>.</p>
+            <p>The <code>subscribedDataAreas</code> field in the auth token stores an array of these numbers as a JSON string: <code>"[4, 16, 32, 4194304]"</code></p>
+        </div>
+
+        <h2 id="legacy-modern-permissions">2.4 Legacy vs Modern Permissions</h2>
+
+        <p>Vuelio's permission system evolved from the original platform to the modern MCD system. To support both legacy and new clients, the dashboard checks <strong>hybrid permissions</strong> - accepting either the old or new equivalent.</p>
+
+        <h3>Permission Evolution Table</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Legacy Permission</th>
+                    <th>Modern Permission</th>
+                    <th>Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Interactions</td>
+                    <td><code>Interaction = 4</code></td>
+                    <td><code>MCDInteraction = 8388608</code></td>
+                    <td>✅ Hybrid - Check both</td>
+                </tr>
+                <tr>
+                    <td>Releases/Distributions</td>
+                    <td><code>Release = 2</code></td>
+                    <td><code>MCDRelease = 1048576</code></td>
+                    <td>✅ Hybrid - Check both</td>
+                </tr>
+                <tr>
+                    <td>Database/Groups</td>
+                    <td><code>Database = 1</code></td>
+                    <td><code>MCDDatabase = 8192</code></td>
+                    <td>✅ Hybrid - Check both</td>
+                </tr>
+                <tr>
+                    <td>Political Database</td>
+                    <td><code>PoliticalDatabase = 512</code></td>
+                    <td><code>MCDPoliticalDatabase = 67108864</code></td>
+                    <td>✅ Hybrid - Check both</td>
+                </tr>
+                <tr>
+                    <td>Subjects</td>
+                    <td><em>No legacy equivalent</em></td>
+                    <td><code>Subject = 4194304</code></td>
+                    <td>🆕 Modern only</td>
+                </tr>
+                <tr>
+                    <td>Political Monitoring</td>
+                    <td><em>No legacy equivalent</em></td>
+                    <td><code>MCDPoliticalMonitoring = 16777216</code></td>
+                    <td>🆕 Modern only</td>
+                </tr>
+                <tr>
+                    <td>Media Monitoring</td>
+                    <td><em>No legacy equivalent</em></td>
+                    <td><code>MediaMonitoring = 131072</code></td>
+                    <td>🆕 Modern only</td>
+                </tr>
+                <tr>
+                    <td>JES Enquiries</td>
+                    <td colspan="2" style="text-align:center;"><code>Jes = 32</code> (same for both)</td>
+                    <td>🔄 Shared</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box success">
+            <div class="info-box-title">✅ Why This Matters</div>
+            <p>By supporting both legacy and modern permissions, the dashboard works correctly for:</p>
+            <ul>
+                <li>📜 <strong>Legacy Vuelio clients</strong> migrated from the old platform</li>
+                <li>🆕 <strong>New MCD clients</strong> onboarded to the modern system</li>
+                <li>🔄 <strong>Clients mid-migration</strong> transitioning between systems</li>
+            </ul>
+            <p>Helper functions like <code>HasAccessToReleasesOrIsSysadmin()</code> automatically check BOTH the legacy and modern flags, so you don't have to manually check each one.</p>
+        </div>
+
+        <h2 id="technical-implementation">2.5 Technical Implementation</h2>
+
+        <h3>File Structure</h3>
+        <pre><code>Utils/
+  permissions.ts                    # getRealUserPermissions() - Maps auth token to modules
+
+Types/Config/
+  client-presets.types.ts           # Preset definitions and configurations
+
+Components/ClientPresetSelector/
+  ClientPresetSelector.tsx          # Dropdown UI component
+
+UserDashboard.tsx                   # Main state management and preset logic</code></pre>
+
+        <h3>State Flow</h3>
+        <pre><code>// UserDashboard.tsx
+const [currentPreset, setCurrentPreset] = useState&lt;ClientPresetId&gt;('realClient');
+const [demoModules, setDemoModules] = useState&lt;DashboardDemoModules&gt;(() => {
+    return getRealUserPermissions(auth);
+});
+
+const handlePresetChange = (presetId: ClientPresetId) => {
+    setCurrentPreset(presetId);
+    
+    if (presetId === 'realClient') {
+        // Use actual auth token permissions
+        const realPerms = getRealUserPermissions(auth);
+        setDemoModules(realPerms);
+    } else {
+        // Use predefined preset configuration
+        const preset = CLIENT_PRESETS[presetId];
+        setDemoModules(preset.modules);
+    }
+};</code></pre>
+
+        <h3>Permission Checking (permissions.ts)</h3>
+        <pre><code>import AuthToken, { AccessArea } from '@components/Common/Permission/AuthTokenHelper';
+
+export const getRealUserPermissions = (auth: IAuthModel): DashboardDemoModules => {
+    if (!auth?.data?.authenticated) {
+        return { /* all false */ };
+    }
+
+    return {
+        // Hybrid check - accepts legacy OR modern
+        interactions: AuthToken.HasAccessToInteractionsOrIsSysadmin(),
+        
+        // Modern only
+        subjects: AuthToken.HasAccessToSubjectsOrIsSysadmin(),
+        
+        // Hybrid check
+        groups: AuthToken.HasAccessArea(AccessArea.Database) || 
+                AuthToken.HasAccessArea(AccessArea.MCDDatabase),
+        
+        // Shared (same for legacy and modern)
+        jesEnquiries: AuthToken.HasAccessArea(AccessArea.Jes),
+        
+        // Hybrid check
+        politicalGroups: AuthToken.HasAccessArea(AccessArea.MCDPoliticalDatabase) ||
+                        AuthToken.HasAccessArea(AccessArea.PoliticalDatabase),
+        
+        // Hybrid check
+        distributions: AuthToken.HasAccessToReleasesOrIsSysadmin(),
+        forwardFeatures: AuthToken.HasAccessToReleasesOrIsSysadmin(),
+        
+        // Modern only
+        featureGroups: AuthToken.HasAccessArea(AccessArea.MCDPoliticalMonitoring),
+        latestMonitoring: AuthToken.HasAccessToMediaMonitoringOrIsSysadmin(),
+        
+        showFeatureBanner: true
+    };
+};</code></pre>
+
+        <h3>Widget Permission Logic</h3>
+        <pre><code>// UserDashboard.tsx - Widget rendering logic
+config.widgets.forEach(widget => {
+    const isAccessible = isWidgetAccessible(widget.id, demoModules);
+    const isPrimaryWidget = PRIMARY_MODULE_WIDGETS[requiredModule] === widget.id;
+    
+    if (!isAccessible && isPrimaryWidget) {
+        // Show promotional "locked" widget
+        return &lt;InteractionsWidgetPromo /&gt;;
+    }
+    
+    if (!isAccessible) {
+        // Hide secondary widgets completely
+        return null;
+    }
+    
+    // Render actual widget
+    return &lt;InteractionsContent {...props} /&gt;;
+});</code></pre>
+
+        <h3>Preset Configuration (client-presets.types.ts)</h3>
+        <pre><code>export type ClientPresetId = 'realClient' | 'custom' | 'srmOnly' | 'media' | 'enterprise';
+
+export const CLIENT_PRESETS: Record&lt;ClientPresetId, ClientPreset&gt; = {
+    realClient: {
+        id: 'realClient',
+        label: 'Real Client Permissions',
+        description: 'Use actual user permissions from auth token',
+        modules: {
+            // Initialized to false, overridden by getRealUserPermissions()
+            interactions: false,
+            subjects: false,
+            // ... all false
+        }
+    },
+    srmOnly: {
+        id: 'srmOnly',
+        label: 'SRM Only',
+        description: 'Stakeholder Relationship Management features',
+        modules: {
+            interactions: true,
+            subjects: true,
+            groups: true,
+            distributions: true,
+            jesEnquiries: false,
+            politicalGroups: false,
+            forwardFeatures: false,
+            featureGroups: false,
+            latestMonitoring: false,
+            showFeatureBanner: true
+        }
+    },
+    // ... other presets
+};</code></pre>
+
+        <div class="info-box info">
+            <div class="info-box-title">🔧 Adding New Presets</div>
+            <p>To add a new preset:</p>
+            <ol>
+                <li>Add new ID to <code>ClientPresetId</code> type union</li>
+                <li>Define configuration in <code>CLIENT_PRESETS</code> object</li>
+                <li>Specify which modules should be enabled/disabled</li>
+                <li>Add label and description for the dropdown</li>
+            </ol>
+            <p>The dashboard will automatically show the new preset in the selector dropdown.</p>
+        </div>
+
+        <h3>DashboardDemoToggle Visibility</h3>
+        <pre><code>// WelcomeHeader.tsx
+&lt;WelcomeHeader
+    userName={userName}
+    currentTime={currentTime}
+    currentDate={currentDate}
+    // Only pass these props when Custom preset is selected
+    demoModules={currentPreset === 'custom' ? demoModules : undefined}
+    onDemoModulesChange={currentPreset === 'custom' ? handleDemoModulesChange : undefined}
+/&gt;
+
+// Inside WelcomeHeader.tsx
+{props.demoModules && props.onDemoModulesChange && (
+    &lt;DashboardDemoToggle
+        demoModules={props.demoModules}
+        onChange={props.onDemoModulesChange}
+    /&gt;
+)}</code></pre>
+
+        <div class="info-box success">
+            <div class="info-box-title">✅ Best Practices</div>
+            <ul>
+                <li><strong>Production:</strong> Always use "Real Client Permissions" preset for live deployments</li>
+                <li><strong>Development:</strong> Use "Custom" preset to test edge cases and specific combinations</li>
+                <li><strong>Demos:</strong> Use "SRM Only", "Media", or "Enterprise" presets to showcase specific client types</li>
+                <li><strong>Testing:</strong> Verify locked widget promos appear correctly by disabling modules in "Custom" mode</li>
+            </ul>
+        </div>
+
+        <!-- Polling & Refresh -->
+        <h1 id="polling-refresh">3. Polling & Refresh Mechanism</h1>
+
+        <h2>What is Polling?</h2>
+        <p>Polling is a technique where the application automatically checks for new data at regular intervals. Instead of manually clicking a refresh button every time you want to see if there's new content, the dashboard automatically fetches the latest data in the background.</p>
+
+        <div class="info-box info">
+            <div class="info-box-title">How Polling Works in the Dashboard</div>
+            <ol>
+                <li><strong>Initial Load:</strong> When you first open the dashboard, all widgets fetch their data immediately</li>
+                <li><strong>Background Polling:</strong> Every 60 seconds, each widget automatically fetches fresh data from the API</li>
+                <li><strong>Smart Detection:</strong> The system compares new data with previous data to identify newly added items</li>
+                <li><strong>Visual Feedback:</strong> New items are highlighted with a blue left border and subtle background tint</li>
+                <li><strong>Count Badge:</strong> The refresh button shows a numbered badge indicating how many new items have been detected</li>
+            </ol>
+        </div>
+
+        <h2>Refresh Behavior</h2>
+
+        <h3>Automatic (Background) Refresh</h3>
+        <ul>
+            <li><strong>Interval:</strong> 60 seconds (configurable per widget)</li>
+            <li><strong>Behavior:</strong> Silently fetches data in the background without showing loading states</li>
+            <li><strong>New Item Detection:</strong> Active - compares with previous data and highlights new items</li>
+            <li><strong>Pause Condition:</strong> Automatically pauses when browser tab is inactive (saves resources)</li>
+            <li><strong>Resume Condition:</strong> Immediately fetches fresh data when tab becomes active again</li>
+        </ul>
+
+        <h3>Manual Refresh (User-Initiated)</h3>
+        <ul>
+            <li><strong>Trigger:</strong> User clicks the refresh button on a widget</li>
+            <li><strong>Behavior:</strong> Shows loading state while fetching</li>
+            <li><strong>New Item Detection:</strong> Inactive - clears new item highlights and count badge</li>
+            <li><strong>Use Case:</strong> User acknowledges they've seen the new items</li>
+        </ul>
+
+        <h3>Implementation Example</h3>
+        <pre><code>// Hook configuration
+const { 
+    interactions, 
+    isLoading, 
+    newItemsCount, 
+    newItemIds, 
+    refresh 
+} = useInteractionsData({
+    enablePolling: true,        // Enable automatic polling
+    pollingInterval: 60000      // Poll every 60 seconds (60,000ms)
+});
+
+// Manual refresh clears new items
+const handleRefresh = async () => {
+    clearNewItems();  // Remove highlights and badge
+    await refresh();  // Fetch fresh data
+};</code></pre>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Page Visibility Optimization</div>
+            <p>All widgets use the <strong>Page Visibility API</strong> to detect when the browser tab is inactive. When you switch to another tab, polling automatically pauses to save server resources and browser performance. When you return to the dashboard tab, it immediately fetches fresh data to ensure you see the latest information.</p>
+        </div>
+
+        <!-- New Item Tracking -->
+        <h1 id="new-item-tracking">4. New Item Tracking System</h1>
+
+        <h2>Overview</h2>
+        <p>The dashboard implements a sophisticated new item tracking system that visually highlights recently added content. This helps users quickly identify what's new since they last checked the dashboard.</p>
+
+        <h2>How It Works</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>🔍 Detection</h4>
+                <p>On each background refresh (polling), the system compares newly fetched item IDs against previously seen IDs stored in a ref.</p>
+            </div>
+            <div class="feature-card">
+                <h4>✨ Highlighting</h4>
+                <p>New items receive a 3px blue left border, subtle background tint (4% opacity), and a smooth fade-in animation (0.4s).</p>
+            </div>
+            <div class="feature-card">
+                <h4>🔢 Count Badge</h4>
+                <p>The refresh button displays a numbered badge showing the total count of new items detected.</p>
+            </div>
+            <div class="feature-card">
+                <h4>⏱️ Auto-Clear</h4>
+                <p>After 2 hours, new item highlights automatically fade away. They also clear on manual refresh or page reload.</p>
+            </div>
+        </div>
+
+        <h2>Visual Styling</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Style</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Left Border</td>
+                    <td>3px solid #3597FE (picton blue)</td>
+                    <td>Primary indicator that item is new</td>
+                </tr>
+                <tr>
+                    <td>Background Tint</td>
+                    <td>rgba(52, 152, 219, 0.04)</td>
+                    <td>Subtle background highlight (4% opacity)</td>
+                </tr>
+                <tr>
+                    <td>Animation</td>
+                    <td>fadeInSlide (0.4s ease-out)</td>
+                    <td>Smooth appearance from left with opacity fade</td>
+                </tr>
+                <tr>
+                    <td>Count Badge</td>
+                    <td>Blue circle with white text</td>
+                    <td>Shows total new items count on refresh button</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Timeout Behavior</h2>
+        <p>New items are tracked for <strong>2 hours</strong> (7,200,000 milliseconds). This ensures:</p>
+        <ul>
+            <li>Users have adequate time to review new content</li>
+            <li>The dashboard doesn't accumulate highlights indefinitely</li>
+            <li>Fresh highlights remain meaningful and actionable</li>
+        </ul>
+
+        <h2>Clear Conditions</h2>
+        <p>New item highlights and count badges are cleared when:</p>
+        <ol>
+            <li><strong>Manual Refresh:</strong> User clicks the refresh button</li>
+            <li><strong>Page Reload:</strong> User refreshes the entire page</li>
+            <li><strong>2-Hour Timeout:</strong> Automatic timeout expires</li>
+        </ol>
+
+        <h2>Implementation Pattern</h2>
+        <pre><code>// In custom hook (e.g., useInteractionsData.ts)
+const [newItemIds, setNewItemIds] = useState&lt;Set&lt;number&gt;&gt;(new Set());
+const previousIdsRef = useRef&lt;Set&lt;number&gt;&gt;(new Set());
+const newItemsTimeoutRef = useRef&lt;NodeJS.Timeout | null&gt;(null);
+const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+
+// On background refresh
+if (isBackgroundRefresh && !isInitialLoadRef.current) {
+    const addedItems = newData.filter(item => 
+        !previousIdsRef.current.has(item.id)
+    );
+    
+    if (addedItems.length > 0) {
+        const addedIds = new Set(addedItems.map(i => i.id));
+        setNewItemIds(prev => new Set([...Array.from(prev), ...Array.from(addedIds)]));
+        
+        // Set 2-hour timeout
+        newItemsTimeoutRef.current = setTimeout(() => {
+            setNewItemsCount(0);
+            setNewItemIds(new Set());
+        }, TWO_HOURS_MS);
+    }
+}
+
+// In component (e.g., InteractionsContent.tsx)
+const isNewItem = newItemIds.has(interaction.id);
+return &lt;DashboardListItem isNew={isNewItem} .../&gt;;</code></pre>
+
+        <!-- Quick Actions Bar -->
+        <h1 id="quick-actions">5. Quick Actions Bar</h1>
+
+        <h2>Overview</h2>
+        <p>The Quick Actions Bar provides instant access to create new entities without navigating away from the dashboard. It appears prominently at the top of the dashboard with five creation buttons, each respecting user permissions.</p>
+
+        <h2>Location & Components</h2>
+        <p><strong>Component Path:</strong> <code>/apps/mcd/src/Containers2/UserDashboard/Components/QuickActionsBar/QuickActionsBar.tsx</code></p>
+        <p>The bar renders horizontally with icon buttons for each action type.</p>
+
+        <h2>Available Actions</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>✉️ Create Contact</h4>
+                <p><strong>Permission:</strong> Database access required<br>
+                <strong>Action:</strong> Opens contact creation modal<br>
+                <strong>Icon:</strong> Contacts symbol</p>
+            </div>
+            <div class="feature-card">
+                <h4>📰 Create Outlet</h4>
+                <p><strong>Permission:</strong> Database access required<br>
+                <strong>Action:</strong> Opens outlet creation modal<br>
+                <strong>Icon:</strong> Outlet symbol</p>
+            </div>
+            <div class="feature-card">
+                <h4>💬 Create Interaction</h4>
+                <p><strong>Permission:</strong> Interactions module access<br>
+                <strong>Action:</strong> Opens interaction creation modal<br>
+                <strong>Icon:</strong> Interaction symbol</p>
+            </div>
+            <div class="feature-card">
+                <h4>📋 Create Subject</h4>
+                <p><strong>Permission:</strong> Subjects module access<br>
+                <strong>Action:</strong> Opens subject creation modal<br>
+                <strong>Icon:</strong> Issues symbol</p>
+            </div>
+            <div class="feature-card">
+                <h4>📧 Create Distribution</h4>
+                <p><strong>Permission:</strong> Distributions module access<br>
+                <strong>Action:</strong> Navigates to distribution builder<br>
+                <strong>Icon:</strong> Distribution symbol</p>
+            </div>
+        </div>
+
+        <h2>Permission Logic</h2>
+        <p>Each action button checks the <code>demoModules</code> prop to determine visibility:</p>
+
+        <pre><code>// Contact & Outlet - always visible (database entities)
+&lt;QuickActionButton
+    icon="Contacts"
+    label="Contact"
+    onClick={handleCreateContact}
+/&gt;
+
+// Interaction - requires interactions module
+{demoModules?.interactions && (
+    &lt;QuickActionButton
+        icon="Interaction"
+        label="Interaction"
+        onClick={handleCreateInteraction}
+    /&gt;
+)}
+
+// Subject - requires subjects module
+{demoModules?.subjects && (
+    &lt;QuickActionButton
+        icon="Issues"
+        label="Subject"
+        onClick={handleCreateSubject}
+    /&gt;
+)}
+
+// Distribution - requires distributions module
+{demoModules?.distributions && (
+    &lt;QuickActionButton
+        icon="Distribution"
+        label="Distribution"
+        onClick={handleCreateDistribution}
+    /&gt;
+)}</code></pre>
+
+        <h2>User Experience</h2>
+        <ul>
+            <li><strong>Hover State:</strong> Icon highlights and scales slightly on hover</li>
+            <li><strong>Click:</strong> Opens modal or navigates to creation page immediately</li>
+            <li><strong>Keyboard Navigation:</strong> All buttons accessible via Tab key</li>
+            <li><strong>Responsive:</strong> Buttons stack vertically on mobile devices</li>
+        </ul>
+
+        <h2>Technical Implementation</h2>
+        <ul>
+            <li><strong>Modal Management:</strong> Uses dashboard-level state for modals</li>
+            <li><strong>Event Bus:</strong> Publishes events when entities are created to refresh widgets</li>
+            <li><strong>Permission Checking:</strong> Uses <code>demoModules</code> interface for demo mode, falls back to real permissions in production</li>
+        </ul>
+
+        <!-- Unified Search Overlay -->
+        <h1 id="unified-search">6. Unified Search Overlay</h1>
+
+        <h2>Overview</h2>
+        <p>The Unified Search Overlay provides a powerful, mode-switching search interface that allows users to quickly find content across multiple entity types. It features two distinct search modes (Work and Media), real-time debounced searching, result highlighting, and intelligent field matching.</p>
+
+        <h2>Location & Components</h2>
+        <p><strong>Component Path:</strong> <code>/apps/mcd/src/Containers2/UserDashboard/Components/UnifiedSearch/UnifiedSearchOverlay.tsx</code></p>
+        <p><strong>Trigger:</strong> Keyboard shortcut (Cmd/Ctrl + K) or search button in header</p>
+        <p><strong>Display:</strong> Full-screen overlay with centered search input and results panel</p>
+
+        <h2>Key Features</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>🔄 Mode Toggle</h4>
+                <p>Switch between "Your Work" (interactions, subjects, groups, distributions) and "Media" (monitoring, contacts, outlets) modes.</p>
+            </div>
+            <div class="feature-card">
+                <h4>⚡ Debounced Search</h4>
+                <p>500ms debounce prevents excessive API calls while typing. Minimum 2 characters required.</p>
+            </div>
+            <div class="feature-card">
+                <h4>🎯 Field Matching</h4>
+                <p>Automatically detects which field contains the search term and displays it as a snippet (e.g., "Match in: Description").</p>
+            </div>
+            <div class="feature-card">
+                <h4>✨ Result Highlighting</h4>
+                <p>Search terms are highlighted in yellow within result titles and snippets using &lt;mark&gt; tags.</p>
+            </div>
+            <div class="feature-card">
+                <h4>🔍 Entity Filters</h4>
+                <p>Quick filter buttons to narrow results by entity type (All, Interactions, Subjects, Groups, etc.).</p>
+            </div>
+            <div class="feature-card">
+                <h4>🔐 Permission-Aware</h4>
+                <p>Respects user permissions and only searches accessible entity types.</p>
+            </div>
+            <div class="feature-card">
+                <h4>🪟 Detail Modals</h4>
+                <p>Selected results open inline detail modals for quick context before jumping to full record pages.</p>
+            </div>
+        </div>
+
+        <!-- Work Mode Search -->
+        <h2 id="search-work-mode">6.1 Work Mode Search</h2>
+
+        <h3>Entity Types Searched</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Entity Type</th>
+                    <th>API Endpoint</th>
+                    <th>Permission Check</th>
+                    <th>Results Limit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Interactions</td>
+                    <td><code>POST /interaction/search</code></td>
+                    <td><code>demoModules?.interactions</code></td>
+                    <td>10 per query</td>
+                </tr>
+                <tr>
+                    <td>Subjects</td>
+                    <td><code>POST /subject/search</code></td>
+                    <td><code>demoModules?.subjects</code></td>
+                    <td>10 per query</td>
+                </tr>
+                <tr>
+                    <td>Groups</td>
+                    <td><code>POST /group/search</code></td>
+                    <td><code>demoModules?.groups</code></td>
+                    <td>10 per query</td>
+                </tr>
+                <tr>
+                    <td>Distributions</td>
+                    <td><code>POST /release/search</code></td>
+                    <td><code>demoModules?.distributions</code></td>
+                    <td>10 per query</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Searchable Fields (Interactions)</h3>
+        <ul>
+            <li><strong>Name:</strong> Interaction title/name</li>
+            <li><strong>Description:</strong> Interaction details/notes</li>
+            <li><strong>Type:</strong> Interaction type name (Email, Call, Meeting, etc.)</li>
+            <li><strong>Status:</strong> Status name (New, In Progress, Complete, etc.)</li>
+            <li><strong>Outcome:</strong> Outcome name</li>
+            <li><strong>Category:</strong> Global category name</li>
+            <li><strong>Tags:</strong> Associated tag names</li>
+            <li><strong>Owner:</strong> Owner name</li>
+            <li><strong>Team:</strong> Team name</li>
+            <li><strong>Modified By:</strong> Last modified user</li>
+            <li><strong>Created By:</strong> Created user</li>
+        </ul>
+
+        <h3>Searchable Fields (Subjects)</h3>
+        <ul>
+            <li>Name, Description, Subject Type, Global Category, Tags, Business Units, Regions, Owner, Modified By, Created By</li>
+        </ul>
+
+        <h3>Searchable Fields (Groups)</h3>
+        <ul>
+            <li>Name, Description, Group Type, Tags, Owner, Modified By</li>
+        </ul>
+
+        <h3>Searchable Fields (Distributions)</h3>
+        <ul>
+            <li>Name, Headline, Description, Release Type, Distribution Status, Tags, Business Units, Regions, Owner, Modified By</li>
+        </ul>
+
+        <h3>Technical Implementation (Work Mode)</h3>
+        <pre><code>const performSearch = async () => {
+    setLoading(true);
+    try {
+        const promises: Promise&lt;SearchResult[]&gt;[] = [];
+
+        if (searchMode === 'work') {
+            // Check permissions before adding to search queue
+            const canAccessInteractions = !demoModules || demoModules.interactions;
+            const canAccessSubjects = !demoModules || demoModules.subjects;
+            const canAccessGroups = !demoModules || demoModules.groups;
+            const canAccessDistributions = !demoModules || demoModules.distributions;
+
+            if (canAccessInteractions) promises.push(searchInteractions());
+            if (canAccessSubjects) promises.push(searchSubjects());
+            if (canAccessGroups) promises.push(searchGroups());
+            if (canAccessDistributions) promises.push(searchDistributions());
+        }
+
+        // Wait for all searches to complete (blocking)
+        const results = await Promise.all(promises);
+        
+        // Flatten and sort by modified date (most recent first)
+        const combined: SearchResult[] = results
+            .flat()
+            .sort((a, b) => new Date(b.modified).getTime() - new Date(a.modified).getTime());
+
+        setResults(combined);
+    } catch (error) {
+        console.error('Search failed:', error);
+        setResults([]);
+    } finally {
+        setLoading(false);
+    }
+};</code></pre>
+
+        <!-- Media Mode Search -->
+        <h2 id="search-media-mode">6.2 Media Mode Search</h2>
+
+        <h3>Entity Types Searched</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Entity Type</th>
+                    <th>API Endpoint</th>
+                    <th>Permission Check</th>
+                    <th>Results Limit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Monitoring Articles</td>
+                    <td><code>POST /article/list</code></td>
+                    <td>Always accessible in Media mode</td>
+                    <td>10 per query</td>
+                </tr>
+                <tr>
+                    <td>Contacts</td>
+                    <td><code>POST /contact/search</code></td>
+                    <td>Always accessible (database entity)</td>
+                    <td>10 per query</td>
+                </tr>
+                <tr>
+                    <td>Outlets</td>
+                    <td><code>POST /outlet/search</code></td>
+                    <td>Always accessible (database entity)</td>
+                    <td>10 per query</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Searchable Fields (Monitoring)</h3>
+        <ul>
+            <li><strong>Headline:</strong> Article headline/title</li>
+            <li><strong>Content:</strong> Article body text (snippet)</li>
+            <li><strong>Source:</strong> Publication/outlet name</li>
+            <li><strong>Author:</strong> Article author name</li>
+            <li><strong>Tags:</strong> Associated tags</li>
+        </ul>
+
+        <h3>Searchable Fields (Contacts)</h3>
+        <ul>
+            <li><strong>Name:</strong> Contact full name</li>
+            <li><strong>Job Title:</strong> Contact position</li>
+            <li><strong>Outlet:</strong> Associated outlet/publication</li>
+            <li><strong>Email:</strong> Contact email address</li>
+            <li><strong>Phone:</strong> Contact phone number</li>
+        </ul>
+
+        <h3>Searchable Fields (Outlets)</h3>
+        <ul>
+            <li><strong>Name:</strong> Outlet/publication name</li>
+            <li><strong>Category:</strong> Media category (Newspaper, Magazine, Blog, etc.)</li>
+            <li><strong>Location:</strong> Geographic location</li>
+            <li><strong>Description:</strong> Outlet description</li>
+        </ul>
+
+        <h3>Technical Implementation (Media Mode)</h3>
+        <pre><code>if (searchMode === 'media') {
+    // Media mode entities don't have specific permission flags
+    // Always search all three types when in Media mode
+    promises.push(searchMonitoring());
+    promises.push(searchContacts());
+    promises.push(searchOutlets());
+}
+
+// Example: Search contacts
+const searchContacts = async (): Promise&lt;SearchResult[]&gt; => {
+    try {
+        const payload: KendoGridFilterDto = {
+            ...GetTemplate('kendogridfilter'),
+            searchText: debouncedSearchText,
+            take: 10,
+            sort: [{ field: 'modified', dir: 'desc' }],
+            facetedFilters: []
+        };
+
+        const result = await postApi&lt;KendoGridResultDto&lt;ContactKendoAzDto&gt;&gt;({
+            endPoint: 'contact/search',
+            payload
+        });
+
+        return result.data.map(c => ({
+            id: c.id,
+            type: 'contacts' as EntityType,
+            title: c.name,
+            subtitle: c.outletName,
+            modified: new Date(),
+            icon: EntityRecordsType.Contacts,
+            href: `/contact/${c.id}`,
+            matchedField: undefined,
+            matchedValue: undefined
+        }));
+    } catch {
+        return []; // Return empty array on error (fail gracefully)
+    }
+};</code></pre>
+
+        <!-- Search Algorithm -->
+        <h2 id="search-algorithm">6.3 Search Algorithm & Result Mixing</h2>
+
+        <h3>Parallel Search Execution</h3>
+        <p>All entity type searches execute <strong>simultaneously in parallel</strong> using <code>Promise.all()</code>. This maximizes performance by not waiting for each search to complete sequentially.</p>
+
+        <div class="info-box info">
+            <div class="info-box-title">How Promise.all() Works</div>
+            <ul>
+                <li><strong>Starts all searches simultaneously:</strong> All API calls fire at t=0ms</li>
+                <li><strong>Waits for slowest to complete:</strong> Blocks until ALL searches finish</li>
+                <li><strong>Returns combined results:</strong> Only updates UI once with complete dataset</li>
+                <li><strong>Fails fast:</strong> If any search throws an error, the whole operation fails (unless caught individually)</li>
+            </ul>
+        </div>
+
+        <h3>Result Mixing Algorithm</h3>
+        <p>Once all searches complete, results are combined and sorted using this algorithm:</p>
+
+        <pre><code>// Step 1: Wait for all searches to complete (blocking)
+const results = await Promise.all(promises);
+// At this point: results = [
+//   [interaction1, interaction2, ...],  // 10 interactions
+//   [subject1, subject2, ...],          // 10 subjects
+//   [group1, group2, ...],              // 10 groups
+//   [distribution1, distribution2, ...] // 10 distributions
+// ]
+
+// Step 2: Flatten nested arrays into single array
+const flatResults = results.flat();
+// Now: flatResults = [interaction1, interaction2, ..., subject1, subject2, ..., group1, ...]
+// Total: up to 40 results (Work mode) or 30 results (Media mode)
+
+// Step 3: Sort by modified date (most recent first)
+const combined = flatResults.sort((a, b) => 
+    new Date(b.modified).getTime() - new Date(a.modified).getTime()
+);
+// Now: combined = [mostRecentItem, secondMostRecent, thirdMostRecent, ...]
+// Results are INTERLEAVED by recency, not grouped by type
+
+// Step 4: Update state to display results
+setResults(combined);</code></pre>
+
+        <h3>Example Timeline</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Event</th>
+                    <th>User Sees</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>t=0ms</td>
+                    <td>User types search term, debounce timer starts</td>
+                    <td>Search input with typed text</td>
+                </tr>
+                <tr>
+                    <td>t=500ms</td>
+                    <td>Debounce completes, all 4 searches fire simultaneously</td>
+                    <td>Loading spinner appears</td>
+                </tr>
+                <tr>
+                    <td>t=650ms</td>
+                    <td>Interactions search completes ⏳ (waiting for others)</td>
+                    <td>Still loading...</td>
+                </tr>
+                <tr>
+                    <td>t=720ms</td>
+                    <td>Groups search completes ⏳ (waiting for others)</td>
+                    <td>Still loading...</td>
+                </tr>
+                <tr>
+                    <td>t=810ms</td>
+                    <td>Subjects search completes ⏳ (waiting for others)</td>
+                    <td>Still loading...</td>
+                </tr>
+                <tr>
+                    <td>t=950ms</td>
+                    <td>Distributions search completes ✅ (slowest - DONE)</td>
+                    <td>Loading spinner disappears</td>
+                </tr>
+                <tr>
+                    <td>t=951ms</td>
+                    <td>Results mixed, sorted, and displayed</td>
+                    <td>All 40 results visible, sorted by recency</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Result Ordering Example</h3>
+        <p>Results are <strong>interleaved by modification date</strong>, not grouped by entity type:</p>
+
+        <pre><code>// Final sorted results (example)
+1. Subject: "Q2 Campaign" (modified 2 hours ago)
+2. Interaction: "Follow-up with BBC" (modified 3 hours ago)
+3. Distribution: "Press Release v2" (modified 5 hours ago)
+4. Subject: "Product Launch" (modified 6 hours ago)
+5. Group: "Tier 1 Journalists" (modified 8 hours ago)
+6. Interaction: "Phone call with Guardian" (modified 1 day ago)
+7. Group: "Finance Contacts" (modified 1 day ago)
+...
+// Total: 40 results from 4 entity types, sorted by most recent first</code></pre>
+
+        <h3>Field Matching & Highlighting</h3>
+        <p>The search includes intelligent field matching to show users <em>where</em> the search term was found:</p>
+
+        <pre><code>const detectMatchedField = (data: any, searchTerm: string) => {
+    const fieldsToCheck = [
+        { key: 'name', label: 'Name' },
+        { key: 'headline', label: 'Headline' },
+        { key: 'description', label: 'Description' },
+        { key: 'interactionTypeName', label: 'Type' },
+        { key: 'statusName', label: 'Status' },
+        { key: 'tagNames', label: 'Tags' },
+        { key: 'ownerName', label: 'Owner' },
+        // ... more fields
+    ];
+
+    for (const field of fieldsToCheck) {
+        const value = data[field.key];
+        if (Array.isArray(value)) {
+            // Handle array fields (tags, business units, etc.)
+            const matches = value.filter(v => 
+                containsSearchTerm(String(v), searchTerm)
+            );
+            if (matches.length > 0) {
+                return { field: field.label, value: matches.join(', ') };
+            }
+        } else if (containsSearchTerm(String(value), searchTerm)) {
+            return { field: field.label, value: String(value) };
+        }
+    }
+    return null; // No match detected in checked fields
+};
+
+// Display matched field in UI
+if (result.matchedField && result.matchedValue) {
+    return (
+        &lt;div className="result-snippet"&gt;
+            &lt;strong&gt;Match in {result.matchedField}:&lt;/strong&gt;
+            {highlightText(result.matchedValue, searchTerm)}
+        &lt;/div&gt;
+    );
+}</code></pre>
+
+        <h3>Highlighting Implementation</h3>
+        <pre><code>const highlightText = (text: string, searchTerm: string): React.ReactNode => {
+    if (!searchTerm || !containsSearchTerm(text, searchTerm)) {
+        return text;
+    }
+
+    // Split text by search term (case-insensitive)
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    const parts = text.split(regex);
+
+    // Wrap matching parts in &lt;mark&gt; tags
+    return parts.map((part, index) => 
+        regex.test(part) ? (
+            &lt;mark key={index} className="highlight"&gt;{part}&lt;/mark&gt;
+        ) : (
+            part
+        )
+    );
+};</code></pre>
+
+        <h3>Performance Considerations</h3>
+        <ul>
+            <li><strong>Debouncing (500ms):</strong> Prevents excessive API calls while typing</li>
+            <li><strong>Minimum 2 characters:</strong> Avoids searching on single-letter input</li>
+            <li><strong>Result limits (10 per type):</strong> Keeps API response sizes manageable</li>
+            <li><strong>Parallel execution:</strong> Maximizes speed by searching simultaneously</li>
+            <li><strong>Graceful failure:</strong> Individual search failures return empty arrays, don't crash entire search</li>
+            <li><strong>Client-side sorting:</strong> Fast in-memory sort after API calls complete</li>
+        </ul>
+
+        <h3>User Experience Flow</h3>
+        <ol>
+            <li>User opens search overlay (Cmd/Ctrl + K or click search button)</li>
+            <li>Search input auto-focuses</li>
+            <li>User types search term (e.g., "marketing")</li>
+            <li>500ms debounce timer starts</li>
+            <li>User continues typing → debounce resets</li>
+            <li>User stops typing → debounce completes after 500ms</li>
+            <li>Loading spinner appears</li>
+            <li>All searches fire simultaneously in parallel</li>
+            <li>System waits for slowest API to complete (typically 500-1000ms)</li>
+            <li>Results are flattened, sorted by recency, and displayed</li>
+            <li>User sees up to 40 results (Work mode) or 30 results (Media mode)</li>
+            <li>Search terms are highlighted in yellow within results</li>
+            <li>Matched fields shown as snippets ("Match in: Description")</li>
+            <li>User can filter by entity type using quick filter buttons</li>
+            <li>Clicking interactions, subjects, distributions, monitoring, JES enquiries, and forward features opens a detail modal</li>
+            <li>Supported modals provide a "View Full" path for full-page navigation where implemented</li>
+            <li>Other entity types (for example groups, contacts, outlets) navigate directly via links</li>
+        </ol>
+
+        <!-- Widgets -->
+        <h1 id="widgets">7. Widget Implementations</h1>
+
+        <!-- Quick Stats -->
+        <div class="widget-section" id="widget-quick-stats">
+            <div class="widget-header">
+                <div class="widget-icon">📊</div>
+                <h2 class="widget-title">Quick Stats</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>The Quick Stats widget provides at-a-glance metrics for interaction activity, JES workload, distributions, alerts, and team activity. Tiles are configurable and can be reordered or hidden from widget settings.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>API Endpoint</th>
+                        <th>Filters Applied</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interactions Completed (last 7 days)</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Completed status; completion inferred from modified date within last 7 days</td>
+                    </tr>
+                    <tr>
+                        <td>Interactions Due (next 7 days)</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Not completed; deadline in next 7 days</td>
+                    </tr>
+                    <tr>
+                        <td>Interactions Updated (this week)</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Modified since start of ISO week</td>
+                    </tr>
+                    <tr>
+                        <td>Most Active User</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Derived from created/updated/completed interaction activity</td>
+                    </tr>
+                    <tr>
+                        <td>JES Enquiries Due Soon</td>
+                        <td><code>jesEnquiryService.search()</code></td>
+                        <td>User subscriptions and due-soon open enquiries</td>
+                    </tr>
+                    <tr>
+                        <td>Active Alerts</td>
+                        <td><code>alert/search</code> (service abstraction in hook)</td>
+                        <td>Current active alert records</td>
+                    </tr>
+                    <tr>
+                        <td>Distributions Sent (7 or 30 day view)</td>
+                        <td><code>POST /release/search</code></td>
+                        <td>Status contains Processed/Published/Sent; timeframe controlled per tile</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useQuickStatsData.ts</code> - Fetches all metrics in parallel with automatic polling</li>
+                <li><strong>Component:</strong> <code>QuickStats.tsx</code> - Displays stats in a responsive grid</li>
+                <li><strong>Sub-component:</strong> <code>StatCard.tsx</code> - Individual stat card with icon, count, and trend indicators</li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tile Configuration:</strong> Each visible stat tile exposes a config menu for hiding the tile or opening widget settings</li>
+                <li><strong>Distribution Tile:</strong> Includes an inline config switcher for Last 7 Days vs Last 30 Days</li>
+                <li><strong>Widget Settings:</strong> Settings modal controls which tiles are visible and their ordering</li>
+                <li><strong>Current Limitation:</strong> Stat tiles are informational only and do not currently navigate or open modals when clicked</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Polling Interval:</strong> 60 seconds (same as all other widgets)</li>
+                <li><strong>New Item Detection:</strong> Not applicable (aggregate counts only)</li>
+                <li><strong>Performance:</strong> Uses <code>Promise.all()</code> to fetch all stats in parallel</li>
+                <li><strong>JES Subscription Handling:</strong> Fetches user subscriptions first, then queries with actual bitmask values</li>
+                <li><strong>Page Visibility:</strong> Pauses polling when browser tab is inactive</li>
+            </ul>
+
+            <h3>Known Limitations</h3>
+            <ul>
+                <li>No historical trending or comparison with previous values</li>
+                <li>Counts are point-in-time snapshots, not accumulated over period</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Add trend indicators (↑ increased by 3 since yesterday)</li>
+                <li>Click to expand with mini-list preview</li>
+                <li>Configurable date ranges for metrics</li>
+            </ul>
+        </div>
+
+        <!-- My Interactions -->
+        <div class="widget-section" id="widget-my-interactions">
+            <div class="widget-header">
+                <div class="widget-icon">✅</div>
+                <h2 class="widget-title">My Interactions</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Displays interactions assigned to the current user, organized into tabs by deadline urgency. Shows contact information with avatars, status badges, and due date indicators.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interactions</td>
+                        <td><code>/interaction/search</code></td>
+                        <td>POST with KendoGridFilterDto</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Query Filters</h4>
+            <ul>
+                <li><strong>Owner:</strong> Current user ID</li>
+                <li><strong>Sort:</strong> Deadline ascending (earliest first)</li>
+                <li><strong>Page Size:</strong> 50 results</li>
+                <li><strong>Status:</strong> Excludes "Complete" for Overdue/Due Soon/Later tabs</li>
+            </ul>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useInteractionsData.ts</code></li>
+                <li><strong>Component:</strong> <code>InteractionsContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code>, <code>InteractionContactDisplay.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Tab Switching</h4>
+                    <p>Four tabs: Overdue, Due Soon, Later, Completed. Client-side filtering based on deadline dates.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Click Interaction Row</h4>
+                    <p>Opens the interaction edit modal where users can directly update status, notes, deadline, ownership, contacts, and other interaction fields.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Click Contact Avatar</h4>
+                    <p>Navigates to contact detail page.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Click Contact Count Badge</h4>
+                    <p>Opens modal showing all contacts associated with the interaction. Includes stopPropagation to prevent opening interaction modal.</p>
+                </div>
+            </div>
+
+            <h3>Technical Details</h3>
+            <pre><code>// Tab filtering logic
+const filterByTab = (tab: InteractionTabId, interactions: Interaction[]) => {
+    const now = moment();
+    const twoDaysFromNow = moment().add(2, 'days');
+    
+    switch (tab) {
+        case 'overdue':
+            return interactions.filter(i => 
+                i.deadlineDateTime && 
+                moment(i.deadlineDateTime).isBefore(now) &&
+                i.statusName !== 'Complete'
+            );
+        case 'dueSoon':
+            return interactions.filter(i => 
+                i.deadlineDateTime &&
+                moment(i.deadlineDateTime).isBetween(now, twoDaysFromNow) &&
+                i.statusName !== 'Complete'
+            );
+        case 'scheduled':
+            return interactions.filter(i => 
+                (!i.deadlineDateTime || moment(i.deadlineDateTime).isAfter(twoDaysFromNow)) &&
+                i.statusName !== 'Complete'
+            );
+        case 'completed':
+            return interactions.filter(i => i.statusName === 'Complete');
+    }
+};</code></pre>
+
+            <h3>Refresh Mechanism</h3>
+            <ul>
+                <li><strong>Polling:</strong> Enabled, 30-second interval</li>
+                <li><strong>Background Refresh:</strong> Silently updates data, detects new interactions</li>
+                <li><strong>Manual Refresh:</strong> Shows loading state, clears new item highlights</li>
+                <li><strong>Post-Edit Refresh:</strong> Saving changes in the interaction edit modal refreshes widget data so the list reflects the latest interaction state</li>
+                <li><strong>New Item Detection:</strong> Highlights newly assigned interactions with blue border and badge count</li>
+            </ul>
+
+            <h3>Known Limitations</h3>
+            <ul>
+                <li>Client-side filtering may miss interactions if total exceeds page size (50)</li>
+                <li>No pagination - shows first 50 results only</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Server-side tab filtering to support pagination accurately</li>
+                <li>Infinite scroll or "Load More" for large interaction lists</li>
+                <li>Drag-and-drop to re-prioritize or change status</li>
+                <li>Quick actions (mark complete, snooze deadline) without opening modal</li>
+            </ul>
+        </div>
+
+        <!-- Incoming Interactions -->
+        <div class="widget-section" id="widget-incoming-interactions">
+            <div class="widget-header">
+                <div class="widget-icon">📥</div>
+                <h2 class="widget-title">Incoming Interactions</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Shows unassigned or recently created interactions that need attention. Organized by recency (Last 24h, Last 7 Days, Older) to help users quickly identify and claim new work.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Unassigned Interactions</td>
+                        <td><code>/interaction/search</code></td>
+                        <td>No owner filter (fetches all), sorted by created date descending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useUnassignedInteractionsData.ts</code></li>
+                <li><strong>Component:</strong> <code>UnassignedInteractionsContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code>, <code>InteractionContactDisplay.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Tab Switching</h4>
+                    <p>Three tabs filter by creation date: Last 24 Hours, Last 7 Days, Older than 7 days.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Click Row</h4>
+                    <p>Opens the interaction edit modal where users can assign ownership, update status, edit notes, deadlines, contacts, and other interaction fields.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Status Badges</h4>
+                    <p>"Just Created" badge for items created in last hour, "Unassigned" badge for items without owner.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Contact Display</h4>
+                    <p>Same as My Interactions - shows contact avatar with clickable count badge for multiple contacts.</p>
+                </div>
+            </div>
+
+            <h3>Technical Details</h3>
+            <pre><code>// Time-based tab filtering
+const isWithinLast24Hours = (created: string) => 
+    moment(created).isAfter(moment().subtract(24, 'hours'));
+
+const isWithinLast7Days = (created: string) => 
+    moment(created).isAfter(moment().subtract(7, 'days'));
+
+const isJustCreated = (created: string) => 
+    moment(created).isAfter(moment().subtract(1, 'hour'));</code></pre>
+
+            <h3>Refresh Mechanism</h3>
+            <ul>
+                <li><strong>Polling:</strong> Enabled, 30-second interval</li>
+                <li><strong>Background Refresh:</strong> Detects newly created interactions</li>
+                <li><strong>Post-Edit Refresh:</strong> Saving changes in the interaction edit modal refreshes widget data so assignment and status updates are reflected immediately</li>
+                <li><strong>New Item Detection:</strong> Highlights with blue border + "Just Created" badge for extra visibility</li>
+            </ul>
+
+            <h3>Known Limitations</h3>
+            <ul>
+                <li>No filtering by interaction type or global category</li>
+                <li>Page size limit (100) may hide older interactions</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Add "Claim" quick action button to assign without opening modal</li>
+                <li>Filter by source (email, web form, API, etc.)</li>
+                <li>Bulk assignment for multiple interactions</li>
+            </ul>
+        </div>
+
+        <!-- Subjects -->
+        <div class="widget-section" id="widget-subjects">
+            <div class="widget-header">
+                <div class="widget-icon">📋</div>
+                <h2 class="widget-title">Subjects</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Displays subjects owned by the current user with status indicators and contact counts. Subjects are primary organizational units for PR campaigns and content tracking.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Subjects</td>
+                        <td><code>/subject/search</code></td>
+                        <td>Owner: current user, not archived, sorted by modified date descending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useSubjectsData.ts</code></li>
+                <li><strong>Component:</strong> <code>SubjectsContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code>, <code>SubjectStatus.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switching:</strong> Four tabs filter the list: Favourites, Updated, In Progress, and Complete</li>
+                <li><strong>Click Subject Row:</strong> Opens a basic subject detail modal first</li>
+                <li><strong>View Full Subject:</strong> Button in modal navigates to the full subject record page</li>
+                <li><strong>Status Indicator:</strong> Color-coded badge showing subject lifecycle stage (Planning, Live, Complete, etc.)</li>
+                <li><strong>Contact Count:</strong> Shows number of associated contacts</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Memory Leak Fix:</strong> Uses <code>isMountedRef</code> to prevent setState after unmount</li>
+                <li><strong>Page Size:</strong> 50 subjects</li>
+                <li><strong>Sort:</strong> Most recently modified first</li>
+            </ul>
+
+            <h3>Refresh Mechanism</h3>
+            <ul>
+                <li><strong>Polling:</strong> Enabled, 30-second interval</li>
+                <li><strong>New Item Detection:</strong> Highlights newly created subjects</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Filter by status or global category</li>
+                <li>Show progress metrics (interactions complete, articles tracked, etc.)</li>
+                <li>Quick actions (archive, duplicate, share)</li>
+            </ul>
+        </div>
+
+        <!-- Groups -->
+        <div class="widget-section" id="widget-groups">
+            <div class="widget-header">
+                <div class="widget-icon">👥</div>
+                <h2 class="widget-title">Groups</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Shows contact groups owned by the user. Groups are collections of contacts used for email distributions, media list management, and targeted outreach.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Groups</td>
+                        <td><code>/group/search</code></td>
+                        <td>Owner: current user, sorted by modified date descending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useGroupsData.ts</code></li>
+                <li><strong>Component:</strong> <code>GroupsContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switching:</strong> Three tabs filter the list: All Groups, Modified by Me, and Target Outlets</li>
+                <li><strong>Click Group Row:</strong> Opens group edit modal to manage members</li>
+                <li><strong>Contact Count Badge:</strong> Shows total members in the group</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Page Size:</strong> 50 groups</li>
+                <li><strong>Polling:</strong> 30-second interval</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Show recent activity (last used in distribution, contacts added/removed)</li>
+                <li>Quick preview of group members on hover</li>
+                <li>Merge/split group actions</li>
+            </ul>
+        </div>
+
+        <!-- Interactions Leaderboard -->
+        <div class="widget-section" id="widget-top-completers">
+            <div class="widget-header">
+                <div class="widget-icon">🏅</div>
+                <h2 class="widget-title">Interactions Leaderboard (TopCompleters)</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Leaderboard widget showing top users for interaction activity with separate views for completed work and newly created interactions.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interactions (source dataset)</td>
+                        <td><code>/interaction/search</code></td>
+                        <td>Client-side aggregation by selected period (Today, This Week, This Month)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useTopCompletersData.ts</code></li>
+                <li><strong>Component:</strong> <code>TopCompleters.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardCard.tsx</code>, <code>Tabs.tsx</code>, <code>RefreshButton.tsx</code>, <code>LuminaBarChart</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switch:</strong> Toggle between Completed and Created leaderboards</li>
+                <li><strong>Time Period:</strong> Config menu switcher with Today (default), This Week, and This Month</li>
+                <li><strong>Refresh:</strong> Header refresh button with spinner and new items badge</li>
+                <li><strong>Status Meta:</strong> Footer shows last updated timestamp</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Completed Leaderboard:</strong> Counts completed interactions by <code>ownerName</code> in period</li>
+                <li><strong>Created Leaderboard:</strong> Counts created interactions by <code>createdUserName</code> in period</li>
+                <li><strong>Output:</strong> Top 10 users rendered as percentage-based horizontal bars</li>
+                <li><strong>Polling:</strong> Enabled, 60-second interval with Page Visibility pause/resume behavior</li>
+                <li><strong>New Item Tracking:</strong> Uses interaction ID deltas during background refresh</li>
+            </ul>
+        </div>
+
+        <!-- Distributions -->
+        <div class="widget-section" id="widget-distributions">
+            <div class="widget-header">
+                <div class="widget-icon">📧</div>
+                <h2 class="widget-title">Distributions</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Displays recent email distributions created by the user, showing status (Draft, Sent, Failed) and recipient counts.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Distributions</td>
+                        <td><code>/distribution/search</code></td>
+                        <td>Created by: current user, sorted by created date descending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useDistributionsData.ts</code></li>
+                <li><strong>Component:</strong> <code>DistributionsContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code>, <code>DistributionStatus.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switching:</strong> Three tabs filter the list: All, Drafts, and Complete</li>
+                <li><strong>Click Row:</strong> Opens a basic distribution detail modal with preview context</li>
+                <li><strong>View Full Distribution:</strong> Button in modal navigates to full distribution edit/view</li>
+                <li><strong>Status Badge:</strong> Shows send status (Draft, Queued, Sent, Failed)</li>
+                <li><strong>Recipient Count:</strong> Badge showing number of recipients</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Page Size:</strong> 50 distributions</li>
+                <li><strong>Polling:</strong> 30-second interval to catch status changes (queued → sent)</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Show open/click rates for sent distributions</li>
+                <li>Quick resend or duplicate actions</li>
+                <li>Filter by status or date range</li>
+            </ul>
+        </div>
+
+        <!-- JES Enquiries -->
+        <div class="widget-section" id="widget-jes-enquiries">
+            <div class="widget-header">
+                <div class="widget-icon">📰</div>
+                <h2 class="widget-title">JES Enquiries</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Shows journalist enquiries from the Journalist Enquiry Service (JES) that match the user's subscribed categories. Helps users find relevant media opportunities quickly.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Service Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Enquiries</td>
+                        <td>JES API (external)</td>
+                        <td><code>jesEnquiryService.search()</code></td>
+                    </tr>
+                    <tr>
+                        <td>User Subscriptions</td>
+                        <td>JES API</td>
+                        <td><code>jesEnquiryService.getUserSubscriptions()</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Query Parameters</h4>
+            <ul>
+                <li><strong>cat_Con:</strong> Consumer category bitmask from user subscriptions</li>
+                <li><strong>cat_Pro:</strong> Professional category bitmask from user subscriptions</li>
+                <li><strong>dateFrom/dateTo:</strong> Filtered by active tab (This Week / Recently Submitted)</li>
+                <li><strong>status:</strong> Open only</li>
+                <li><strong>hideUnsubscribed:</strong> true (only show subscribed categories)</li>
+            </ul>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useJesEnquiriesData.ts</code></li>
+                <li><strong>Component:</strong> <code>JesEnquiriesContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code>, <code>JesEnquiryData.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Tab Switching</h4>
+                    <p><strong>This Week:</strong> Enquiries with deadlines from now through end of current week.<br>
+                    <strong>Recently Submitted:</strong> Enquiries created in the last 7 days.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Click Enquiry</h4>
+                    <p>Opens JES enquiry detail modal showing summary, deadline, categories, and response options.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Category Badges</h4>
+                    <p>Visual tags showing enquiry categories (Food, Travel, Finance, etc.).</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Deadline Display</h4>
+                    <p>Shows formatted deadline date with relative time indicator.</p>
+                </div>
+            </div>
+
+            <h3>Technical Details</h3>
+            <pre><code>// Date range calculation for "This Week" tab
+const dateRange = {
+    from: moment().toDate(),                    // Now
+    to: moment().endOf('week').toDate()         // End of Sunday
+};
+
+// Recently Submitted tab
+const dateRange = {
+    from: moment().subtract(7, 'days').toDate(),
+    to: moment().toDate()
+};</code></pre>
+
+            <div class="info-box warning">
+                <div class="info-box-title">Important: Subscription Handling</div>
+                <p>The hook fetches user subscriptions first via <code>getUserSubscriptions()</code>, extracts cat_Con and cat_Pro values, then uses these actual bitmask numbers in subsequent queries. The <code>hideUnsubscribed</code> flag doesn't work when categories are set to None - you must pass the user's actual subscription bitmasks.</p>
+            </div>
+
+            <h3>Refresh Mechanism</h3>
+            <ul>
+                <li><strong>Polling:</strong> Enabled, 30-second interval</li>
+                <li><strong>API-Level Filtering:</strong> Uses dateRange parameter to filter on server, not client</li>
+                <li><strong>New Item Detection:</strong> Highlights newly published enquiries matching user subscriptions</li>
+                <li><strong>ID Type Conversion:</strong> Converts enquiry IDs to Number for consistent Set comparison</li>
+            </ul>
+
+            <h3>Known Limitations</h3>
+            <ul>
+                <li>Pagination limit (50 enquiries) may hide some results in large date ranges</li>
+                <li>No keyword filtering within widget</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Quick respond action to send enquiry response without leaving dashboard</li>
+                <li>Save for later / bookmark functionality</li>
+                <li>Email alerts for high-priority enquiries</li>
+                <li><strong>Relative date ranges:</strong> Store "Last 7 days", "Next 7 days" instead of absolute dates in saved searches to keep them always current</li>
+            </ul>
+        </div>
+
+        <!-- Forward Features -->
+        <div class="widget-section" id="widget-forward-features">
+            <div class="widget-header">
+                <div class="widget-icon">🎯</div>
+                <h2 class="widget-title">Forward Features</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Shows upcoming editorial opportunities and media deadlines for the user's active features. Helps plan pitches and content submissions in advance.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Forward Features</td>
+                        <td><code>/forwardfeature/search</code></td>
+                        <td>Owner: current user, deadline after today, sorted by deadline ascending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useForwardFeaturesData.ts</code></li>
+                <li><strong>Component:</strong> <code>ForwardFeaturesContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switching:</strong> Four tabs filter the list: All, Upcoming Deadline, This Week, and This Month</li>
+                <li><strong>Click Row:</strong> Opens a basic forward feature detail modal</li>
+                <li><strong>Deadline Badge:</strong> Shows copy deadline with color-coded urgency</li>
+                <li><strong>Publication Info:</strong> Displays outlet name and publication date</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Page Size:</strong> 50 features</li>
+                <li><strong>Polling:</strong> 30-second interval</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Filter by publication type (magazine, newspaper, blog, etc.)</li>
+                <li>Calendar view for deadline planning</li>
+                <li>Link to relevant subjects or contacts</li>
+            </ul>
+        </div>
+
+        <!-- Feature Groups -->
+        <div class="widget-section" id="widget-feature-groups">
+            <div class="widget-header">
+                <div class="widget-icon">📁</div>
+                <h2 class="widget-title">Feature Groups</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Collections of related forward features grouped by theme, client, or campaign. Helps organize multiple editorial opportunities.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Feature Groups</td>
+                        <td><code>/featuregroup/search</code></td>
+                        <td>Owner: current user, sorted by modified date descending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useFeatureGroupsData.ts</code></li>
+                <li><strong>Component:</strong> <code>FeatureGroupsContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switching:</strong> Three tabs filter the list: All Groups, Recently Modified, and Recently Created</li>
+                <li><strong>Click Row:</strong> Opens feature group detail with member features list</li>
+                <li><strong>Feature Count Badge:</strong> Shows number of features in the group</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Page Size:</strong> 50 groups</li>
+                <li><strong>Polling:</strong> 30-second interval</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Show nearest deadline from group members</li>
+                <li>Quick add/remove features from group</li>
+            </ul>
+        </div>
+
+        <!-- Latest Monitoring -->
+        <div class="widget-section" id="widget-latest-monitoring">
+            <div class="widget-header">
+                <div class="widget-icon">📡</div>
+                <h2 class="widget-title">Latest Monitoring</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Real-time feed of the latest articles from the user's monitoring sources. Shows recent coverage, competitor mentions, and industry news.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Articles</td>
+                        <td><code>/article/list</code></td>
+                        <td>User's monitoring feeds, last 24 hours, sorted by published date descending</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useLatestMonitoringData.ts</code></li>
+                <li><strong>Component:</strong> <code>LatestMonitoringContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardListItem.tsx</code>, <code>ArticleSource.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Click Article:</strong> Opens monitoring detail modal with article context and metrics</li>
+                <li><strong>View Full Article:</strong> Button in modal navigates to full media article view</li>
+                <li><strong>Source Badge:</strong> Shows publication source</li>
+                <li><strong>Published Time:</strong> Relative timestamp (e.g., "2 hours ago")</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Page Size:</strong> 50 articles</li>
+                <li><strong>Time Range:</strong> Last 24 hours only</li>
+                <li><strong>Polling:</strong> 30-second interval for near real-time updates</li>
+                <li><strong>New Item Styling:</strong> Very subtle background (4% opacity) to avoid overwhelming visual with many new articles</li>
+            </ul>
+
+            <h3>Refresh Mechanism</h3>
+            <ul>
+                <li><strong>High Frequency Polling:</strong> 30 seconds keeps feed fresh</li>
+                <li><strong>New Item Detection:</strong> Highlights newly published articles</li>
+                <li><strong>Auto-Clear Timeout:</strong> 2 hours (same as other widgets)</li>
+            </ul>
+
+            <h3>Future Improvements</h3>
+            <ul>
+                <li>Sentiment analysis indicators</li>
+                <li>Quick share/clip article to subject</li>
+                <li>Filter by source, topic, or keyword</li>
+                <li>Mark as read/unread</li>
+            </ul>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="widget-section" id="widget-activity">
+            <div class="widget-header">
+                <div class="widget-icon">🕒</div>
+                <h2 class="widget-title">Recent Activity</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Displays a timeline of recent user activity items (interactions, contacts, subjects, and distributions) with relative timestamps and context metadata.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Recent Activity Feed</td>
+                        <td>Mocked in component</td>
+                        <td>Current implementation uses local mock data; API integration is marked TODO</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Component:</strong> <code>ActivityContent.tsx</code></li>
+                <li><strong>Shared:</strong> <code>DashboardCard.tsx</code>, media/icon utilities</li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>View All Link:</strong> Header includes a "View all" link placeholder</li>
+                <li><strong>Read Feed:</strong> Rows show title, relative time, item type, and description</li>
+            </ul>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Current State:</strong> Placeholder/mock implementation pending API-backed feed</li>
+                <li><strong>Empty State:</strong> Shows "No recent activity" when list is empty</li>
+            </ul>
+        </div>
+
+        <!-- Interactions Over Time -->
+        <div class="widget-section" id="widget-interactions-over-time">
+            <div class="widget-header">
+                <div class="widget-icon">📈</div>
+                <h2 class="widget-title">Interactions Over Time</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Trend chart showing monthly Created vs Completed interactions over the last 12 months.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interaction time-series data</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Last 12 months; created date for Created series, modified date for Completed series</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useInteractionsOverTimeData.ts</code></li>
+                <li><strong>Component:</strong> <code>InteractionsOverTime.tsx</code></li>
+                <li><strong>Chart:</strong> <code>LuminaLineChart</code> with Created and Completed series</li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Read Only:</strong> Chart is informational and does not currently drill down</li>
+                <li><strong>Legend:</strong> Users can visually compare Created vs Completed monthly volumes</li>
+            </ul>
+        </div>
+
+        <!-- Work Distribution -->
+        <div class="widget-section" id="widget-work-distribution">
+            <div class="widget-header">
+                <div class="widget-icon">📊</div>
+                <h2 class="widget-title">Work Distribution</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Horizontal bar chart showing interaction workload breakdown by either Status or Category.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interaction distribution</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Up to 5000 interactions; grouped client-side by statusName or globalCategoryName</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useWorkDistributionData.ts</code></li>
+                <li><strong>Component:</strong> <code>WorkDistribution.tsx</code></li>
+                <li><strong>Chart:</strong> <code>LuminaBarChart</code> (horizontal)</li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Config Menu:</strong> "View By" switcher toggles Status vs Category view</li>
+                <li><strong>Read Only:</strong> Chart is currently informational and non-drilldown</li>
+            </ul>
+        </div>
+
+        <!-- Global Work Distribution -->
+        <div class="widget-section" id="widget-global-work-distribution">
+            <div class="widget-header">
+                <div class="widget-icon">🌐</div>
+                <h2 class="widget-title">Global Work Distribution</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Cross-module breakdown comparing key statuses across Interactions, Subjects, Distributions, and Groups over the last 12 months.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interactions</td>
+                        <td><code>POST /interaction/search</code></td>
+                        <td>Created date in last 12 months</td>
+                    </tr>
+                    <tr>
+                        <td>Subjects</td>
+                        <td><code>POST /subject/search</code></td>
+                        <td>Created date in last 12 months</td>
+                    </tr>
+                    <tr>
+                        <td>Distributions</td>
+                        <td><code>POST /release/search</code></td>
+                        <td>Created date in last 12 months</td>
+                    </tr>
+                    <tr>
+                        <td>Groups</td>
+                        <td><code>POST /group/search</code></td>
+                        <td>Created date in last 12 months</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Hook:</strong> <code>useGlobalWorkDistributionData.ts</code></li>
+                <li><strong>Component:</strong> <code>GlobalWorkDistribution.tsx</code></li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Read Only:</strong> Module bars are display-only and not clickable</li>
+                <li><strong>Permission Awareness:</strong> Locked modules are displayed as locked rows in demo mode states</li>
+            </ul>
+        </div>
+
+        <!-- Political Groups -->
+        <div class="widget-section" id="widget-political-groups">
+            <div class="widget-header">
+                <div class="widget-icon">🏛️</div>
+                <h2 class="widget-title">Political Groups</h2>
+            </div>
+
+            <h3>Feature Description</h3>
+            <p>Political group list focused on parliamentary groups (including Committees and APPGs), with quick filtering and group detail access.</p>
+
+            <h3>Data Source & API Endpoints</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Endpoint</th>
+                        <th>Filters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Groups</td>
+                        <td><code>POST /group/search</code></td>
+                        <td>Political groups derived client-side from group type keywords; sorted by modified date</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Components & Hooks</h3>
+            <ul>
+                <li><strong>Component:</strong> <code>PoliticalGroupsContent.tsx</code></li>
+                <li><strong>Modal:</strong> <code>GroupModalView</code> (Political mode)</li>
+            </ul>
+
+            <h3>User Interactions</h3>
+            <ul>
+                <li><strong>Tab Switching:</strong> Three tabs filter the list: All Groups, Committees, and APPGs</li>
+                <li><strong>Click Group Row:</strong> Opens political group modal for details/edit actions</li>
+                <li><strong>Counts:</strong> Contact and outlet counts shown per row</li>
+            </ul>
+        </div>
+
+        <!-- Common Components -->
+        <h1 id="common-components">8. Shared Components</h1>
+
+        <h2>DashboardListItem</h2>
+        <p><strong>Path:</strong> <code>/Components/Common/UI/DashboardListItem/DashboardListItem.tsx</code></p>
+        <p>Reusable list item component used across all dashboard widgets for consistent styling and behavior.</p>
+
+        <h3>Props</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Prop</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>title</code></td>
+                    <td>string</td>
+                    <td>Main heading text</td>
+                </tr>
+                <tr>
+                    <td><code>titleLineClamp</code></td>
+                    <td>number</td>
+                    <td>Max lines before ellipsis (default: 1)</td>
+                </tr>
+                <tr>
+                    <td><code>isNew</code></td>
+                    <td>boolean</td>
+                    <td>Apply new item highlighting (blue border, background, animation)</td>
+                </tr>
+                <tr>
+                    <td><code>indicator</code></td>
+                    <td>ReactNode</td>
+                    <td>Left icon/badge element</td>
+                </tr>
+                <tr>
+                    <td><code>action</code></td>
+                    <td>ReactNode</td>
+                    <td>Right action element (badges, status)</td>
+                </tr>
+                <tr>
+                    <td><code>onClick</code></td>
+                    <td>function</td>
+                    <td>Click handler for entire row</td>
+                </tr>
+                <tr>
+                    <td><code>children</code></td>
+                    <td>ReactNode</td>
+                    <td>Meta content (contact info, timestamps, etc.)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Features</h3>
+        <ul>
+            <li><strong>New Item Styling:</strong> When <code>isNew={true}</code>, applies blue left border, subtle background, and fade-in animation</li>
+            <li><strong>Keyboard Navigation:</strong> Supports Enter and Space keys when onClick is provided</li>
+            <li><strong>Accessibility:</strong> Proper ARIA roles and tabIndex for screen readers</li>
+        </ul>
+
+        <h2>InteractionContactDisplay</h2>
+        <p><strong>Path:</strong> <code>/Components/Common/InteractionContactDisplay/InteractionContactDisplay.tsx</code></p>
+        <p>Displays contact information for interactions with avatar, name, and clickable count badge for multiple contacts.</p>
+
+        <h3>Props</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Prop</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>contacts</code></td>
+                    <td>ContactListItemDto[]</td>
+                    <td>Array of contact objects</td>
+                </tr>
+                <tr>
+                    <td><code>showOutlet</code></td>
+                    <td>boolean</td>
+                    <td>Show outlet name under contact (default: true)</td>
+                </tr>
+                <tr>
+                    <td><code>showMultipleContactsIndicator</code></td>
+                    <td>boolean</td>
+                    <td>Show "+X" badge for additional contacts (default: true)</td>
+                </tr>
+                <tr>
+                    <td><code>contactCountOnClick</code></td>
+                    <td>function</td>
+                    <td>Callback when count badge is clicked</td>
+                </tr>
+                <tr>
+                    <td><code>sizeOption</code></td>
+                    <td>"small" | "default"</td>
+                    <td>Size variant (small for dashboard widgets)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Behavior</h3>
+        <ul>
+            <li><strong>Primary Contact:</strong> Shows first contact with avatar and name</li>
+            <li><strong>Additional Contacts:</strong> Displays "+2" badge if 3+ contacts</li>
+            <li><strong>Click Badge:</strong> Opens modal with full contact list (uses <code>e.stopPropagation()</code> to prevent row click)</li>
+            <li><strong>Click Name:</strong> Navigates to contact detail page</li>
+        </ul>
+
+        <h2>DashboardCard</h2>
+        <p><strong>Path:</strong> <code>/Components/Common/UI/DashboardCard/DashboardCard.tsx</code></p>
+        <p>Wrapper component providing consistent card layout with header, tabs, actions, and config dropdown.</p>
+
+        <h3>Features</h3>
+        <ul>
+            <li><strong>Header:</strong> Title, icon, refresh button, "View all" link</li>
+            <li><strong>Tabs:</strong> Optional tab navigation (rendered via <code>headerTabs</code> prop)</li>
+            <li><strong>Config Dropdown:</strong> Width toggle (Half/Full), widget-specific settings, remove button</li>
+            <li><strong>Loading State:</strong> Skeleton loader while data fetches</li>
+        </ul>
+
+        <h2>FeatureBanner & Persistent Dismissal System</h2>
+        <p><strong>Component Path:</strong> <code>/Components/FeatureBanner/FeatureBanner.tsx</code></p>
+        <p><strong>Utility Path:</strong> <code>/Utils/feature-banners.ts</code></p>
+        <p>Dismissible notification banner system for promoting new features and updates. Similar to cookie consent banners, dismissed banners stay hidden until a new banner ID is introduced.</p>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>Persistent Dismissal:</strong> Uses localStorage to remember dismissed banners across sessions</li>
+            <li><strong>ID-Based Reactivation:</strong> Change the banner ID to show to all users again</li>
+            <li><strong>Demo Mode Override:</strong> Easy reset functionality for testing and demos</li>
+            <li><strong>Production Ready:</strong> No API calls, instant response, works across all browsers</li>
+        </ul>
+
+        <h3>Banner Configuration</h3>
+        <p>Banners are defined in <code>/Utils/feature-banners.ts</code> with the following interface:</p>
+        
+        <pre><code>export interface FeatureBanner {
+    id: string;           // Unique identifier - change to reactivate
+    title: string;        // Main heading
+    description: string;  // Body text
+    ctaText?: string;     // Call-to-action button text
+}</code></pre>
+
+        <h4>Example Banner Definition</h4>
+        <pre><code>export const FEATURE_BANNERS = {
+    DASHBOARD_CUSTOMIZATION_V1: {
+        id: 'dashboard-customization-v1',
+        title: 'New Dashboard Customization Available! ✨',
+        description: 'Personalize your workspace with drag-and-drop widgets...',
+        ctaText: 'Customize Now'
+    },
+    // Future banner - change ID to show again
+    NEW_ANALYTICS_V1: {
+        id: 'new-analytics-v1',
+        title: 'Advanced Analytics Now Available!',
+        description: 'Unlock deeper insights...',
+        ctaText: 'Explore Analytics'
+    }
+} as const;</code></pre>
+
+        <h3>Core Functions</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Purpose</th>
+                    <th>Usage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>isDismissed(bannerId)</code></td>
+                    <td>Check if user dismissed a banner</td>
+                    <td>Returns true if banner ID exists in localStorage</td>
+                </tr>
+                <tr>
+                    <td><code>dismissBanner(bannerId)</code></td>
+                    <td>Mark banner as dismissed</td>
+                    <td>Adds banner ID to localStorage array</td>
+                </tr>
+                <tr>
+                    <td><code>resetDismissedBanners()</code></td>
+                    <td>Clear all dismissed banners</td>
+                    <td>Removes localStorage key (demo/testing use)</td>
+                </tr>
+                <tr>
+                    <td><code>getDismissedBanners()</code></td>
+                    <td>Get all dismissed IDs</td>
+                    <td>Returns string array (debugging helper)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Implementation in UserDashboard</h3>
+        
+        <pre><code>// Import utilities
+import { FEATURE_BANNERS, isDismissed, dismissBanner } from './Utils/feature-banners';
+
+// In UserDashboard render
+{(() => {
+    const currentBanner = FEATURE_BANNERS.DASHBOARD_CUSTOMIZATION_V1;
+    const shouldShowBanner = !selectedSettingsTab && 
+                            !isSearchOpen && 
+                            (demoModules.showFeatureBanner || !isDismissed(currentBanner.id));
+    
+    return shouldShowBanner ? (
+        &lt;FeatureBanner
+            title={currentBanner.title}
+            description={currentBanner.description}
+            ctaText={currentBanner.ctaText}
+            onCtaClick={handleCustomizeClick}
+            onDismiss={() => {
+                dismissBanner(currentBanner.id);
+                setDemoModules({ ...demoModules, showFeatureBanner: false });
+            }}
+        /&gt;
+    ) : null;
+})()}</code></pre>
+
+        <h3>Demo Mode Controls</h3>
+        <p>The <code>DashboardDemoToggle</code> component includes a "Reset Dismissed Banners" button:</p>
+        <ul>
+            <li><strong>Location:</strong> Demo Mode dropdown → Footer section</li>
+            <li><strong>Action:</strong> Calls <code>resetDismissedBanners()</code> and sets <code>showFeatureBanner: true</code></li>
+            <li><strong>Use Case:</strong> Testing new banner designs, demonstrating features to stakeholders</li>
+        </ul>
+
+        <h3>localStorage Structure</h3>
+        <pre><code>// Storage key
+'mcd-dismissed-banners'
+
+// Stored value (JSON array)
+["dashboard-customization-v1", "new-analytics-v1"]</code></pre>
+
+        <h3>How to Add a New Banner</h3>
+        <ol>
+            <li><strong>Define Banner:</strong> Add to <code>FEATURE_BANNERS</code> in <code>feature-banners.ts</code></li>
+            <li><strong>Update Dashboard:</strong> Change <code>currentBanner</code> reference in <code>UserDashboard.tsx</code></li>
+            <li><strong>Test:</strong> Use Demo Mode "Reset Dismissed Banners" button to verify</li>
+            <li><strong>Deploy:</strong> All users see new banner until they dismiss it</li>
+        </ol>
+
+        <h3>Best Practices</h3>
+        <ul>
+            <li><strong>Unique IDs:</strong> Use descriptive, versioned IDs (e.g., <code>feature-name-v1</code>)</li>
+            <li><strong>Change ID to Reactivate:</strong> When updating content, increment version (<code>v1</code> → <code>v2</code>)</li>
+            <li><strong>Keep it Concise:</strong> Banner descriptions should be 1-2 sentences max</li>
+            <li><strong>Clear CTA:</strong> Action button text should describe the next step</li>
+            <li><strong>Visibility Logic:</strong> Hide banners in search mode, settings view, or other focused contexts</li>
+        </ul>
+
+        <h3>Technical Benefits</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>localStorage Approach</th>
+                    <th>Alternative (Backend)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>✅ Instant, no API calls</td>
+                    <td>❌ Requires loading state</td>
+                </tr>
+                <tr>
+                    <td><strong>Complexity</strong></td>
+                    <td>✅ Simple, 5 functions</td>
+                    <td>❌ API endpoints, error handling</td>
+                </tr>
+                <tr>
+                    <td><strong>Demo Testing</strong></td>
+                    <td>✅ One-click reset</td>
+                    <td>❌ Database cleanup required</td>
+                </tr>
+                <tr>
+                    <td><strong>Cross-Device</strong></td>
+                    <td>❌ Per-browser only</td>
+                    <td>✅ Syncs across devices</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box info">
+            <div class="info-box-title">💡 Future Enhancement</div>
+            <p>If cross-device persistence becomes important, the system can be upgraded to sync with KeyValueStore while keeping localStorage as the fast primary cache.</p>
+        </div>
+
+        <!-- Architecture -->
+        <h1 id="architecture">9. Technical Architecture</h1>
+
+        <h2>Hook Pattern</h2>
+        <p>All dashboard widgets follow a consistent custom hook pattern:</p>
+
+        <pre><code>// Standard hook structure
+export const useWidgetData = (options = {}) => {
+    // State
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [newItemsCount, setNewItemsCount] = useState(0);
+    const [newItemIds, setNewItemIds] = useState(new Set());
+    const [isPollingActive, setIsPollingActive] = useState(options.enablePolling);
+    
+    // Refs for tracking
+    const previousIdsRef = useRef(new Set());
+    const pollingTimerRef = useRef(null);
+    const newItemsTimeoutRef = useRef(null);
+    const isInitialLoadRef = useRef(true);
+    const isMountedRef = useRef(true);
+    
+    // Fetch function
+    const fetchData = useCallback(async (isBackgroundRefresh = false) => {
+        // Fetch logic
+        // New item detection
+        // State updates
+    }, []);
+    
+    // Polling setup
+    useEffect(() => {
+        // Start/stop polling based on isPollingActive
+    }, [isPollingActive]);
+    
+    // Page visibility handling
+    useEffect(() => {
+        // Pause polling when tab inactive
+    }, []);
+    
+    // Cleanup
+    useEffect(() => {
+        return () => {
+            isMountedRef.current = false;
+            // Clear timers
+        };
+    }, []);
+    
+    return {
+        data,
+        isLoading,
+        error,
+        newItemsCount,
+        newItemIds,
+        refresh,
+        clearNewItems,
+        togglePolling,
+        isPollingActive
+    };
+};</code></pre>
+
+        <h2>Component Pattern</h2>
+        <p>Widget components follow this structure:</p>
+
+        <pre><code>export const WidgetContent = (props) => {
+    // Destructure hook data
+    const { data, isLoading, newItemIds, refresh } = useWidgetData({
+        enablePolling: true,
+        pollingInterval: 60000
+    });
+    
+    // Local state for UI
+    const [activeTab, setActiveTab] = useState('default');
+    const [visibleCount, setVisibleCount] = useState(20);
+    
+    // Render helpers
+    const renderTabs = () => { /* ... */ };
+    const renderList = () => { /* ... */ };
+    
+    // Main render
+    return (
+        &lt;DashboardCard
+            title="Widget Title"
+            icon={&lt;Icon /&gt;}
+            loading={isLoading}
+            headerTabs={renderTabs()}
+            headerActions={&lt;RefreshButton onClick={refresh} /&gt;}
+        &gt;
+            {renderList()}
+        &lt;/DashboardCard&gt;
+    );
+};</code></pre>
+
+        <h2 id="architecture-directory">Directory Structure</h2>
+        <p>The dashboard follows a domain-driven architecture with clear separation of concerns:</p>
+        
+        <pre><code>/apps/mcd/src/Containers2/UserDashboard/
+├── UserDashboard.tsx                 # Main dashboard container
+│
+├── Components/                       # All UI components
+│   ├── Common/                       # Shared components
+│   │   ├── UI/                       # ✅ Centralized UI components (Priority 1)
+│   │   │   ├── DashboardCard/        #    Widget container with config dropdown
+│   │   │   ├── ConfigButton/         #    Settings gear button
+│   │   │   ├── ConfigMenu/           #    Dropdown menu component
+│   │   │   ├── ToggleGroup/          #    Segmented control for options
+│   │   │   ├── WidthToggle/          #    Half/Full width toggle
+│   │   │   └── StatCard/             #    Metric display cards
+│   │   └── ClientPresetSelector/     # Client preset dropdown
+│   │
+│   ├── Widgets/                      # ✅ Widget implementations (renamed from Content)
+│   │   ├── QuickStats/               #    Dashboard stats widget
+│   │   ├── Activity/                 #    Interactions over time chart
+│   │   ├── Interactions/             #    My interactions list
+│   │   ├── UnassignedInteractions/   #    Incoming interactions
+│   │   ├── Subjects/                 #    Subjects list
+│   │   ├── Groups/                   #    Groups list
+│   │   ├── Distributions/            #    Distribution history
+│   │   ├── JesEnquiries/             #    JES enquiries list
+│   │   ├── ForwardFeatures/          #    Forward features list
+│   │   ├── FeatureGroups/            #    Feature groups list
+│   │   ├── LatestMonitoring/         #    Monitoring alerts
+│   │   ├── GlobalWorkDistribution/   #    Global work pie chart
+│   │   ├── WorkDistribution/         #    My work pie chart
+│   │   ├── InteractionsOverTime/     #    Interactions trend chart
+│   │   ├── TopCompleters/            #    Interactions leaderboard ⭐ NEW
+│   │   └── Common/                   #    Widget-specific shared components
+│   │       └── BaseSubscriptionModal/ # Subscription modal base
+│   │
+│   ├── Promos/                       # ✅ Promotional components (Priority 4)
+│   │   ├── InteractionsWidgetPromo.tsx
+│   │   ├── InteractionsSubscriptionModal.tsx
+│   │   ├── SubjectsWidgetPromo.tsx
+│   │   ├── SubjectsSubscriptionModal.tsx
+│   │   ├── GroupsWidgetPromo.tsx
+│   │   ├── GroupsSubscriptionModal.tsx
+│   │   ├── JesWidgetPromo.tsx
+│   │   ├── DistributionsWidgetPromo.tsx
+│   │   └── DistributionsSubscriptionModal.tsx
+│   │
+│   ├── Settings/                     # ✅ Settings content tabs (Priority 3)
+│   │   ├── MonitoringAlerts/         #    Monitoring alert configuration
+│   │   ├── Usage/                    #    Usage statistics
+│   │   ├── Sources/                  #    Source management
+│   │   ├── Clipbook/                 #    Clipbook settings
+│   │   └── Relationships/            #    Relationship settings
+│   │
+│   ├── SettingsView/                 # Full-page settings view
+│   ├── QuickActionsBar/              # Create entity quick actions
+│   ├── UnifiedSearch/                # Search overlay (Work/Media modes)
+│   ├── WelcomeHeader/                # Dashboard header with greeting
+│   ├── DashboardPanel/               # Main panel controller
+│   ├── DashboardConfigModal/         # Widget configuration modal
+│   ├── QuickStatsConfigView/         # Quick Stats configuration
+│   ├── FeatureBanner/                # Feature announcement banner
+│   ├── LockedPanelMenuItem/          # Locked panel menu item
+│   └── LockedWidgetPromo/            # Generic locked widget promo
+│
+├── Hooks/                            # ✅ Custom React hooks (Priority 2)
+│   ├── Config/                       # Configuration hooks
+│   │   ├── useDashboardConfig.ts     #    Dashboard layout & widget config
+│   │   ├── useQuickStatsConfig.ts    #    Quick Stats tile configuration
+│   │   └── useDashboardBadgeBreakpoint.ts # Responsive breakpoint hook
+│   │
+│   └── Data/                         # Data fetching hooks
+│       ├── useQuickStatsData.ts      #    Quick Stats metrics
+│       ├── useInteractionsData.ts    #    My interactions data
+│       ├── useUnassignedInteractionsData.ts # Incoming interactions
+│       ├── useSubjectsData.ts        #    Subjects data
+│       ├── useGroupsData.ts          #    Groups data
+│       ├── useDistributionsData.ts   #    Distributions data
+│       ├── useJesEnquiriesData.ts    #    JES enquiries data
+│       ├── useForwardFeaturesData.ts #    Forward features data
+│       ├── useFeatureGroupsData.ts   #    Feature groups data
+│       ├── useLatestMonitoringData.ts #   Monitoring alerts data
+│       ├── useTopCompletersData.ts   #    Interactions leaderboard data ⭐ NEW
+│       ├── useGlobalWorkDistributionData.ts # Global work distribution
+│       ├── useWorkDistributionData.ts #   My work distribution
+│       └── useInteractionsOverTimeData.ts # Interactions trend data
+│
+├── Types/                            # ✅ TypeScript type definitions (Priority 5)
+│   ├── Config/                       # Configuration types
+│   │   ├── dashboard-config.types.ts #    WidgetType, WidgetSize, DashboardConfig
+│   │   ├── quickstats-config.types.ts #   StatTileId, QuickStatsConfig
+│   │   └── client-presets.types.ts   #    ClientPresetId, CLIENT_PRESETS
+│   │
+│   └── Core/                         # Core/foundational types
+│       ├── dashboard.types.ts        #    DashboardView, SettingsTabId
+│       └── widget-module-mapping.types.ts # Module mappings & permissions
+│
+└── Utils/                            # Utility functions
+    ├── demoMode.ts                   # Demo mode utilities
+    └── widgetPermissions.ts          # Permission checking logic</code></pre>
+
+        <h2 id="architecture-principles">Architecture Principles</h2>
+        
+        <h3>1. Domain-Driven Organization</h3>
+        <p>The codebase is organized by domain and responsibility rather than by file type:</p>
+        <ul>
+            <li><strong>Components/Widgets/</strong> - All widget implementations in one place</li>
+            <li><strong>Components/Common/UI/</strong> - Reusable UI components used across widgets</li>
+            <li><strong>Components/Promos/</strong> - All promotional and subscription modals</li>
+            <li><strong>Components/Settings/</strong> - Settings tab content components</li>
+            <li><strong>Hooks/Config/</strong> - Configuration management hooks</li>
+            <li><strong>Hooks/Data/</strong> - Data fetching hooks with polling</li>
+            <li><strong>Types/Config/</strong> - Configuration type definitions</li>
+            <li><strong>Types/Core/</strong> - Core type definitions</li>
+        </ul>
+
+        <h3>2. Barrel Exports</h3>
+        <p>Each major folder includes an <code>index.ts</code> barrel export for clean imports:</p>
+        <pre><code>// Instead of:
+import { DashboardCard } from '../Common/UI/DashboardCard/DashboardCard';
+import { ToggleGroup } from '../Common/UI/ToggleGroup/ToggleGroup';
+
+// Use barrel export:
+import { DashboardCard, ToggleGroup } from '../Common/UI';</code></pre>
+
+        <h3>3. Hook Reusability</h3>
+        <p>All data hooks follow the same pattern and can be used anywhere:</p>
+        <pre><code>// From any component
+import { useInteractionsData } from '../../Hooks';
+
+const { data, isLoading, newItemIds, refresh } = useInteractionsData({
+    enablePolling: true,
+    pollingInterval: 60000
+});</code></pre>
+
+        <h3>4. Component Composition</h3>
+        <p>Widgets compose smaller, reusable components:</p>
+        <pre><code>&lt;DashboardCard
+    title="Interactions Leaderboard"
+    icon={&lt;Icon symbol="Premium" /&gt;}
+    loading={isLoading}
+    configContent={renderConfigContent()}
+    size={currentSize}
+    onSizeChange={onSizeChange}
+    onRemove={onRemove}
+&gt;
+    &lt;LuminaBarChart 
+        data={chartData}
+        orientation="horizontal"
+        animated={true}
+        showValues={true}
+    /&gt;
+&lt;/DashboardCard&gt;</code></pre>
+
+        <h2 id="architecture-flow">How It All Fits Together</h2>
+        
+        <div class="info-box info">
+            <div class="info-box-title">Component Flow</div>
+            <ol>
+                <li><strong>UserDashboard.tsx</strong> loads widget configuration from <code>useDashboardConfig()</code></li>
+                <li>For each visible widget, it renders the corresponding component from <code>Components/Widgets/</code></li>
+                <li>Each widget uses a data hook from <code>Hooks/Data/</code> to fetch its data</li>
+                <li>Data hooks automatically poll every 60 seconds using the Page Visibility API</li>
+                <li>Widgets render using shared UI components from <code>Components/Common/UI/</code></li>
+                <li>New items are highlighted using CSS classes and tracked via React state</li>
+                <li>Widget config (size, time range) is managed via <code>DashboardCard</code> config dropdown</li>
+                <li>All types are imported from <code>Types/Config/</code> or <code>Types/Core/</code></li>
+            </ol>
+        </div>
+
+        <h2 id="architecture-widget-registration">Widget Registration Process</h2>
+        <p>To add a new widget to the dashboard, follow these 4 steps:</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>1️⃣ Add Widget Type</h4>
+                <p><code>Types/Config/dashboard-config.types.ts</code></p>
+                <pre><code>export type WidgetType = 
+    | 'quickStats'
+    | 'topCompleters'  // Add here
+    | ...;</code></pre>
+            </div>
+            <div class="feature-card">
+                <h4>2️⃣ Add Default Config</h4>
+                <p><code>Types/Config/dashboard-config.types.ts</code></p>
+                <pre><code>export const DEFAULT_DASHBOARD_CONFIG = {
+    topCompleters: {
+        visible: true,
+        size: 'half',
+        order: 15
+    },
+    ...
+};</code></pre>
+            </div>
+            <div class="feature-card">
+                <h4>3️⃣ Create Component</h4>
+                <p><code>Components/Widgets/TopCompleters/</code></p>
+                <pre><code>export const TopCompleters = (props) => {
+    const { data } = useTopCompletersData();
+    return &lt;DashboardCard .../&gt;;
+};</code></pre>
+            </div>
+            <div class="feature-card">
+                <h4>4️⃣ Register in Dashboard</h4>
+                <p><code>UserDashboard.tsx</code></p>
+                <pre><code>import { TopCompleters } from './Components/Widgets';
+
+// In render switch:
+case 'topCompleters':
+    return &lt;TopCompleters .../&gt;;</code></pre>
+            </div>
+        </div>
+
+        <h2>State Management</h2>
+        <ul>
+            <li><strong>Local Component State:</strong> UI-specific state (active tab, visible count, modals)</li>
+            <li><strong>Custom Hooks:</strong> Data fetching, polling, new item tracking</li>
+            <li><strong>Refs:</strong> Previous IDs, timers, mounted state (don't trigger re-renders)</li>
+            <li><strong>No Global State:</strong> Each widget is independent and self-contained</li>
+        </ul>
+
+        <!-- Future Improvements -->
+        <h1 id="future-improvements">10. Future Improvements</h1>
+
+        <h2>High Priority</h2>
+
+        <h3>JES Enquiries - Relative Date Ranges</h3>
+        <div class="info-box warning">
+            <div class="info-box-title">Issue Identified: April 2026</div>
+            <p><strong>Problem:</strong> Saved searches store absolute dates that become outdated. Example: A search saved on March 3 for "March 3 - April 2" returns 0 results when run in late April.</p>
+            <p><strong>Solution:</strong> Store relative date periods ("Last 7 days", "Next 7 days", "Next month") and calculate actual dates at runtime from current date. This keeps saved searches and dashboard widgets always current.</p>
+            <p><strong>Documentation:</strong> See <code>/apps/mcd/src/Containers2/JesEnquirySearch/README.md</code> "Future Improvements" section for implementation details.</p>
+        </div>
+
+        <h3>Server-Side Filtering for Tabs</h3>
+        <p>Currently, tabs in Interactions and other widgets use client-side filtering after fetching all data. This means pagination is inaccurate (showing "20 of 45" when there might be 100 total on the server).</p>
+        <p><strong>Recommendation:</strong> Pass tab filter criteria to API queries so pagination counts reflect actual server totals.</p>
+
+        <h3>Performance Optimization</h3>
+        <ul>
+            <li><strong>Reduce polling frequency:</strong> Implement exponential backoff (30s → 60s → 120s) when no changes detected</li>
+            <li><strong>Batch API calls:</strong> Quick Stats makes 4 separate API calls - consider backend aggregation endpoint</li>
+            <li><strong>Virtual scrolling:</strong> For widgets with 100+ items, implement windowing to reduce DOM nodes</li>
+        </ul>
+
+        <h2>Medium Priority</h2>
+
+        <h3>Dashboard Customization</h3>
+        <ul>
+            <li>Drag-and-drop widget reordering</li>
+            <li>Add/remove widgets from dashboard</li>
+            <li>Save widget layout per user</li>
+            <li>Resize widgets (1/3, 1/2, 2/3, full width options)</li>
+        </ul>
+
+        <h3>Advanced Filtering</h3>
+        <ul>
+            <li>Quick filter dropdowns within widgets (by status, date range, category)</li>
+            <li>Search within widget data</li>
+            <li>Save filter presets</li>
+        </ul>
+
+        <h3>Notifications & Alerts</h3>
+        <ul>
+            <li>Browser notifications for high-priority new items (overdue interactions, urgent enquiries)</li>
+            <li>Email digest of dashboard activity</li>
+            <li>Customizable alert rules</li>
+        </ul>
+
+        <h2>Low Priority / Nice to Have</h2>
+
+        <h3>Analytics & Insights</h3>
+        <ul>
+            <li>Trend graphs showing activity over time</li>
+            <li>Completion rate metrics</li>
+            <li>Productivity insights (interactions completed this week, response times, etc.)</li>
+        </ul>
+
+        <h3>Collaboration Features</h3>
+        <ul>
+            <li>Share dashboard views with team members</li>
+            <li>Team performance comparison widgets</li>
+            <li>Shared saved searches and filters</li>
+        </ul>
+
+        <h3>Mobile Optimization</h3>
+        <ul>
+            <li>Mobile-first responsive design (currently desktop-optimized)</li>
+            <li>Progressive Web App (PWA) capabilities</li>
+            <li>Offline mode with sync when online</li>
+        </ul>
+
+        <h3>Export & Reporting</h3>
+        <ul>
+            <li>Export widget data to CSV/Excel</li>
+            <li>Scheduled email reports</li>
+            <li>Print-friendly dashboard view</li>
+        </ul>
+
+        <!-- Footer -->
+        <hr style="margin: 3rem 0; border: none; border-top: 2px solid var(--border-color);">
+        
+        <div style="text-align: center; color: var(--text-muted); padding: 2rem 0;">
+            <p><strong>User Dashboard - Comprehensive Technical Guide</strong></p>
+            <p>Last Updated: May 2026 | Version 1.0</p>
+            <p>For questions or contributions, contact the development team.</p>
+        </div>
+    </div>
+</body>
+</html>
