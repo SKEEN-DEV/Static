@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI View Refactoring Log - Lumina Documentation</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3597FE;
+            --secondary-color: #0042FF;
+            --accent-color: #54FFB1;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #FF4C4C;
+            --info-color: #2196F3;
+            --lumina-pale-blue: #B8D4FF;
+            --lumina-lilac: #D6C5EF;
+            --lumina-light-green: #C9FFE7;
+            --lumina-pale-yellow: #F0EB7E;
+            --text-primary: #121212;
+            --text-secondary: #404040;
+            --text-muted: #808080;
+            --link-color: #0066CC;
+            --background: #FFFFFF;
+            --background-alt: #F8FAFC;
+            --background-highlight: #FFF9C4;
+            --border-color: #8FBCFF;
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --content-max-width: 1200px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 0; margin: 0;
+            background-color: var(--background);
+            font-size: 14px;
+        }
+
+        /* ── Header ── */
+        .document-header {
+            background: linear-gradient(rgb(63 150 241), rgb(232 238 255 / 19%)), url(Assets/Img/subjectHeader4/Large.jpg);
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-2xl) 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 160px;
+        }
+        .document-header::before {
+            content: '';
+            position: absolute; top:0; left:0; right:0; bottom:0;
+            background: linear-gradient(135deg, rgba(53,151,254,.15) 0%, rgba(0,66,255,.25) 100%);
+            pointer-events: none;
+        }
+        .header-content {
+            position: relative; z-index: 1;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: var(--spacing-lg);
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+        .logo-section { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-lg); }
+        .company-logo { height: 60px; width: auto; max-width: 200px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.1)); }
+        .company-logo svg { height: 100%; width: auto; }
+        .header-text { display: flex; flex-direction: column; gap: var(--spacing-lg); margin-top: -6px; }
+        .header-text h1 { margin:0; font-size: 2rem; font-weight: 300; color: var(--text-primary); }
+        .header-text .subtitle { margin:0; font-size: 1.3rem; opacity: .9; font-weight: 300; color: var(--text-primary); }
+        .document-meta { display:flex; flex-direction:column; gap:var(--spacing-xs); text-align:right; font-size:.9rem; opacity:.9; }
+        .document-meta .branch-info { background:rgba(255,255,255,.15); padding:var(--spacing-xs) var(--spacing-sm); border-radius:4px; font-family:var(--font-mono); margin-bottom:var(--spacing-sm); color:var(--link-color); }
+        .author-line { margin-bottom:var(--spacing-sm) 0; font-size:18px; font-weight:300; color:var(--text-primary); }
+
+        /* ── Content ── */
+        .document-content { padding: 0 var(--spacing-xl); max-width: var(--content-max-width); margin: 0 auto; }
+
+        h2 { color:var(--primary-color); border-bottom:2px solid var(--border-color); padding-bottom:var(--spacing-xs); font-size:1.75rem; margin:var(--spacing-2xl) 0 var(--spacing-lg) 0; font-weight:500; }
+        h3 { color:var(--secondary-color); font-size:1.3rem; margin:var(--spacing-xl) 0 var(--spacing-md) 0; font-weight:500; }
+        h4 { color:var(--secondary-color); font-size:1.1rem; margin:var(--spacing-lg) 0 var(--spacing-sm) 0; font-weight:500; }
+        h5 { color:var(--text-primary); font-size:1rem; margin:var(--spacing-md) 0 var(--spacing-sm) 0; font-weight:600; }
+
+        /* ── TOC ── */
+        .toc {
+            background: linear-gradient(135deg, var(--lumina-pale-blue) 10%, var(--background-alt) 100%);
+            border:1px solid var(--border-color); border-radius:12px;
+            padding:var(--spacing-xl); margin:var(--spacing-xl) 0 var(--spacing-2xl) 0;
+            box-shadow:0 4px 6px -1px rgba(0,0,0,.1);
+        }
+        .toc h2 { margin-top:0; border-bottom:none; font-size:1.5rem; display:flex; align-items:center; gap:var(--spacing-sm); }
+        .toc-icon { width:24px; height:24px; fill:var(--primary-color); flex-shrink:0; }
+        .toc > ul { display:grid; grid-template-columns:1fr 1fr; gap:var(--spacing-lg); margin:var(--spacing-md) 0; padding-left:0; }
+        .toc ul ul { display:flex; flex-direction:column; margin:var(--spacing-xs) 0 var(--spacing-sm) 0; padding-left:var(--spacing-lg); gap:var(--spacing-xs); }
+        .toc li { margin:0; list-style-type:none; }
+        .toc li li { font-weight:300; font-size:.95em; }
+        .toc a { color:#000; text-decoration:none; font-weight:500; transition:all .2s ease; padding:var(--spacing-xs) 0; display:inline-block; }
+        .toc li li a { font-weight:400; color:var(--text-secondary); }
+        .toc a:hover { color:var(--primary-color); text-decoration:underline; transform:translateX(4px); }
+
+        /* ── Section divider ── */
+        .section-divider { border:none; height:2px; background:linear-gradient(90deg,var(--primary-color) 0%,var(--accent-color) 100%); margin:var(--spacing-2xl) 0; border-radius:1px; }
+
+        /* ── Stats grid ── */
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:var(--spacing-lg); margin:var(--spacing-xl) 0; }
+        .stat-card {
+            background:linear-gradient(135deg,var(--background-alt) 0%,#f1f5f9 100%);
+            border:1px solid var(--border-color); border-radius:12px;
+            padding:var(--spacing-xl); text-align:center;
+            transition:all .3s ease; position:relative; overflow:hidden;
+        }
+        .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--primary-color) 0%,var(--lumina-lilac) 50%,var(--accent-color) 100%); }
+        .stat-card:hover { transform:translateY(-4px); box-shadow:0 10px 15px -3px rgba(0,0,0,.1); }
+        .stat-number { font-size:2.5rem; font-weight:700; color:var(--primary-color); margin-bottom:var(--spacing-xs); }
+        .stat-label { color:var(--text-secondary); font-size:.85rem; font-weight:500; text-transform:uppercase; letter-spacing:.025em; }
+        .stat-sub { color:var(--text-muted); font-size:.8rem; margin-top:4px; }
+
+        /* ── Phase cards ── */
+        .phase-card {
+            border:1px solid var(--border-color); border-radius:12px;
+            margin:var(--spacing-xl) 0; overflow:hidden;
+            box-shadow:0 2px 4px -1px rgba(0,0,0,.06);
+        }
+        .phase-header {
+            background:linear-gradient(135deg,var(--primary-color) 0%,var(--secondary-color) 100%);
+            color:white; padding:var(--spacing-lg) var(--spacing-xl);
+            display:flex; align-items:center; justify-content:space-between; gap:var(--spacing-md);
+        }
+        .phase-header h3 { color:white; margin:0; font-size:1.2rem; }
+        .phase-header .phase-meta { font-size:.85rem; opacity:.85; display:flex; gap:var(--spacing-md); flex-wrap:wrap; }
+        .phase-body { padding:var(--spacing-xl); }
+
+        /* ── Status badges ── */
+        .badge {
+            display:inline-flex; align-items:center; gap:4px;
+            padding:0.2rem 0.75rem; border-radius:20px;
+            font-size:.75rem; font-weight:600;
+            text-transform:uppercase; letter-spacing:.025em;
+        }
+        .badge-complete { background:linear-gradient(135deg,#22c55e,#16a34a); color:white; }
+        .badge-post { background:linear-gradient(135deg,var(--primary-color),var(--lumina-lilac)); color:white; }
+        .badge-date { background:rgba(255,255,255,.2); color:white; font-size:.8rem; }
+
+        /* ── File lists ── */
+        .file-list { list-style:none; padding:0; margin:var(--spacing-md) 0; display:flex; flex-wrap:wrap; gap:var(--spacing-sm); }
+        .file-list li { background:rgba(53,151,254,.08); border:1px solid rgba(53,151,254,.25); border-radius:6px; padding:4px 10px; font-family:var(--font-mono); font-size:.8rem; color:var(--secondary-color); }
+        .file-list li.modified { background:rgba(255,152,0,.08); border-color:rgba(255,152,0,.3); color:#b45309; }
+        .file-list li.fixed { background:rgba(76,175,80,.08); border-color:rgba(76,175,80,.3); color:#15803d; }
+
+        /* ── Folder tree ── */
+        .folder-tree {
+            background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%);
+            border:1px solid var(--border-color); border-radius:12px;
+            padding:var(--spacing-lg); margin:var(--spacing-md) 0;
+            font-family:var(--font-mono); font-size:.85rem; line-height:1.8;
+            box-shadow:0 2px 4px -1px rgba(0,0,0,.06);
+        }
+        .folder-tree .folder { color:var(--primary-color); font-weight:600; }
+        .folder-tree .file { color:var(--text-secondary); }
+        .folder-tree .file.new { color:#15803d; }
+        .folder-tree .file.moved { color:#b45309; }
+
+        /* ── Checklist ── */
+        .checklist { list-style:none; padding:0; margin:var(--spacing-md) 0; }
+        .checklist li { padding:4px 0 4px 28px; position:relative; line-height:1.6; }
+        .checklist li::before { content:'✅'; position:absolute; left:0; font-size:.85em; }
+        .checklist li.pending::before { content:'⬜'; }
+
+        /* ── Bug cards ── */
+        .bug-card { border-radius:10px; padding:var(--spacing-lg); margin:var(--spacing-lg) 0; border-left:4px solid; }
+        .bug-card.bug { background:#fff5f5; border-color:var(--error-color); }
+        .bug-card.fix { background:#f0fdf4; border-color:var(--success-color); }
+        .bug-card .bug-label { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+        .bug-card.bug .bug-label { color:var(--error-color); }
+        .bug-card.fix .bug-label { color:var(--success-color); }
+        .bug-card p { margin:0; }
+
+        /* ── Info / highlight boxes ── */
+        .info-box { background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border:1px solid #bcc8d7; border-left:4px solid #6c757d; border-radius:8px; padding:var(--spacing-lg); margin:var(--spacing-lg) 0; }
+        .info-box p { margin:0; }
+        .highlight-box { background:linear-gradient(135deg,var(--lumina-pale-yellow) 20%,var(--background-highlight) 100%); border:1px solid var(--warning-color); border-left:4px solid var(--warning-color); border-radius:8px; padding:var(--spacing-lg); margin:var(--spacing-lg) 0; }
+
+        /* ── Code ── */
+        code { background:#f1f5f9; padding:.2rem .4rem; border-radius:6px; font-family:var(--font-mono); color:var(--error-color); font-size:.9em; font-weight:500; }
+        .code-block { background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%); border:1px solid var(--border-color); border-radius:12px; margin:var(--spacing-lg) 0; overflow:hidden; box-shadow:0 4px 6px -1px rgba(0,0,0,.1); }
+        .code-header { background:linear-gradient(135deg,var(--primary-color) 0%,var(--secondary-color) 100%); color:white; padding:var(--spacing-sm) var(--spacing-md); font-size:.8rem; font-weight:600; }
+        .code-content { padding:var(--spacing-lg); overflow-x:auto; margin:0; background:transparent; border:none; box-shadow:none; }
+        .code-content code { background:transparent; padding:0; color:var(--text-primary); font-size:.85rem; line-height:1.5; white-space:pre; display:block; }
+
+        /* ── Two-col layout ── */
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:var(--spacing-lg); margin:var(--spacing-lg) 0; }
+        @media(max-width:768px) { .two-col { grid-template-columns:1fr; } .toc > ul { grid-template-columns:1fr; } }
+
+        /* ── Footer ── */
+        .document-footer { background:var(--background-alt); padding:var(--spacing-xl); margin-top:var(--spacing-2xl); border-top:1px solid var(--border-color); text-align:center; font-size:.9rem; color:var(--text-secondary); }
+        .footer-logo { margin-bottom:var(--spacing-md); font-weight:600; color:var(--primary-color); }
+
+        ul, ol { margin:var(--spacing-lg) 0; padding-left:var(--spacing-xl); }
+        li { margin:var(--spacing-sm) 0; line-height:1.7; }
+        p { line-height:1.8; }
+
+        /* ── Back to top ── */
+        .back-to-top-btn {
+            position:fixed; bottom:30px; right:30px;
+            min-width:60px; height:50px; padding:0 16px;
+            background:linear-gradient(135deg,var(--primary-color) 0%,var(--secondary-color) 100%);
+            color:white; border:none; border-radius:25px; cursor:pointer;
+            display:flex; align-items:center; justify-content:center; gap:6px;
+            font-size:14px; font-weight:600; font-family:var(--font-primary);
+            box-shadow:0 4px 12px rgba(0,0,0,.15);
+            transition:all .3s cubic-bezier(.4,0,.2,1);
+            opacity:0; visibility:hidden; z-index:1000; text-decoration:none;
+        }
+        .back-to-top-btn.visible { opacity:1; visibility:visible; }
+        .back-to-top-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.25); }
+    </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="document-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <div class="company-logo">
+                <svg width="1011px" height="200px" viewBox="0 0 1011 200" xmlns="http://www.w3.org/2000/svg">
+                    <title>Pulsar Group Logo</title>
+                    <g stroke="none" fill="none" fill-rule="nonzero">
+                        <path d="M93.9574468,55.5224586 L93.9574468,107.503546 C93.9574468,124.685579 101.134752,132.515366 114.619385,132.515366 C128.104019,132.515366 135.281324,124.468085 135.281324,107.503546 L135.281324,55.5224586 L150.288416,55.5224586 L150.288416,109.243499 C150.288416,133.602837 135.933806,146 114.619385,146 C93.5224586,146 78.9503546,133.602837 78.9503546,109.026005 L78.9503546,55.5224586 L93.9574468,55.5224586 Z M626.600473,54 C649.87234,54 659.659574,65.5271868 663.13948,83.3617021 L648.132388,83.3617021 L647.847327,82.6416198 C644.133751,73.4875192 638.259808,67.7021277 626.600473,67.7021277 C614.638298,67.7021277 600.501182,81.1867612 600.501182,100.108747 C600.501182,119.030733 610.723404,132.732861 627.252955,132.732861 C643.782506,132.732861 648.78487,124.033097 650.742317,111.635934 L631.385343,111.635934 L631.167849,111.41844 L631.167849,98.5862884 L664.879433,98.5862884 L664.879433,105.546099 C664.879433,130.122931 648.78487,146 627.035461,146 C605.286052,146 585.059102,127.513002 585.059102,100.108747 C585.059102,72.7044917 603.328605,54 626.600473,54 Z M799.725768,54 C823.867612,54 841.049645,73.356974 841.049645,99.891253 C841.049645,126.425532 823.867612,145.782506 799.725768,145.782506 L799.725768,146 C775.583924,146 758.619385,126.643026 758.619385,100.108747 C758.619385,73.5744681 775.583924,54 799.725768,54 Z M870.846336,55.5224586 L870.846336,107.503546 C870.846336,124.685579 878.023641,132.515366 891.508274,132.515366 C904.992908,132.515366 912.170213,124.468085 912.170213,107.503546 L912.170213,55.5224586 L927.177305,55.5224586 L927.177305,109.243499 C927.177305,133.602837 912.822695,146 891.508274,146 C870.411348,146 855.839243,133.602837 855.839243,109.026005 L855.839243,55.5224586 L870.846336,55.5224586 Z M271.432624,54 C289.484634,54 302.099291,63.787234 305.144208,78.5768322 L290.137116,78.5768322 C287.744681,71.8345154 282.089835,66.6146572 271.650118,66.6146572 C261.210402,66.6146572 255.555556,71.6170213 255.555556,79.0118203 C255.555556,86.4066194 259.252955,88.7990544 267.300236,90.5390071 L282.742317,94.2364066 C296.661939,97.498818 305.79669,105.546099 305.79669,118.813239 C305.79669,132.080378 292.529551,145.782506 274.042553,145.782506 C255.555556,145.782506 241.635934,136.212766 238.591017,119.683215 L254.033097,119.683215 L253.815603,119.900709 C256.643026,129.035461 264.255319,133.167849 274.042553,133.167849 C283.829787,133.167849 291.224586,128.165485 291.224586,119.900709 C291.224586,111.635934 287.527187,110.113475 278.392435,107.938534 L263.385343,104.241135 L262.629655,104.063104 C250.592777,101.135345 241.200946,94.3784436 241.200946,80.3167849 C241.200946,65.9621749 253.380615,54 271.432624,54 Z M445.862884,55.5224586 C464.349882,55.5224586 476.094563,64.8747045 476.094563,82.2742317 C476.094563,99.6737589 467.394799,105.763593 453.257683,107.938534 L479.13948,144.695035 L461.957447,144.695035 L437.163121,108.591017 L426.50591,108.591017 L426.50591,144.477541 L411.498818,144.477541 L411.498818,55.5224586 L445.862884,55.5224586 Z M979.810875,55.5224586 C998.297872,55.5224586 1010.26005,65.0921986 1010.26005,83.5791962 C1010.26005,102.066194 998.297872,111.41844 979.810875,111.41844 L960.453901,111.41844 L960.453901,144.695035 L945.446809,144.695035 L945.446809,55.5224586 L979.810875,55.5224586 Z M34.3640662,55.5224586 C52.8510638,55.5224586 64.8132388,65.0921986 64.8132388,83.5791962 C64.8132388,102.066194 52.8510638,111.41844 34.3640662,111.41844 L15.0070922,111.41844 L15.0070922,144.695035 L0,144.695035 L0,55.5224586 L34.3640662,55.5224586 Z M185.08747,55.5224586 L185.08747,131.210402 L227.933806,131.210402 L227.933806,144.695035 L170.080378,144.695035 L170.080378,55.5224586 L185.08747,55.5224586 Z M362.997636,55.5224586 L397.144208,144.695035 L381.702128,144.695035 L372.567376,120.118203 L338.420804,120.118203 L329.286052,144.695035 L314.061466,144.695035 L348.425532,55.5224586 L362.997636,55.5224586 Z M715.77305,55.5224586 C734.260047,55.5224586 746.004728,64.8747045 746.004728,82.2742317 C746.004728,99.6737589 737.304965,105.763593 723.167849,107.938534 L749.049645,144.695035 L731.867612,144.695035 L707.073286,108.591017 L696.416076,108.591017 L696.416076,144.477541 L681.408983,144.477541 L681.408983,55.5224586 L715.77305,55.5224586 Z M538.080378,54 L538.080378,85.9716312 L565.484634,69.4420804 L572.879433,81.6217494 L544.822695,98.5862884 L572.879433,115.550827 L565.484634,127.947991 L538.080378,111.41844 L538.080378,143.390071 L523.725768,143.390071 L523.725768,111.41844 L496.539007,127.947991 L489.144208,115.550827 L517.200946,98.5862884 L489.144208,81.6217494 L496.539007,69.4420804 L523.725768,85.9716312 L523.725768,54 L538.080378,54 Z M799.725768,67.4846336 C784.066194,67.4846336 773.843972,81.1867612 773.843972,99.891253 C773.843972,118.595745 784.066194,132.297872 799.725768,132.297872 C815.385343,132.297872 825.607565,118.595745 825.607565,99.891253 C825.607565,81.1867612 815.385343,67.4846336 799.725768,67.4846336 Z M355.602837,74.0094563 L343.423168,106.851064 L367.782506,106.851064 L355.602837,74.0094563 Z M33.929078,68.572104 L15.0070922,68.572104 L15.0070922,98.3687943 L33.929078,98.3687943 C44.3687943,98.3687943 49.8061466,92.0614657 49.8061466,83.5791962 C49.8061466,75.0969267 44.3687943,68.572104 33.929078,68.572104 Z M979.593381,68.572104 L960.671395,68.572104 L960.671395,98.3687943 L979.593381,98.3687943 C990.033097,98.3687943 995.470449,92.0614657 995.470449,83.5791962 C995.470449,75.0969267 990.033097,68.572104 979.593381,68.572104 Z M445.427896,68.3546099 L426.50591,68.3546099 L426.50591,95.7588652 L445.427896,95.7588652 C455.432624,95.7588652 461.08747,90.321513 461.08747,82.0567376 C461.08747,73.7919622 455.432624,68.3546099 445.427896,68.3546099 Z M715.338061,68.3546099 L696.416076,68.3546099 L696.416076,95.7588652 L715.338061,95.7588652 C725.34279,95.7588652 730.997636,90.321513 730.997636,82.0567376 C730.997636,73.7919622 725.34279,68.3546099 715.338061,68.3546099 Z" fill="#FFFFFF"></path>
+                    </g>
+                </svg>
+            </div>
+            <div class="header-text">
+                <h1>AI View Refactoring Log</h1>
+                <p class="subtitle">954 → 75 lines &nbsp;·&nbsp; 22 files &nbsp;·&nbsp; 6 phases</p>
+            </div>
+        </div>
+        <div class="document-meta">
+            <div class="branch-info">feature/DE-18427-ai-view-update-ui</div>
+            <div class="author-line"><strong>Started:</strong> June 10, 2026</div>
+            <div class="author-line"><strong>Updated:</strong> June 11, 2026</div>
+            <div class="author-line"><strong>Author:</strong> Simon Allin</div>
+        </div>
+    </div>
+</header>
+
+<!-- ── Content ── -->
+<main class="document-content">
+
+    <!-- TOC -->
+    <div class="toc">
+        <h2>
+            <svg class="toc-icon" xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 -960 960 960" width="40"><path d="M318.52-300.41q11.81 0 19.72-7.96 7.91-7.97 7.91-19.79 0-11.81-7.96-19.72-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.96-7.91 19.78t7.96 19.73q7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.97 7.91-19.78 0-11.82-7.96-19.73t-19.78-7.91q-11.82 0-19.73 7.96-7.91 7.97-7.91 19.78 0 11.82 7.96 19.73 7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.96 7.91-19.78t-7.96-19.73q-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.97-7.91 19.79 0 11.81 7.96 19.72 7.97 7.91 19.79 7.91Zm143.84 293.03h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17 0-7.25-4.87-12.01-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17t4.86 12.01q4.87 4.76 12.06 4.76Zm0-151.9h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.16 0-7.26-4.87-12.02-4.86-4.75-12.05-4.75H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.16 0 7.26 4.86 12.02 4.87 4.75 12.06 4.75Zm0-151.89h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17t-4.87-12.01q-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17 0 7.25 4.86 12.01 4.87 4.76 12.06 4.76ZM218.46-160q-24.58 0-41.52-16.94Q160-193.88 160-218.46v-523.08q0-24.58 16.94-41.52Q193.88-800 218.46-800h523.08q24.58 0 41.52 16.94Q800-766.12 800-741.54v523.08q0 24.58-16.94 41.52Q766.12-160 741.54-160H218.46Z"/></svg>
+            Table of Contents
+        </h2>
+        <ul>
+            <li>
+                <a href="#summary">Progress Summary</a>
+                <ul>
+                    <li><a href="#stats">Key Metrics</a></li>
+                    <li><a href="#folder-structure">Final Folder Structure</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#phase1">Phase 1 — Foundation</a>
+                <ul>
+                    <li><a href="#phase1">Utilities &amp; Interfaces</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#phase2">Phase 2 — Custom Hooks</a>
+                <ul>
+                    <li><a href="#phase2">useAiViewData / Metrics / Filters</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#phase3">Phase 3 — Chart Wrappers</a>
+                <ul>
+                    <li><a href="#phase3">TrendLineChart &amp; DataBarChart</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#phase4">Phase 4 — Detail Components</a>
+                <ul>
+                    <li><a href="#phase4">BrandCard, Snapshot, Charts…</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#phase5">Phase 5 — Tab Orchestrators</a>
+                <ul>
+                    <li><a href="#phase5">CompetitorTab / PositionTab / SourcesTab</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#phase6">Phase 6 — Header &amp; Final Assembly</a>
+                <ul>
+                    <li><a href="#phase6">AiViewHeader, AiViewTabs, index.ts</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#reorg">Post-Phase 6 — Folder Reorganisation</a>
+                <ul>
+                    <li><a href="#bugfixes">Bug Fixes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#nextsteps">Next Steps</a>
+                <ul>
+                    <li><a href="#nextsteps-styling">Component Styling Review</a></li>
+                    <li><a href="#nextsteps-checklist">Post-Refactoring Checklist</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Summary -->
+    <h2 id="summary">Progress Summary</h2>
+    <p>The <code>AiView.tsx</code> panel was a <strong>954-line monolith</strong> containing inline business logic, data transformation, chart code, state management, and all JSX. Over 6 phases it was decomposed into 22 focused files following Lumina-App standards, leaving the main panel file as a pure ~75-line orchestrator.</p>
+
+    <div class="stats-grid" id="stats">
+        <div class="stat-card">
+            <div class="stat-number">954</div>
+            <div class="stat-label">Original lines</div>
+            <div class="stat-sub">AiView.tsx before</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">~75</div>
+            <div class="stat-label">Lines after</div>
+            <div class="stat-sub">92% reduction</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">22</div>
+            <div class="stat-label">Files created</div>
+            <div class="stat-sub">Utilities, hooks, components</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Phases</div>
+            <div class="stat-sub">All complete ✅</div>
+        </div>
+    </div>
+
+    <h3 id="folder-structure">Final Folder Structure</h3>
+    <div class="folder-tree">
+        <div><span class="folder">Components/AiView/</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">index.ts</span> <span style="color:#888;font-size:.8em">← barrel export for all sub-components</span></div>
+        <div>&nbsp;&nbsp;<span class="folder">Navigation/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">AiViewHeader.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">AiViewTabs.tsx</span></div>
+        <div>&nbsp;&nbsp;<span class="folder">Competitor/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">CompetitorSnapshot.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">ScoreTrend.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">PillarDistribution.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">TopicCloud.tsx + .module.scss</span></div>
+        <div>&nbsp;&nbsp;<span class="folder">Position/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">ScoreDonut.tsx + .module.scss</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">AiViewNarrative.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">KpiCards.tsx + .module.scss</span></div>
+        <div>&nbsp;&nbsp;<span class="folder">Sources/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">ContentTypeChart.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">SourceMixList.tsx</span></div>
+        <div>&nbsp;&nbsp;<span class="folder">Shared/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">BrandCard.tsx + .module.scss</span></div>
+        <div>&nbsp;&nbsp;<span class="folder">Tabs/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">CompetitorTab.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">PositionTab.tsx</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file new">SourcesTab.tsx</span></div>
+        <br>
+        <div><span class="folder">Components/UI/Charts/</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">TrendLineChart.tsx</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">DataBarChart.tsx</span></div>
+        <br>
+        <div><span class="folder">Hooks/</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">useAiViewData.ts</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">useAiViewMetrics.ts</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">useAiViewFilters.ts</span></div>
+        <br>
+        <div><span class="folder">Utilities/</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">aiViewDataHelpers.ts</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">aiViewFormatters.ts</span></div>
+        <div>&nbsp;&nbsp;<span class="file new">aiViewMetricsCalculator.ts</span></div>
+        <br>
+        <div><span class="folder">Components/Panels/</span></div>
+        <div>&nbsp;&nbsp;<span class="file moved">AiView.tsx</span> <span style="color:#888;font-size:.8em">← 954 lines → ~75 lines</span></div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Phase 1 -->
+    <div class="phase-card" id="phase1">
+        <div class="phase-header">
+            <div>
+                <h3>Phase 1 — Foundation</h3>
+                <div class="phase-meta">
+                    <span>Utilities &amp; Interfaces</span>
+                    <span class="badge badge-date">June 10, 2026</span>
+                </div>
+            </div>
+            <span class="badge badge-complete">✅ Complete</span>
+        </div>
+        <div class="phase-body">
+            <p>Extracted all data processing, business logic, scoring algorithms and type definitions out of the monolithic <code>AiView.tsx</code> into centralized, reusable locations. This alone removed 469 lines (49%) from the main component.</p>
+            <div class="two-col">
+                <div>
+                    <h4>Files Created</h4>
+                    <ul class="file-list">
+                        <li>Utilities/aiViewDataHelpers.ts <small>(136 lines)</small></li>
+                        <li>Utilities/aiViewFormatters.ts <small>(94 lines)</small></li>
+                        <li>Utilities/aiViewMetricsCalculator.ts <small>(327 lines)</small></li>
+                        <li class="modified">Interfaces/interfaces.ts <small>(+108 lines)</small></li>
+                    </ul>
+                    <h4>Key Exports</h4>
+                    <ul>
+                        <li><strong>Data Helpers:</strong> <code>parseDate</code>, <code>normalizeBrandKey</code>, <code>addCount</code>, <code>topicLabel</code></li>
+                        <li><strong>Formatters:</strong> <code>formatValue</code>, <code>metricGetter</code>, <code>safePct</code>, <code>getWordSize</code>, <code>scoreDonutStyle</code></li>
+                        <li><strong>Calculator:</strong> <code>buildRunMetrics</code>, <code>PILLARS</code>, <code>LINE_COLORS</code>, <code>PILLAR_COLORS</code></li>
+                        <li><strong>Interfaces:</strong> 17 AI View types with full JSDoc</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Result</h4>
+                    <ul class="checklist">
+                        <li>TypeScript compilation passed</li>
+                        <li>Path aliases used throughout (<code>@luminaUtils/</code>, <code>@luminaInterfaces/</code>)</li>
+                        <li>No explicit return type annotations (per standards)</li>
+                        <li>All interfaces have <code>@interface</code> JSDoc + per-prop comments</li>
+                    </ul>
+                    <div class="info-box">
+                        <p><strong>954 → 485 lines</strong> — 49% reduction in main component after Phase 1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-card" id="phase2">
+        <div class="phase-header">
+            <div>
+                <h3>Phase 2 — Custom Hooks</h3>
+                <div class="phase-meta">
+                    <span>State management &amp; data fetching</span>
+                    <span class="badge badge-date">June 10, 2026</span>
+                </div>
+            </div>
+            <span class="badge badge-complete">✅ Complete</span>
+        </div>
+        <div class="phase-body">
+            <p>Extracted all state management, service calls and computed derivations into three custom hooks following the <code>useHookName</code> naming convention.</p>
+            <div class="two-col">
+                <div>
+                    <h4>Hooks Created</h4>
+                    <ul>
+                        <li><code>useAiViewData</code> — Service calls, AI View list, all runs, loading states. Fixed path alias: <code>@services/AiViewForClientService</code>.</li>
+                        <li><code>useAiViewMetrics</code> — Derives all computed values from raw runs. Returns <code>runMetrics</code>, <code>latestRun</code>, <code>previousRun</code>, trend &amp; snapshot data.</li>
+                        <li><code>useAiViewFilters</code> — Manages active tab, snapshot metric, trend metric and topic source state.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Result</h4>
+                    <ul class="checklist">
+                        <li>All three hooks have <code>@example</code> JSDoc</li>
+                        <li>Named result interfaces declared</li>
+                        <li>No <code>useEffect</code> without cleanup</li>
+                    </ul>
+                    <div class="info-box">
+                        <p><strong>485 → ~315 lines</strong> after Phase 2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-card" id="phase3">
+        <div class="phase-header">
+            <div>
+                <h3>Phase 3 — Reusable Chart Wrappers</h3>
+                <div class="phase-meta">
+                    <span>Recharts abstraction layer</span>
+                    <span class="badge badge-date">June 10, 2026</span>
+                </div>
+            </div>
+            <span class="badge badge-complete">✅ Complete</span>
+        </div>
+        <div class="phase-body">
+            <p>Wrapped Recharts components into two typed, reusable wrappers that hide boilerplate (grid, tooltip, axis styling, responsive container) and can be used across the whole app. Named to avoid collision with the existing <code>LuminaLineChart</code> / <code>LuminaBarChart</code> in <code>/Infographics/</code>.</p>
+            <div class="two-col">
+                <div>
+                    <h4>TrendLineChart</h4>
+                    <p>Props: <code>data</code>, <code>lines: TrendLine[]</code>, <code>height?</code>, <code>yDomain?</code></p>
+                    <p><code>TrendLine</code> shape: <code>{ key, name, color }</code></p>
+                </div>
+                <div>
+                    <h4>DataBarChart</h4>
+                    <p>Props: <code>data</code>, <code>bars: DataBar[]</code>, <code>layout?</code>, <code>height?</code>, <code>categoryDataKey?</code>, <code>categoryAxisWidth?</code>, <code>xAxisAngle?</code>, <code>showLegend?</code></p>
+                    <p>Supports both vertical bars and horizontal bar layouts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase-card" id="phase4">
+        <div class="phase-header">
+            <div>
+                <h3>Phase 4 — AI View Detail Components</h3>
+                <div class="phase-meta">
+                    <span>Shared + tab-specific presentational components</span>
+                    <span class="badge badge-date">June 10, 2026</span>
+                </div>
+            </div>
+            <span class="badge badge-complete">✅ Complete</span>
+        </div>
+        <div class="phase-body">
+            <p>Created 11 presentational components (content-only — no outer card or title; tab orchestrators in Phase 5 own the card wrappers). Toggle groups use <code>&lt;LuminaViewControl radioGroup&gt;</code> + <code>&lt;LuminaViewToggleButton&gt;</code> with icon made optional.</p>
+            <div class="two-col">
+                <div>
+                    <h4>Competitor Components</h4>
+                    <ul>
+                        <li><strong>CompetitorSnapshot</strong> — metric toggle + ranked <code>BrandCard</code> list with deltas</li>
+                        <li><strong>ScoreTrend</strong> — metric toggle + <code>TrendLineChart</code></li>
+                        <li><strong>PillarDistribution</strong> — <code>DataBarChart</code> grouped by pillar</li>
+                        <li><strong>TopicCloud</strong> — topics/products toggle + proportional word cloud</li>
+                    </ul>
+                    <h4>Sources Components</h4>
+                    <ul>
+                        <li><strong>ContentTypeChart</strong> — vertical <code>DataBarChart</code></li>
+                        <li><strong>SourceMixList</strong> — ranked <code>BrandCard</code> list</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Position Components</h4>
+                    <ul>
+                        <li><strong>ScoreDonut</strong> — conic-gradient donut + score legend</li>
+                        <li><strong>AiViewNarrative</strong> — prose summary from brand metrics</li>
+                        <li><strong>KpiCards</strong> — 4-column KPI grid with delta indicators</li>
+                    </ul>
+                    <h4>Shared</h4>
+                    <ul>
+                        <li><strong>BrandCard</strong> — ranked list card, computes delta colour class internally from <code>deltaValue?</code></li>
+                    </ul>
+                    <h4>ViewToggleButton change</h4>
+                    <p><code>icon</code> prop made optional — renders without icon when not provided.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase-card" id="phase5">
+        <div class="phase-header">
+            <div>
+                <h3>Phase 5 — Tab Orchestrators</h3>
+                <div class="phase-meta">
+                    <span>Layout containers in /Tabs/ subfolder</span>
+                    <span class="badge badge-date">June 10, 2026</span>
+                </div>
+            </div>
+            <span class="badge badge-complete">✅ Complete</span>
+        </div>
+        <div class="phase-body">
+            <p>Three tab orchestrators wrap all detail components in the card layout, handling titles, <code>cardSubTitle</code> labels and the two-row grid structure. <code>AiView.tsx</code> inline tab JSX (200+ lines) was replaced with three component calls.</p>
+            <div class="two-col">
+                <div>
+                    <h4>Tab Components</h4>
+                    <ul>
+                        <li><strong>CompetitorTab</strong> — <code>layoutTop</code> (Snapshot + Trend) / <code>layoutBottom</code> (Pillars + Topics)</li>
+                        <li><strong>PositionTab</strong> — computes KPI deltas internally; renders hero + kpiRow</li>
+                        <li><strong>SourcesTab</strong> — <code>gridTwo</code> side-by-side layout</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="info-box">
+                        <p><strong>~315 → ~90 lines</strong> — AiView.tsx after Phase 5. All <code>kpis</code> array computation, <code>latestClient</code>/<code>prevClient</code> aliases, <code>toDeltaClass</code> helper, and all chart/utility imports removed from main panel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 6 -->
+    <div class="phase-card" id="phase6">
+        <div class="phase-header">
+            <div>
+                <h3>Phase 6 — Header, Navigation &amp; Final Assembly</h3>
+                <div class="phase-meta">
+                    <span>Final orchestrator + barrel export</span>
+                    <span class="badge badge-date">June 10, 2026</span>
+                </div>
+            </div>
+            <span class="badge badge-complete">✅ Complete</span>
+        </div>
+        <div class="phase-body">
+            <div class="two-col">
+                <div>
+                    <h4>Components Created</h4>
+                    <ul>
+                        <li><strong>AiViewHeader</strong> — <code>isLoaded</code> prop switches between minimal (empty state) and full toolbar + meta row. Accepts <code>selector</code> as <code>React.ReactNode</code>.</li>
+                        <li><strong>AiViewTabs</strong> — three tab buttons with active styling; client name in Position tab label.</li>
+                        <li><strong>index.ts</strong> — barrel re-exporting all 16 components and their prop types.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>AiView.tsx — Final State</h4>
+                    <div class="info-box">
+                        <p><strong>~75 lines</strong> — pure orchestrator. Single barrel import <code>from "@luminaComponents/AiView"</code>. No inline JSX of any kind remaining.</p>
+                    </div>
+                    <ul class="checklist">
+                        <li>Hooks wiring only</li>
+                        <li>Derived <code>client</code> / <code>industry</code> / <code>market</code></li>
+                        <li>AI View selector JSX (kept inline — small, self-contained)</li>
+                        <li>Conditional empty state + loaded state via components</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Folder Reorg -->
+    <h2 id="reorg">Post-Phase 6 — Folder Reorganisation</h2>
+    <span class="badge badge-post">Post-Phase</span>&nbsp;<span class="badge badge-date" style="background:#e2e8f0;color:#475569">June 11, 2026</span>
+
+    <p style="margin-top:1rem">The flat <code>/Components/AiView/</code> folder was reorganised into domain sub-folders so each tab's components are co-located. All imports in tab orchestrators and <code>index.ts</code> were updated. <code>AiView.tsx</code> was unchanged (still uses barrel import).</p>
+
+    <div class="two-col" style="margin-top:var(--spacing-lg)">
+        <div>
+            <h4>Folders Added</h4>
+            <ul>
+                <li><code>Navigation/</code> — header + tab nav</li>
+                <li><code>Competitor/</code> — all competitor tab sub-components</li>
+                <li><code>Position/</code> — all position tab sub-components</li>
+                <li><code>Sources/</code> — all sources tab sub-components</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Import Paths Updated</h4>
+            <ul>
+                <li><code>Tabs/CompetitorTab</code> → imports from <code>../Competitor/*</code></li>
+                <li><code>Tabs/PositionTab</code> → imports from <code>../Position/*</code></li>
+                <li><code>Tabs/SourcesTab</code> → imports from <code>../Sources/*</code></li>
+                <li><code>CompetitorSnapshot</code> + <code>SourceMixList</code> → <code>BrandCard</code> path fixed to <code>../Shared/BrandCard</code></li>
+                <li><code>index.ts</code> → all barrel paths updated</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Bug Fixes -->
+    <h2 id="bugfixes">Post-Phase 6 — Bug Fixes</h2>
+    <span class="badge badge-post">Fixes</span>&nbsp;<span class="badge badge-date" style="background:#e2e8f0;color:#475569">June 11, 2026</span>
+
+    <!-- Bug 1 -->
+    <h3 style="margin-top:var(--spacing-xl)">Bug 1 — DataBarChart: only one bar rendered on vertical layout</h3>
+    <div class="two-col">
+        <div class="bug-card bug">
+            <div class="bug-label">Root Cause</div>
+            <p>The <code>DataBarChart</code> component conditionally rendered <code>XAxis</code> / <code>YAxis</code> wrapped in <code>&lt;&gt;...&lt;/&gt;</code> fragments. Recharts 1.8.5 uses <code>React.Children</code> traversal internally to register axis components by type — it does not look inside fragments. When <code>layout="vertical"</code> (horizontal bars), the <code>XAxis type="number"</code> and <code>YAxis type="category"</code> were never registered, so Recharts fell back to default axis types and all bars stacked at Y-position 0, appearing as a single bar.</p>
+            <p style="margin-top:8px">The <code>PillarDistribution</code> chart was unaffected because its default <code>layout="horizontal"</code> happens to match Recharts' fallback axis defaults.</p>
+        </div>
+        <div class="bug-card fix">
+            <div class="bug-label">Fix</div>
+            <p>Replaced the fragment-wrapped conditional with separate inline conditionals so each axis is a direct child of <code>BarChart</code>:</p>
+            <div class="code-block" style="margin-top:12px">
+                <div class="code-header"><span>DataBarChart.tsx</span></div>
+                <pre class="code-content"><code>{isHorizontal ? (
+    &lt;XAxis type="number" tick={tickStyle} /&gt;
+) : (
+    &lt;XAxis dataKey={categoryDataKey} ... /&gt;
+)}
+{isHorizontal ? (
+    &lt;YAxis type="category" ... /&gt;
+) : (
+    &lt;YAxis tick={tickStyle} /&gt;
+)}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bug 2 -->
+    <h3>Bug 2 — AiViewNarrative: NaN rendered in paragraph</h3>
+    <div class="two-col">
+        <div class="bug-card bug">
+            <div class="bug-label">Root Cause</div>
+            <p><code>AiViewNarrative.tsx</code> referenced <code>brand.positiveCount</code>, <code>brand.negativeCount</code> and <code>brand.neutralCount</code>. These fields do not exist on <code>BrandMetric</code> — the interface only exposes a composite <code>sentimentScore</code> (0–1). Adding <code>undefined + undefined + undefined</code> produced <code>NaN</code>, which React rendered as an empty <code>&lt;strong&gt;</code> and logged a console warning.</p>
+        </div>
+        <div class="bug-card fix">
+            <div class="bug-label">Fix</div>
+            <p>Replaced the broken sentiment breakdown with <code>brand.sentimentScore * 100</code>. The narrative now reads: <em>"With a sentiment score of X%, the brand appears in Y% of top-3 responses…"</em> Removed the now-unused <code>safePct</code> import.</p>
+        </div>
+    </div>
+
+    <!-- Bug 3 -->
+    <h3>Bug 3 — Recharts 1.8.5: false prop-type warnings in console</h3>
+    <div class="two-col">
+        <div class="bug-card bug">
+            <div class="bug-label">Root Cause</div>
+            <p>Recharts 1.8.5 ships with malformed <code>propTypes</code> validator definitions on <code>Tooltip</code> (<code>allowEscapeViewBox.x</code>) and <code>Line</code> (<code>points[0].value</code>). The validators are <code>undefined</code> instead of valid <code>PropTypes</code> functions, so React logs "invalid prop type" warnings on every fresh session.</p>
+            <p style="margin-top:8px">The original code hit the same bug but warnings never surfaced because React only fires each prop-type warning <strong>once per browser session</strong> — other charts elsewhere in the app had already consumed the warning budget before the AI View tab was opened. The new isolated wrapper files render these Recharts components independently and earlier, causing them to appear first.</p>
+        </div>
+        <div class="bug-card fix">
+            <div class="bug-label">Fix</div>
+            <p>Cleared the broken <code>propTypes</code> objects at import time in both chart wrapper files. Dev-only metadata — no effect on rendering or production builds:</p>
+            <div class="code-block" style="margin-top:12px">
+                <div class="code-header"><span>TrendLineChart.tsx &amp; DataBarChart.tsx</span></div>
+                <pre class="code-content"><code>// Recharts 1.8.5 ships with invalid propType
+// validator definitions. Clearing them removes
+// false dev warnings with no runtime impact.
+(Tooltip as any).propTypes = undefined;
+(Line as any).propTypes = undefined;</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Standards reminder -->
+    <h2>Coding Standards Applied</h2>
+    <div class="two-col">
+        <div>
+            <h4>TypeScript / React</h4>
+            <ul class="checklist">
+                <li><code>export const Comp = (props: Props) =&gt; {</code> pattern throughout</li>
+                <li>No explicit return type annotations where inferable</li>
+                <li>Props destructured inside the function body</li>
+                <li>JSDoc with <code>@interface</code>, per-prop <code>/** */</code>, <code>@example</code> on hooks</li>
+                <li>Path aliases: <code>@luminaUtils/*</code>, <code>@luminaHooks/*</code>, <code>@luminaComponents/*</code>, <code>@luminaScss/*</code></li>
+            </ul>
+        </div>
+        <div>
+            <h4>SCSS Modules</h4>
+            <ul class="checklist">
+                <li><code>.__className</code> camelCase naming convention</li>
+                <li><code>@use "~@luminaScss/Settings/index" as settings;</code></li>
+                <li><code>@use "~@luminaScss/LuminaSettings.scss" as luminaSettings;</code></li>
+                <li><code>@use "~@luminaScss/Tools/index" as tools;</code></li>
+                <li>No hardcoded hex values — luminaSettings colour variables throughout</li>
+                <li>Spacing via <code>settings.$spacing-unit-*</code></li>
+                <li>Typography via <code>ai-font</code> mixin</li>
+            </ul>
+        </div>
+    </div>
+
+</main>
+
+    <hr class="section-divider">
+
+    <!-- Next Steps -->
+    <h2 id="nextsteps">Next Steps</h2>
+
+    <h3 id="nextsteps-styling">Component Styling Review — by Tab</h3>
+    <p>All components currently inherit card and layout styles from the legacy <code>_Components.AiView.module.scss</code> via the tab orchestrators. The next pass should review each component's own SCSS module and ensure it is fully self-contained, consistent with the <code>.__className</code> convention, and free from any residual magic values.</p>
+
+    <div class="two-col">
+        <div>
+            <h4>Competitor Tab</h4>
+            <ul>
+                <li><strong>CompetitorSnapshot</strong> — no SCSS module yet; toggle and list layout handled by parent card. Consider extracting list spacing into a dedicated module.</li>
+                <li><strong>ScoreTrend</strong> — no SCSS module; toggle only. Review toggle group alignment.</li>
+                <li><strong>PillarDistribution</strong> — no SCSS module; verify x-axis label angle and overflow on small screens.</li>
+                <li><strong>TopicCloud</strong> — <code>TopicCloud.module.scss</code> ✅. Review <code>.__cloud</code> min-height and word gap responsiveness.</li>
+            </ul>
+            <h4>Sources Tab</h4>
+            <ul>
+                <li><strong>ContentTypeChart</strong> — no SCSS module; review <code>categoryAxisWidth</code> at different viewport sizes.</li>
+                <li><strong>SourceMixList</strong> — no SCSS module; renders <code>BrandCard</code> list. Verify spacing between cards.</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Position Tab</h4>
+            <ul>
+                <li><strong>ScoreDonut</strong> — <code>ScoreDonut.module.scss</code> ✅. Review donut sizing on tablet/mobile and legend wrapping.</li>
+                <li><strong>AiViewNarrative</strong> — no SCSS module; <code>&lt;p&gt;</code> rendered inside card. Confirm line-height and font size match Lumina type scale.</li>
+                <li><strong>KpiCards</strong> — <code>KpiCards.module.scss</code> ✅. Review 4-column grid collapse on tablet (consider 2-col breakpoint).</li>
+            </ul>
+            <h4>Shared</h4>
+            <ul>
+                <li><strong>BrandCard</strong> — <code>BrandCard.module.scss</code> ✅. Confirm <code>.__value</code> truncation on long numbers and <code>.__subUp</code> / <code>.__subDown</code> contrast ratios.</li>
+            </ul>
+            <h4>Navigation</h4>
+            <ul>
+                <li><strong>AiViewHeader</strong> — no SCSS module; uses legacy toolbar classes. Candidate for extraction once legacy SCSS is replaced.</li>
+                <li><strong>AiViewTabs</strong> — no SCSS module; uses legacy tab button classes. Review active indicator styling.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 id="nextsteps-checklist">Post-Refactoring Checklist</h3>
+    <div class="two-col">
+        <div>
+            <h4>Code Quality</h4>
+            <ul class="checklist">
+                <li class="pending">SCSS audit — ensure all new modules use <code>.__</code> prefix and luminaSettings variables exclusively</li>
+                <li class="pending">Replace legacy AiView SCSS layout classes (<code>layoutTop</code>, <code>hero</code>, <code>gridTwo</code> etc.) with new module files in each tab orchestrator</li>
+                <li class="pending">TypeScript strict-mode check — run <code>tsc --strict</code> across new files</li>
+                <li class="pending">Remove any remaining <code>// eslint-disable</code> comments once Recharts version is updated</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Testing &amp; Review</h4>
+            <ul class="checklist">
+                <li class="pending">All three tabs verified at 1280px, 1024px and 768px widths</li>
+                <li class="pending">Toggle interactions (Snapshot metric, Trend metric, Topic source) tested end-to-end</li>
+                <li class="pending">Empty state (no AI View selected) confirmed rendering correctly</li>
+                <li class="pending">Loading state (snapshots loading) confirmed</li>
+                <li class="pending">React DevTools profiler — check for unnecessary re-renders in tab switches</li>
+                <li class="pending">Consider <code>React.memo</code> on pure presentational components (BrandCard, KpiCards, ScoreDonut)</li>
+                <li class="pending">Upgrade Recharts from 1.8.5 to 2.x — removes prop-type patch and unlocks newer chart features</li>
+                <li class="pending">Code review sign-off</li>
+            </ul>
+        </div>
+    </div>
+
+<!-- Footer -->
+<footer class="document-footer">
+    <div class="footer-logo">Pulsar Group — Lumina</div>
+    <p>AI View Refactoring Log &nbsp;·&nbsp; feature/DE-18427-ai-view-update-ui &nbsp;·&nbsp; June 2026</p>
+</footer>
+
+<!-- Back to top -->
+<button class="back-to-top-btn" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="white"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg>
+    <span class="text">Top</span>
+</button>
+
+<script>
+    const btn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('visible', window.scrollY > 400);
+    });
+</script>
+</body>
+</html>

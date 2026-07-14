@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Mangling System Documentation - JES Reply Implementation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for Lumina Branding */
+        :root {
+            --primary-color: #3597FE;
+            --secondary-color: #0042FF;
+            --accent-color: #54FFB1;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #FF4C4C;
+            --info-color: #2196F3;
+            
+            --lumina-pale-blue: #94C0FF;
+            --lumina-lilac: #D6C5EF;
+            --lumina-light-green: #C9FFE7;
+            --lumina-pale-yellow: #F0EB7E;
+            --lumina-skin: #F8D0C0;
+            
+            --text-primary: #121212;
+            --text-secondary: #404040;
+            --text-muted: #808080;
+            --link-color: #0066CC;
+            --link-hover: #004999;
+            
+            --background: #FFFFFF;
+            --background-alt: #F8FAFC;
+            --background-highlight: #FFF9C4;
+            --border-color: #8FBCFF;
+            
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 0;
+            margin: 0;
+            background-color: var(--background);
+            font-size: 14px;
+        }
+
+        /* Header with Pulsar Group branding */
+        .document-header {
+            background-image: url('Assets/Img/subjectHeader2/Large.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-2xl) 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 160px;
+        }
+
+        .document-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(53, 151, 254, 0.15) 0%, rgba(0, 66, 255, 0.25) 100%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Logo and main heading */
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-lg);
+        }
+
+        .company-logo {
+            height: 60px;
+            width: auto;
+            max-width: 200px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .company-logo svg {
+            height: 100%;
+            width: auto;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            margin-top: -6px;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+            font-weight: 300;
+        }
+
+        .header-text .subtitle {
+            margin: 0;
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        /* Document metadata */
+        .document-meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            text-align: right;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .document-meta .branch-info {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            margin-bottom: var(--spacing-sm);
+            color: var(--link-color);
+        }
+
+        .author-line {
+            margin-bottom: var(--spacing-sm) 0;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .document-content {
+            padding: 0 var(--spacing-xl);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .toc {
+            background: linear-gradient(135deg, var(--lumina-pale-blue), var(--lumina-light-green));
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .toc-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .toc ul {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+
+        .toc li {
+            margin: var(--spacing-sm) 0;
+        }
+
+        .toc a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-top: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            color: var(--text-primary);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.2rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-left: 4px solid var(--info-color);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border-radius: 8px;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border-left: 4px solid var(--success-color);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border-radius: 8px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            border-left: 4px solid var(--warning-color);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border-radius: 8px;
+        }
+
+        .code-block {
+            background: #1E1E1E;
+            color: #D4D4D4;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: #D63384;
+        }
+
+        .code-block code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        th {
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        tbody tr:hover {
+            background: var(--background-alt);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .pros, .cons {
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            border-left: 4px solid var(--error-color);
+        }
+
+        .pros h4, .cons h4 {
+            margin-top: 0;
+        }
+
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+
+        .option-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-card:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .option-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-time {
+            background: var(--lumina-pale-yellow);
+            color: var(--text-primary);
+        }
+
+        .badge-recommended {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .badge-complexity {
+            background: var(--lumina-lilac);
+            color: var(--text-primary);
+        }
+
+        .section-divider {
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            margin: var(--spacing-2xl) 0;
+            border-radius: 2px;
+        }
+
+        .highlight {
+            background: var(--background-highlight);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding: var(--spacing-sm) 0;
+            padding-left: var(--spacing-xl);
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: '□';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            background-color: var(--background-alt);
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer p {
+            margin: var(--spacing-sm) 0;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .document-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .document-meta {
+                text-align: left;
+                width: 100%;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .option-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+            }
+        }
+
+        /* Syntax highlighting colors */
+        .keyword { color: #569CD6; }
+        .string { color: #CE9178; }
+        .comment { color: #6A9955; }
+        .function { color: #DCDCAA; }
+        .number { color: #B5CEA8; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="document-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <div class="company-logo">
+                <svg width="1011px" height="200px" viewBox="0 0 1011 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>Pulsar Group Logo</title>
+                    <g stroke="none" fill="none" fill-rule="nonzero">
+                        <path d="M93.9574468,55.5224586 L93.9574468,107.503546 C93.9574468,124.685579 101.134752,132.515366 114.619385,132.515366 C128.104019,132.515366 135.281324,124.468085 135.281324,107.503546 L135.281324,55.5224586 L150.288416,55.5224586 L150.288416,109.243499 C150.288416,133.602837 135.933806,146 114.619385,146 C93.5224586,146 78.9503546,133.602837 78.9503546,109.026005 L78.9503546,55.5224586 L93.9574468,55.5224586 Z M626.600473,54 C649.87234,54 659.659574,65.5271868 663.13948,83.3617021 L648.132388,83.3617021 L647.847327,82.6416198 C644.133751,73.4875192 638.259808,67.7021277 626.600473,67.7021277 C614.638298,67.7021277 600.501182,81.1867612 600.501182,100.108747 C600.501182,119.030733 610.723404,132.732861 627.252955,132.732861 C643.782506,132.732861 648.78487,124.033097 650.742317,111.635934 L631.385343,111.635934 L631.167849,111.41844 L631.167849,98.5862884 L664.879433,98.5862884 L664.879433,105.546099 C664.879433,130.122931 648.78487,146 627.035461,146 C605.286052,146 585.059102,127.513002 585.059102,100.108747 C585.059102,72.7044917 603.328605,54 626.600473,54 Z M799.725768,54 C823.867612,54 841.049645,73.356974 841.049645,99.891253 C841.049645,126.425532 823.867612,145.782506 799.725768,145.782506 L799.725768,146 C775.583924,146 758.619385,126.643026 758.619385,100.108747 C758.619385,73.5744681 775.583924,54 799.725768,54 Z M870.846336,55.5224586 L870.846336,107.503546 C870.846336,124.685579 878.023641,132.515366 891.508274,132.515366 C904.992908,132.515366 912.170213,124.468085 912.170213,107.503546 L912.170213,55.5224586 L927.177305,55.5224586 L927.177305,109.243499 C927.177305,133.602837 912.822695,146 891.508274,146 C870.411348,146 855.839243,133.602837 855.839243,109.026005 L855.839243,55.5224586 L870.846336,55.5224586 Z M271.432624,54 C289.484634,54 302.099291,63.787234 305.144208,78.5768322 L290.137116,78.5768322 C287.744681,71.8345154 282.089835,66.6146572 271.650118,66.6146572 C261.210402,66.6146572 255.555556,71.6170213 255.555556,79.0118203 C255.555556,86.4066194 259.252955,88.7990544 267.300236,90.5390071 L282.742317,94.2364066 C296.661939,97.498818 305.79669,105.546099 305.79669,118.813239 C305.79669,132.080378 292.529551,145.782506 274.042553,145.782506 C255.555556,145.782506 241.635934,136.212766 238.591017,119.683215 L254.033097,119.683215 L253.815603,119.900709 C256.643026,129.035461 264.255319,133.167849 274.042553,133.167849 C283.829787,133.167849 291.224586,128.165485 291.224586,119.900709 C291.224586,111.635934 287.527187,110.113475 278.392435,107.938534 L263.385343,104.241135 L262.629655,104.063104 C250.592777,101.135345 241.200946,94.3784436 241.200946,80.3167849 C241.200946,65.9621749 253.380615,54 271.432624,54 Z M445.862884,55.5224586 C464.349882,55.5224586 476.094563,64.8747045 476.094563,82.2742317 C476.094563,99.6737589 467.394799,105.763593 453.257683,107.938534 L479.13948,144.695035 L461.957447,144.695035 L437.163121,108.591017 L426.50591,108.591017 L426.50591,144.477541 L411.498818,144.477541 L411.498818,55.5224586 L445.862884,55.5224586 Z M979.810875,55.5224586 C998.297872,55.5224586 1010.26005,65.0921986 1010.26005,83.5791962 C1010.26005,102.066194 998.297872,111.41844 979.810875,111.41844 L960.453901,111.41844 L960.453901,144.695035 L945.446809,144.695035 L945.446809,55.5224586 L979.810875,55.5224586 Z M34.3640662,55.5224586 C52.8510638,55.5224586 64.8132388,65.0921986 64.8132388,83.5791962 C64.8132388,102.066194 52.8510638,111.41844 34.3640662,111.41844 L15.0070922,111.41844 L15.0070922,144.695035 L0,144.695035 L0,55.5224586 L34.3640662,55.5224586 Z M185.08747,55.5224586 L185.08747,131.210402 L227.933806,131.210402 L227.933806,144.695035 L170.080378,144.695035 L170.080378,55.5224586 L185.08747,55.5224586 Z M362.997636,55.5224586 L397.144208,144.695035 L381.702128,144.695035 L372.567376,120.118203 L338.420804,120.118203 L329.286052,144.695035 L314.061466,144.695035 L348.425532,55.5224586 L362.997636,55.5224586 Z M715.77305,55.5224586 C734.260047,55.5224586 746.004728,64.8747045 746.004728,82.2742317 C746.004728,99.6737589 737.304965,105.763593 723.167849,107.938534 L749.049645,144.695035 L731.867612,144.695035 L707.073286,108.591017 L696.416076,108.591017 L696.416076,144.477541 L681.408983,144.477541 L681.408983,55.5224586 L715.77305,55.5224586 Z M538.080378,54 L538.080378,85.9716312 L565.484634,69.4420804 L572.879433,81.6217494 L544.822695,98.5862884 L572.879433,115.550827 L565.484634,127.947991 L538.080378,111.41844 L538.080378,143.390071 L523.725768,143.390071 L523.725768,111.41844 L496.539007,127.947991 L489.144208,115.550827 L517.200946,98.5862884 L489.144208,81.6217494 L496.539007,69.4420804 L523.725768,85.9716312 L523.725768,54 L538.080378,54 Z M799.725768,67.4846336 C784.066194,67.4846336 773.843972,81.1867612 773.843972,99.891253 C773.843972,118.595745 784.066194,132.297872 799.725768,132.297872 C815.385343,132.297872 825.607565,118.595745 825.607565,99.891253 C825.607565,81.1867612 815.385343,67.4846336 799.725768,67.4846336 Z M355.602837,74.0094563 L343.423168,106.851064 L367.782506,106.851064 L355.602837,74.0094563 Z M33.929078,68.572104 L15.0070922,68.572104 L15.0070922,98.3687943 L33.929078,98.3687943 C44.3687943,98.3687943 49.8061466,92.0614657 49.8061466,83.5791962 C49.8061466,75.0969267 44.3687943,68.572104 33.929078,68.572104 Z M979.593381,68.572104 L960.671395,68.572104 L960.671395,98.3687943 L979.593381,98.3687943 C990.033097,98.3687943 995.470449,92.0614657 995.470449,83.5791962 C995.470449,75.0969267 990.033097,68.572104 979.593381,68.572104 Z M445.427896,68.3546099 L426.50591,68.3546099 L426.50591,95.7588652 L445.427896,95.7588652 C455.432624,95.7588652 461.08747,90.321513 461.08747,82.0567376 C461.08747,73.7919622 455.432624,68.3546099 445.427896,68.3546099 Z M715.338061,68.3546099 L696.416076,68.3546099 L696.416076,95.7588652 L715.338061,95.7588652 C725.34279,95.7588652 730.997636,90.321513 730.997636,82.0567376 C730.997636,73.7919622 725.34279,68.3546099 715.338061,68.3546099 Z" fill="#FFFFFF"></path>
+                    </g>
+                </svg>
+            </div>
+            <div class="header-text">
+                <h1>Email Mangling System Documentation</h1>
+                <p class="subtitle">JES Reply Implementation Guide</p>
+            </div>
+        </div>
+        <div class="document-meta">
+            <div class="branch-info">feature/jes-reply-implementation</div>
+            <div class="author-line"><strong>Date:</strong> June 4, 2026</div>
+            <div class="author-line"><strong>Author:</strong> Simon Allin</div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Document Content -->
+<main class="document-content">
+
+<!-- Table of Contents -->
+<div class="toc">
+    <h2>
+        <svg class="toc-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px">
+            <path d="M318.52-300.41q11.81 0 19.72-7.96 7.91-7.97 7.91-19.79 0-11.81-7.96-19.72-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.96-7.91 19.78t7.96 19.73q7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.97 7.91-19.78 0-11.82-7.96-19.73t-19.78-7.91q-11.82 0-19.73 7.96-7.91 7.97-7.91 19.78 0 11.82 7.96 19.73 7.97 7.91 19.79 7.91Zm0-151.9q11.81 0 19.72-7.96 7.91-7.96 7.91-19.78t-7.96-19.73q-7.96-7.91-19.78-7.91t-19.73 7.96q-7.91 7.97-7.91 19.79 0 11.81 7.96 19.72 7.97 7.91 19.79 7.91Zm143.84 293.03h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17 0-7.25-4.87-12.01-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17t4.86 12.01q4.87 4.76 12.06 4.76Zm0-151.9h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.16 0-7.26-4.87-12.02-4.86-4.75-12.05-4.75H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.16 0 7.26 4.86 12.02 4.87 4.75 12.06 4.75Zm0-151.89h182.67q7.19 0 12.05-4.91 4.87-4.91 4.87-12.17t-4.87-12.01q-4.86-4.76-12.05-4.76H462.36q-7.19 0-12.06 4.91-4.86 4.91-4.86 12.17 0 7.25 4.86 12.01 4.87 4.76 12.06 4.76ZM218.46-160q-24.58 0-41.52-16.94Q160-193.88 160-218.46v-523.08q0-24.58 16.94-41.52Q193.88-800 218.46-800h523.08q24.58 0 41.52 16.94Q800-766.12 800-741.54v523.08q0 24.58-16.94 41.52Q766.12-160 741.54-160H218.46Zm0-33.85h523.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-523.08q0-9.23-7.69-16.92-7.69-7.69-16.92-7.69H218.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v523.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69Zm-24.61-572.3V-193.85-766.15Z"/>
+        </svg>
+        Table of Contents
+    </h2>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#php-implementation">PHP Implementation (Current System)</a></li>
+        <li><a href="#typescript-implementation">TypeScript/React Implementation</a></li>
+        <li><a href="#implementation-options">Implementation Options</a>
+            <ul>
+                <li><a href="#option1">Option 1: Simple mailto</a></li>
+                <li><a href="#option2">Option 2: Enhanced mailto</a></li>
+                <li><a href="#option3">Option 3: In-App Form</a></li>
+                <li><a href="#option4">Option 4: Hybrid Approach</a></li>
+            </ul>
+        </li>
+        <li><a href="#testing">Testing</a></li>
+        <li><a href="#migration">Migration Checklist</a></li>
+        <li><a href="#recommended-path">Recommended Implementation Path</a></li>
+        <li><a href="#cost-comparison">Cost Comparison</a></li>
+    </ul>
+</div>
+
+<!-- Overview -->
+<section id="overview">
+    <h2>🎯 Overview</h2>
+    
+    <div class="info-box">
+        <h3>What is Email Mangling?</h3>
+        <p>Email mangling is a system that generates scrambled/obfuscated email addresses for journalist enquiries. It allows PR subscribers to reply to enquiries while protecting journalist privacy and enabling tracking.</p>
+    </div>
+
+    <h3>Key Features</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin: var(--spacing-lg) 0;">
+        <div class="success-box">
+            <h4>🔒 Protect Privacy</h4>
+            <p>Hide journalist's real email from PR subscribers</p>
+        </div>
+        <div class="success-box">
+            <h4>📊 Enable Tracking</h4>
+            <p>Embed contact ID for analytics and routing</p>
+        </div>
+        <div class="success-box">
+            <h4>🔄 Deterministic</h4>
+            <p>Same ID always produces same result</p>
+        </div>
+        <div class="success-box">
+            <h4>↩️ Reversible</h4>
+            <p>Can decode back to original IDs</p>
+        </div>
+    </div>
+
+    <h3>How It Works</h3>
+    <p><strong>Example Flow:</strong></p>
+    <ol>
+        <li>Enquiry ID: <code>12345</code>, Contact ID: <code>678</code></li>
+        <li>Mangle IDs: <code>12345</code> → <code>XQiLm</code>, <code>678</code> → <code>gTE</code></li>
+        <li>Generate email: <code>rs-XQiLm.gTE@email.responsesource.com</code></li>
+        <li>User sends reply to this scrambled address</li>
+        <li>System demangled IDs and routes email to correct journalist</li>
+    </ol>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PHP Implementation -->
+<section id="php-implementation">
+    <h2>🔧 PHP Implementation (Current System)</h2>
+
+    <h3>1. The Mangle Map</h3>
+    <p>Located in: <code>/RSDev/core-code/lib/DWPub/Utility.php</code> (lines 185-201)</p>
+    
+    <div class="code-block"><pre>static $mangle_map = array(
+    0 => "A",
+    1 => "X",
+    2 => "Q",
+    3 => "i",
+    4 => "L",
+    5 => "m",
+    6 => "g",
+    7 => "T",
+    8 => "E",
+    9 => "z"
+);</pre></div>
+
+    <div class="info-box">
+        <strong>💡 How it works:</strong> Each digit (0-9) maps to a specific letter. This simple substitution cipher makes IDs unreadable to humans while remaining reversible.
+    </div>
+
+    <h3>2. Mangle Function</h3>
+    <div class="code-block"><pre>public static function imangle($string) {
+    return str_replace(
+        array_keys(self::$mangle_map), 
+        array_values(self::$mangle_map), 
+        $string
+    );
+}
+
+<span class="comment">// Example:</span>
+<span class="comment">// Input:  "12345"</span>
+<span class="comment">// Output: "XQiLm"</span></pre></div>
+
+    <h3>3. Demangle Function</h3>
+    <div class="code-block"><pre>public static function idemangle($string, $single = 0) {
+    return DWPub_Utility::getInt(
+        str_replace(
+            array_values(array_map("mb_strtolower", self::$mangle_map)), 
+            array_keys(self::$mangle_map), 
+            mb_strtolower($string)
+        ), 
+        $single
+    );
+}
+
+<span class="comment">// Example:</span>
+<span class="comment">// Input:  "XQiLm"</span>
+<span class="comment">// Output: 12345</span></pre></div>
+
+    <div class="warning-box">
+        <strong>⚠️ Important:</strong> The demangle function is <strong>case-insensitive</strong> - both "XQiLm" and "xqilm" will decode to the same ID.
+    </div>
+
+    <h3>4. Generate Public Email</h3>
+    <p>Located in: <code>core-code/lib/DB/RowClass/ResponseSource.php</code> (lines 89-105)</p>
+    
+    <div class="code-block"><pre>public function getPublicEmailAddress($contact_id = null, $display_real = false) {
+    if($display_real)
+        return $this->EmailAddress;
+
+    $track = "";
+    if($contact_id !== null) {
+        $track = ".".DWPub_Utility::imangle($contact_id);
+    }
+
+    $domain = Zend_Registry::get("conf")->get("rsintl")
+        ->get($this->Territory, "UK")->obscure_sender_email_domain;
+    if(!$domain)
+        $domain = "email.responsesource.com";
+
+    return "rs-".DWPub_Utility::imangle($this->ID)."{$track}@{$domain}";
+}</pre></div>
+
+    <div class="success-box">
+        <strong>✅ Result Format:</strong> <code>rs-{mangled_enquiry_id}.{mangled_contact_id}@{domain}</code>
+        <br><br>
+        <strong>Example:</strong>
+        <ul>
+            <li>Enquiry ID: 12345 → XQiLm</li>
+            <li>Contact ID: 678 → gTE</li>
+            <li>Final Email: <code>rs-XQiLm.gTE@email.responsesource.com</code></li>
+        </ul>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TypeScript Implementation -->
+<section id="typescript-implementation">
+    <h2>⚛️ TypeScript/React Implementation</h2>
+
+    <h3>1. Email Mangling Utility Class</h3>
+    <p>Create file: <code>src/utils/emailMangler.ts</code></p>
+
+    <div class="code-block"><pre><span class="comment">/**
+ * Email mangling utilities for ResponseSource
+ * Converts numeric IDs to obfuscated email addresses and back
+ */</span>
+<span class="keyword">export class</span> <span class="function">EmailMangler</span> {
+  <span class="comment">// Digit to character mapping (must match PHP implementation)</span>
+  <span class="keyword">private static readonly</span> mangleMap: Record&lt;string, string&gt; = {
+    '0': 'A', '1': 'X', '2': 'Q', '3': 'i', '4': 'L',
+    '5': 'm', '6': 'g', '7': 'T', '8': 'E', '9': 'z'
+  };
+
+  <span class="comment">// Reverse mapping for demangling (case-insensitive)</span>
+  <span class="keyword">private static readonly</span> demangleMap: Record&lt;string, string&gt; = {
+    'a': '0', 'A': '0', 'x': '1', 'X': '1',
+    'q': '2', 'Q': '2', 'i': '3', 'I': '3',
+    'l': '4', 'L': '4', 'm': '5', 'M': '5',
+    'g': '6', 'G': '6', 't': '7', 'T': '7',
+    'e': '8', 'E': '8', 'z': '9', 'Z': '9'
+  };
+
+  <span class="comment">/**
+   * Mangle a numeric ID into an encoded string
+   * @example EmailMangler.mangle(12345) // Returns "XQiLm"
+   */</span>
+  <span class="keyword">static</span> <span class="function">mangle</span>(id: number | string): string {
+    <span class="keyword">const</span> idString = id.toString();
+    <span class="keyword">return</span> idString.split(<span class="string">''</span>)
+      .map(char => <span class="keyword">this</span>.mangleMap[char] || char)
+      .join(<span class="string">''</span>);
+  }
+
+  <span class="comment">/**
+   * Demangle an encoded string back to a numeric ID
+   * @example EmailMangler.demangle('XQiLm') // Returns 12345
+   */</span>
+  <span class="keyword">static</span> <span class="function">demangle</span>(mangled: string): number {
+    <span class="keyword">const</span> demangled = mangled.split(<span class="string">''</span>)
+      .map(char => <span class="keyword">this</span>.demangleMap[char] || char)
+      .join(<span class="string">''</span>);
+    <span class="keyword">return</span> parseInt(demangled, <span class="number">10</span>) || <span class="number">0</span>;
+  }
+
+  <span class="comment">/**
+   * Generate a public (scrambled) email address
+   * @example EmailMangler.getPublicEmail(12345, 678)
+   * // Returns "rs-XQiLm.gTE@email.responsesource.com"
+   */</span>
+  <span class="keyword">static</span> <span class="function">getPublicEmail</span>(
+    enquiryId: number, 
+    contactId?: number, 
+    domain: string = <span class="string">'email.responsesource.com'</span>
+  ): string {
+    <span class="keyword">const</span> mangledId = <span class="keyword">this</span>.mangle(enquiryId);
+    <span class="keyword">const</span> trackingPart = contactId ? <span class="string">`.${this.mangle(contactId)}`</span> : <span class="string">''</span>;
+    <span class="keyword">return</span> <span class="string">`rs-${mangledId}${trackingPart}@${domain}`</span>;
+  }
+
+  <span class="comment">/**
+   * Parse a public email address to extract enquiry and contact IDs
+   * @example EmailMangler.parsePublicEmail('rs-XQiLm.gTE@email.responsesource.com')
+   * // Returns { enquiryId: 12345, contactId: 678 }
+   */</span>
+  <span class="keyword">static</span> <span class="function">parsePublicEmail</span>(email: string) {
+    <span class="keyword">const</span> match = email.match(<span class="string">/^rs-([A-Za-z]+)(?:\.([A-Za-z]+))?@/</span>);
+    <span class="keyword">if</span> (!match) <span class="keyword">return null</span>;
+
+    <span class="keyword">const</span> enquiryId = <span class="keyword">this</span>.demangle(match[<span class="number">1</span>]);
+    <span class="keyword">const</span> contactId = match[<span class="number">2</span>] ? <span class="keyword">this</span>.demangle(match[<span class="number">2</span>]) : <span class="keyword">undefined</span>;
+
+    <span class="keyword">return</span> { enquiryId, contactId };
+  }
+}</pre></div>
+
+    <h3>2. Usage Examples</h3>
+    <div class="code-block"><pre><span class="keyword">import</span> { EmailMangler } <span class="keyword">from</span> <span class="string">'@/utils/emailMangler'</span>;
+
+<span class="comment">// Generate scrambled email</span>
+<span class="keyword">const</span> email = EmailMangler.getPublicEmail(<span class="number">12345</span>, <span class="number">678</span>);
+console.log(email); 
+<span class="comment">// Output: "rs-XQiLm.gTE@email.responsesource.com"</span>
+
+<span class="comment">// Parse scrambled email</span>
+<span class="keyword">const</span> parsed = EmailMangler.parsePublicEmail(<span class="string">'rs-XQiLm.gTE@email.responsesource.com'</span>);
+console.log(parsed); 
+<span class="comment">// Output: { enquiryId: 12345, contactId: 678 }</span>
+
+<span class="comment">// Mangle/demangle IDs directly</span>
+console.log(EmailMangler.mangle(<span class="number">12345</span>));    <span class="comment">// "XQiLm"</span>
+console.log(EmailMangler.demangle(<span class="string">'XQiLm'</span>)); <span class="comment">// 12345</span></pre></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Implementation Options -->
+<section id="implementation-options">
+    <h2>🚀 Implementation Options</h2>
+
+    <div class="info-box">
+        <h3>Which Option Should You Choose?</h3>
+        <p>There are 4 main approaches, each with different levels of complexity and features:</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Time to Implement</th>
+                <th>Complexity</th>
+                <th>User Experience</th>
+                <th>Tracking</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Option 1: Simple mailto</strong></td>
+                <td>5 minutes</td>
+                <td>⭐</td>
+                <td>Basic</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td><strong>Option 2: Enhanced mailto</strong></td>
+                <td>10 minutes</td>
+                <td>⭐</td>
+                <td>Good</td>
+                <td>Click tracking only</td>
+            </tr>
+            <tr>
+                <td><strong>Option 3: In-app form</strong></td>
+                <td>4-6 hours</td>
+                <td>⭐⭐⭐</td>
+                <td>Excellent</td>
+                <td>Full tracking</td>
+            </tr>
+            <tr>
+                <td><strong>Option 4: Hybrid</strong></td>
+                <td>1-2 hours</td>
+                <td>⭐⭐</td>
+                <td>Excellent</td>
+                <td>Partial</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Option 1 -->
+    <div class="option-card" id="option1">
+        <div class="option-header">
+            <h3 class="option-title">Option 1: Simple mailto Link</h3>
+            <span class="badge badge-time">⏱️ 5 minutes</span>
+        </div>
+
+        <p><strong>Best For:</strong> MVP, quick launch, users who prefer their email client</p>
+
+        <h4>React Component</h4>
+        <div class="code-block"><pre><span class="keyword">interface</span> SimpleReplyButtonProps {
+  enquiryId: number;
+  contactId: number;
+  enquiryTitle: string;
+}
+
+<span class="keyword">export function</span> <span class="function">SimpleReplyButton</span>({ 
+  enquiryId, 
+  contactId, 
+  enquiryTitle 
+}: SimpleReplyButtonProps) {
+  <span class="keyword">const</span> scrambledEmail = EmailMangler.getPublicEmail(enquiryId, contactId);
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">a</span> 
+      href={<span class="string">`mailto:${scrambledEmail}`</span>}
+      className=<span class="string">"btn btn-primary"</span>
+    &gt;
+      Reply via Email
+    &lt;/<span class="keyword">a</span>&gt;
+  );
+}</pre></div>
+
+        <div class="pros-cons">
+            <div class="pros">
+                <h4>✅ Pros</h4>
+                <ul>
+                    <li>Zero backend work</li>
+                    <li>Works immediately</li>
+                    <li>No server costs</li>
+                    <li>Emails route through existing PHP system</li>
+                    <li>5-minute implementation</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <h4>❌ Cons</h4>
+                <ul>
+                    <li>No tracking</li>
+                    <li>User sees scrambled email</li>
+                    <li>Requires email client configured</li>
+                    <li>Can't customize email content</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 2 -->
+    <div class="option-card" id="option2">
+        <div class="option-header">
+            <h3 class="option-title">Option 2: Enhanced mailto with Pre-fill</h3>
+            <div style="display: flex; gap: 8px;">
+                <span class="badge badge-time">⏱️ 10 minutes</span>
+                <span class="badge badge-recommended">⭐ RECOMMENDED FOR MVP</span>
+            </div>
+        </div>
+
+        <p><strong>Best For:</strong> Better UX without backend work</p>
+
+        <h4>React Component</h4>
+        <div class="code-block"><pre><span class="keyword">export function</span> <span class="function">EnhancedReplyButton</span>({ 
+  enquiryId, 
+  contactId, 
+  enquiryTitle,
+  companyName 
+}: EnhancedReplyButtonProps) {
+  <span class="keyword">const</span> scrambledEmail = EmailMangler.getPublicEmail(enquiryId, contactId);
+  
+  <span class="comment">// Pre-fill subject line</span>
+  <span class="keyword">const</span> subject = encodeURIComponent(<span class="string">`Re: ${enquiryTitle}`</span>);
+  
+  <span class="comment">// Pre-fill email body with template</span>
+  <span class="keyword">const</span> body = encodeURIComponent(
+    <span class="string">`Hi,\n\n`</span> +
+    <span class="string">`I'm reaching out regarding your enquiry: "${enquiryTitle}"\n\n`</span> +
+    <span class="string">`[Your message here]\n\n`</span> +
+    <span class="string">`Best regards,\n`</span> +
+    <span class="string">`${companyName || '[Your Company]'}`</span>
+  );
+  
+  <span class="keyword">const</span> mailtoUrl = <span class="string">`mailto:${scrambledEmail}?subject=${subject}&body=${body}`</span>;
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">a</span> 
+      href={mailtoUrl}
+      className=<span class="string">"btn btn-primary"</span>
+    &gt;
+      &lt;MailIcon className=<span class="string">"w-4 h-4 mr-2"</span> /&gt;
+      Reply via Email
+    &lt;/<span class="keyword">a</span>&gt;
+  );
+}</pre></div>
+
+        <div class="success-box">
+            <h4>💡 With Analytics Tracking</h4>
+            <p>Add click tracking to measure engagement:</p>
+            <div class="code-block"><pre><span class="keyword">const</span> handleClick = () => {
+  analytics.track(<span class="string">'enquiry_reply_clicked'</span>, {
+    enquiryId,
+    contactId,
+    method: <span class="string">'mailto'</span>,
+    timestamp: <span class="keyword">new</span> Date().toISOString()
+  });
+};</pre></div>
+        </div>
+
+        <div class="pros-cons">
+            <div class="pros">
+                <h4>✅ Pros</h4>
+                <ul>
+                    <li>Professional looking</li>
+                    <li>Pre-fills subject/body</li>
+                    <li>Click tracking possible</li>
+                    <li>No backend work</li>
+                    <li>Quick to implement</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <h4>❌ Cons</h4>
+                <ul>
+                    <li>Still requires email client</li>
+                    <li>Can't track if email actually sent</li>
+                    <li>User sees scrambled email in client</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 3 -->
+    <div class="option-card" id="option3">
+        <div class="option-header">
+            <h3 class="option-title">Option 3: In-App Email Form</h3>
+            <span class="badge badge-complexity">⏱️ 4-6 hours</span>
+        </div>
+
+        <p><strong>Best For:</strong> Professional product, analytics, best UX</p>
+        <p><strong>Backend Work:</strong> Required (API endpoint, email service integration)</p>
+
+        <h4>Features</h4>
+        <ul>
+            <li>✅ Rich text editor for email composition</li>
+            <li>✅ Character count and validation</li>
+            <li>✅ Success/error handling</li>
+            <li>✅ Store sent messages in database</li>
+            <li>✅ Full tracking (sent, delivered, opened)</li>
+            <li>✅ Mobile-friendly</li>
+        </ul>
+
+        <h4>Backend Requirements</h4>
+        <ul>
+            <li>API endpoint: <code>POST /api/enquiries/reply</code></li>
+            <li>Email service: SendGrid, AWS SES, or Mailgun</li>
+            <li>Database table: <code>enquiry_replies</code></li>
+            <li>Authentication middleware</li>
+        </ul>
+
+        <div class="warning-box">
+            <strong>⚠️ Email Service Costs:</strong> Sending emails requires a service like SendGrid (100 emails/day free) or AWS SES ($0.10 per 1,000 emails).
+        </div>
+
+        <div class="pros-cons">
+            <div class="pros">
+                <h4>✅ Pros</h4>
+                <ul>
+                    <li>Professional UX</li>
+                    <li>Full tracking and analytics</li>
+                    <li>Store sent messages</li>
+                    <li>Validation and error handling</li>
+                    <li>No email client needed</li>
+                    <li>Mobile friendly</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <h4>❌ Cons</h4>
+                <ul>
+                    <li>Backend work required</li>
+                    <li>Email service costs</li>
+                    <li>More complex to maintain</li>
+                    <li>Longer implementation time</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 4 -->
+    <div class="option-card" id="option4">
+        <div class="option-header">
+            <h3 class="option-title">Option 4: Hybrid Approach</h3>
+            <div style="display: flex; gap: 8px;">
+                <span class="badge badge-time">⏱️ 1-2 hours</span>
+                <span class="badge badge-recommended">⭐ RECOMMENDED FOR PRODUCTION</span>
+            </div>
+        </div>
+
+        <p><strong>Best For:</strong> Flexibility, phased rollout, user choice</p>
+
+        <h4>How It Works</h4>
+        <ul>
+            <li>Always show <strong>mailto</strong> option (guaranteed to work)</li>
+            <li>Optionally show <strong>in-app form</strong> (can be enabled via feature flag)</li>
+            <li>Users choose their preferred method</li>
+            <li>Gradual rollout via feature flags (10% → 50% → 100%)</li>
+        </ul>
+
+        <div class="code-block"><pre><span class="keyword">export function</span> <span class="function">HybridReplyButton</span>({ 
+  enquiryId, 
+  contactId, 
+  enquiryTitle,
+  inAppFormEnabled = <span class="keyword">false</span> 
+}: HybridReplyButtonProps) {
+  <span class="keyword">const</span> scrambledEmail = EmailMangler.getPublicEmail(enquiryId, contactId);
+  <span class="keyword">const</span> mailtoUrl = <span class="string">`mailto:${scrambledEmail}?subject=...&body=...`</span>;
+
+  <span class="keyword">return</span> (
+    &lt;&gt;
+      &lt;<span class="keyword">div</span> className=<span class="string">"flex gap-2"</span>&gt;
+        <span class="comment">{/* Mailto option - always available */}</span>
+        &lt;<span class="keyword">a</span> href={mailtoUrl} className=<span class="string">"btn btn-secondary"</span>&gt;
+          Reply via Email Client
+        &lt;/<span class="keyword">a</span>&gt;
+
+        <span class="comment">{/* In-app option - feature flagged */}</span>
+        {inAppFormEnabled && (
+          &lt;<span class="keyword">button</span> onClick={handleInAppClick} className=<span class="string">"btn btn-primary"</span>&gt;
+            Reply in App
+          &lt;/<span class="keyword">button</span>&gt;
+        )}
+      &lt;/<span class="keyword">div</span>&gt;
+    &lt;/&gt;
+  );
+}</pre></div>
+
+        <div class="success-box">
+            <h4>💡 Feature Flag Configuration</h4>
+            <div class="code-block"><pre><span class="comment">// .env</span>
+NEXT_PUBLIC_FEATURE_IN_APP_REPLIES=<span class="keyword">true</span>
+NEXT_PUBLIC_IN_APP_REPLIES_ROLLOUT=<span class="number">10</span> <span class="comment">// Percentage</span></pre></div>
+        </div>
+
+        <div class="pros-cons">
+            <div class="pros">
+                <h4>✅ Pros</h4>
+                <ul>
+                    <li>Best of both worlds</li>
+                    <li>Users choose preference</li>
+                    <li>Can add in-app later</li>
+                    <li>Gradual rollout possible</li>
+                    <li>Always have fallback</li>
+                    <li>Reduced risk</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <h4>❌ Cons</h4>
+                <ul>
+                    <li>More UI components</li>
+                    <li>Requires feature flag system</li>
+                    <li>Need to maintain both options</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Testing -->
+<section id="testing">
+    <h2>🧪 Testing</h2>
+
+    <h3>Unit Tests (TypeScript)</h3>
+    <div class="code-block"><pre><span class="keyword">describe</span>(<span class="string">'EmailMangler'</span>, () => {
+  <span class="keyword">describe</span>(<span class="string">'mangle'</span>, () => {
+    it(<span class="string">'should mangle numeric IDs correctly'</span>, () => {
+      expect(EmailMangler.mangle(<span class="number">12345</span>)).toBe(<span class="string">'XQiLm'</span>);
+      expect(EmailMangler.mangle(<span class="string">'678'</span>)).toBe(<span class="string">'gTE'</span>);
+      expect(EmailMangler.mangle(<span class="number">0</span>)).toBe(<span class="string">'A'</span>);
+    });
+  });
+
+  <span class="keyword">describe</span>(<span class="string">'demangle'</span>, () => {
+    it(<span class="string">'should demangle strings correctly'</span>, () => {
+      expect(EmailMangler.demangle(<span class="string">'XQiLm'</span>)).toBe(<span class="number">12345</span>);
+      expect(EmailMangler.demangle(<span class="string">'gTE'</span>)).toBe(<span class="number">678</span>);
+      expect(EmailMangler.demangle(<span class="string">'A'</span>)).toBe(<span class="number">0</span>);
+    });
+
+    it(<span class="string">'should be case-insensitive'</span>, () => {
+      expect(EmailMangler.demangle(<span class="string">'xqilm'</span>)).toBe(<span class="number">12345</span>);
+      expect(EmailMangler.demangle(<span class="string">'XQILM'</span>)).toBe(<span class="number">12345</span>);
+    });
+  });
+
+  <span class="keyword">describe</span>(<span class="string">'getPublicEmail'</span>, () => {
+    it(<span class="string">'should generate correct email format'</span>, () => {
+      <span class="keyword">const</span> email = EmailMangler.getPublicEmail(<span class="number">12345</span>, <span class="number">678</span>);
+      expect(email).toBe(<span class="string">'rs-XQiLm.gTE@email.responsesource.com'</span>);
+    });
+
+    it(<span class="string">'should work without contact ID'</span>, () => {
+      <span class="keyword">const</span> email = EmailMangler.getPublicEmail(<span class="number">12345</span>);
+      expect(email).toBe(<span class="string">'rs-XQiLm@email.responsesource.com'</span>);
+    });
+  });
+
+  <span class="keyword">describe</span>(<span class="string">'parsePublicEmail'</span>, () => {
+    it(<span class="string">'should parse email with contact ID'</span>, () => {
+      <span class="keyword">const</span> result = EmailMangler.parsePublicEmail(
+        <span class="string">'rs-XQiLm.gTE@email.responsesource.com'</span>
+      );
+      expect(result).toEqual({ enquiryId: <span class="number">12345</span>, contactId: <span class="number">678</span> });
+    });
+
+    it(<span class="string">'should return null for invalid email'</span>, () => {
+      <span class="keyword">const</span> result = EmailMangler.parsePublicEmail(<span class="string">'invalid@email.com'</span>);
+      expect(result).toBeNull();
+    });
+  });
+
+  <span class="keyword">describe</span>(<span class="string">'round-trip'</span>, () => {
+    it(<span class="string">'should maintain data integrity'</span>, () => {
+      <span class="keyword">const</span> originalId = <span class="number">98765</span>;
+      <span class="keyword">const</span> originalContact = <span class="number">4321</span>;
+      
+      <span class="keyword">const</span> email = EmailMangler.getPublicEmail(originalId, originalContact);
+      <span class="keyword">const</span> parsed = EmailMangler.parsePublicEmail(email);
+      
+      expect(parsed?.enquiryId).toBe(originalId);
+      expect(parsed?.contactId).toBe(originalContact);
+    });
+  });
+});</pre></div>
+
+    <div class="success-box">
+        <h4>✅ Test Coverage Goals</h4>
+        <ul>
+            <li>100% coverage for EmailMangler class</li>
+            <li>Test edge cases (0, negative numbers, invalid input)</li>
+            <li>Test case sensitivity</li>
+            <li>Test round-trip integrity</li>
+        </ul>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Migration -->
+<section id="migration">
+    <h2>📋 Migration Checklist</h2>
+
+    <ul class="checklist">
+        <li>Create <code>emailMangler.ts</code> utility file</li>
+        <li>(Optional) Create <code>useEmailMangling.ts</code> hook</li>
+        <li>(Optional) Add TypeScript types</li>
+        <li>Find all places where email addresses are displayed</li>
+        <li>Replace direct email usage with <code>EmailMangler.getPublicEmail()</code></li>
+        <li>Add logic to check if user has "view real email" privilege</li>
+        <li>Test with various enquiry/contact IDs</li>
+        <li>Verify emails match PHP output format</li>
+        <li>Add unit tests</li>
+        <li>Update any email parsing/routing logic</li>
+        <li>Deploy to staging environment</li>
+        <li>Test end-to-end email flow</li>
+        <li>Deploy to production</li>
+        <li>Monitor analytics</li>
+    </ul>
+
+    <div class="warning-box">
+        <h4>⚠️ Common Pitfalls</h4>
+        <ol>
+            <li><strong>Case sensitivity:</strong> PHP <code>idemangle</code> is case-insensitive, ensure TypeScript version handles both cases</li>
+            <li><strong>Non-numeric characters:</strong> Both implementations only mangle digits, other characters pass through unchanged</li>
+            <li><strong>Null/undefined handling:</strong> TypeScript version should gracefully handle invalid input</li>
+            <li><strong>Domain configuration:</strong> Ensure domain matches your environment (dev/staging/prod)</li>
+            <li><strong>Permissions:</strong> Respect "view real email" privilege - don't show scrambled emails to authorized users</li>
+        </ol>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Recommended Path -->
+<section id="recommended-path">
+    <h2>🎯 Recommended Implementation Path</h2>
+
+    <div class="option-card">
+        <h3 style="color: var(--success-color);">Phase 1: Quick Win (Week 1)</h3>
+        <ol>
+            <li>✅ Implement EmailMangler utility</li>
+            <li>✅ Add <strong>Option 2</strong> (Enhanced mailto)</li>
+            <li>✅ Add click tracking</li>
+            <li>✅ Ship to production</li>
+        </ol>
+        <p><strong>Time:</strong> 1 hour | <strong>Value:</strong> Users can reply immediately</p>
+    </div>
+
+    <div class="option-card">
+        <h3 style="color: var(--info-color);">Phase 2: Validate (Week 2-3)</h3>
+        <ol>
+            <li>✅ Monitor analytics</li>
+            <li>✅ Track how many replies sent</li>
+            <li>✅ Gather user feedback</li>
+            <li>✅ Decide if in-app form needed</li>
+        </ol>
+        <p><strong>Time:</strong> Passive monitoring | <strong>Value:</strong> Data-driven decision making</p>
+    </div>
+
+    <div class="option-card">
+        <h3 style="color: var(--primary-color);">Phase 3: Enhanced UX (Month 2)</h3>
+        <ol>
+            <li>✅ Build backend API</li>
+            <li>✅ Implement in-app form</li>
+            <li>✅ Add to 10% of users (A/B test)</li>
+            <li>✅ Monitor metrics</li>
+            <li>✅ Roll out to 100%</li>
+        </ol>
+        <p><strong>Time:</strong> 1 week | <strong>Value:</strong> Professional UX, full tracking</p>
+    </div>
+
+    <div class="success-box">
+        <h3>💡 Why This Approach?</h3>
+        <ul>
+            <li><strong>Fast to market:</strong> Users get value in 1 hour instead of waiting weeks</li>
+            <li><strong>Data-driven:</strong> Real usage data informs whether to invest in Phase 3</li>
+            <li><strong>Low risk:</strong> Simple implementation means fewer bugs</li>
+            <li><strong>Iterative:</strong> Can enhance based on actual user needs</li>
+            <li><strong>Budget-friendly:</strong> No email service costs until you need them</li>
+        </ul>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Cost Comparison -->
+<section id="cost-comparison">
+    <h2>💰 Cost Comparison</h2>
+
+    <h3>Email Service Costs (for Option 3 or 4)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Free Tier</th>
+                <th>Paid Tier</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>SendGrid</strong></td>
+                <td>100 emails/day</td>
+                <td>$15/month (40k emails)</td>
+                <td>Best for getting started</td>
+            </tr>
+            <tr>
+                <td><strong>AWS SES</strong></td>
+                <td>None</td>
+                <td>$0.10 per 1,000 emails</td>
+                <td>Most cost-effective at scale</td>
+            </tr>
+            <tr>
+                <td><strong>Mailgun</strong></td>
+                <td>5,000 emails/month</td>
+                <td>$35/month (50k emails)</td>
+                <td>Good developer experience</td>
+            </tr>
+            <tr>
+                <td><strong>Postmark</strong></td>
+                <td>100 emails/month</td>
+                <td>$15/month (10k emails)</td>
+                <td>Excellent deliverability</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="info-box">
+        <h4>💡 Recommendation</h4>
+        <p><strong>Start:</strong> SendGrid free tier (100 emails/day = 3,000/month)</p>
+        <p><strong>Scale:</strong> Switch to AWS SES if volume grows beyond 10k/month</p>
+        <p><strong>Cost at 100k emails/month:</strong> AWS SES = $10, SendGrid = $90+</p>
+    </div>
+
+    <h3>Total Cost of Ownership</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Development Cost</th>
+                <th>Monthly Operating Cost</th>
+                <th>Total First Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Option 1: Simple mailto</strong></td>
+                <td>$0 (5 min)</td>
+                <td>$0</td>
+                <td>$0</td>
+            </tr>
+            <tr>
+                <td><strong>Option 2: Enhanced mailto</strong></td>
+                <td>$0 (10 min)</td>
+                <td>$0</td>
+                <td>$0</td>
+            </tr>
+            <tr>
+                <td><strong>Option 3: In-app form</strong></td>
+                <td>~$500 (6 hours @ $80/hr)</td>
+                <td>$15 (SendGrid)</td>
+                <td>$680</td>
+            </tr>
+            <tr>
+                <td><strong>Option 4: Hybrid</strong></td>
+                <td>~$160 (2 hours @ $80/hr)</td>
+                <td>$0-15 (if enabled)</td>
+                <td>$160-340</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="success-box">
+        <h4>✅ Best ROI: Start with Option 2, Add Option 4 Later</h4>
+        <p>Get 90% of the value with 10% of the cost and complexity. Upgrade when data shows it's needed.</p>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Summary -->
+<section>
+    <h2>📝 Summary</h2>
+
+    <div class="info-box">
+        <h3>Key Takeaways</h3>
+        <ul>
+            <li><strong>Email mangling is simple:</strong> Just a digit-to-letter substitution cipher</li>
+            <li><strong>It's deterministic and reversible:</strong> Same ID always produces same email</li>
+            <li><strong>No database needed:</strong> Everything computed on-the-fly</li>
+            <li><strong>Easy to implement:</strong> Copy the EmailMangler class and you're done</li>
+            <li><strong>Start simple:</strong> Option 2 gives great UX in 10 minutes</li>
+            <li><strong>Iterate based on data:</strong> Add in-app form only if users need it</li>
+        </ul>
+    </div>
+
+    <div class="success-box">
+        <h3>🚀 Quick Start</h3>
+        <ol>
+            <li>Copy <code>EmailMangler</code> utility class to your project</li>
+            <li>Implement <strong>Option 2: Enhanced mailto</strong> button</li>
+            <li>Test with a few enquiry IDs</li>
+            <li>Ship to production</li>
+            <li>Monitor usage and gather feedback</li>
+            <li>Enhance with Option 4 if data shows demand</li>
+        </ol>
+        <p><strong>Total time to first deployment:</strong> 10-15 minutes ⏱️</p>
+    </div>
+
+    <div style="text-align: center; margin: var(--spacing-2xl) 0;">
+        <p style="font-size: 1.2rem; color: var(--text-secondary);">
+            <strong>Questions? Need help?</strong><br>
+            Refer back to the code examples above - they're all production-ready! 🎉
+        </p>
+    </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <p><strong>Pulsar Group · Lumina Platform Documentation</strong></p>
+    <p>Email Mangling System Documentation · June 2026</p>
+    <p style="opacity: 0.8; margin-top: var(--spacing-md);">
+        Implementation guide for journalist enquiry reply functionality using email mangling for privacy and tracking.
+    </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Chart Palettes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Brand tokens (mirrors docs template) */
+            --primary-color: #3597FE;
+            --primary-dark: #006CF4;
+            --accent-color: #54FFB1;
+            --lumina-lilac: #D6C5EF;
+            --lumina-lilac-mid: #C5ACE8;
+            --lumina-mint: #54FFB1;
+            --lumina-pink: #FF7193;
+            --lumina-sky: #94C0FF;
+            --lumina-navy: #133055;
+
+            --bg: #F8FAFF;
+            --surface: #FFFFFF;
+            --border: #E4EAF3;
+            --border-light: #EEF2F9;
+            --text-primary: #1E2E45;
+            --text-secondary: #5B6C87;
+            --text-muted: #8494AC;
+
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+
+            --shadow-sm: 0 1px 3px rgba(19, 48, 85, 0.06);
+            --shadow-md: 0 4px 16px rgba(19, 48, 85, 0.08);
+            --shadow-lg: 0 12px 40px rgba(19, 48, 85, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ------------------------------------------------------------
+           HERO
+           ------------------------------------------------------------ */
+        .hero {
+            background:
+                radial-gradient(circle at 15% 20%, rgba(84, 255, 177, 0.35) 0%, transparent 45%),
+                radial-gradient(circle at 85% 30%, rgba(214, 197, 239, 0.55) 0%, transparent 55%),
+                radial-gradient(circle at 50% 90%, rgba(148, 192, 255, 0.4) 0%, transparent 50%),
+                linear-gradient(135deg, #EEF3FF 0%, #F8F5FF 50%, #F0FFF8 100%);
+            padding: 5rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(135deg, transparent 0%, rgba(53, 151, 254, 0.05) 50%, transparent 100%);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .hero__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero__brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero__logo {
+            display: block;
+            width: 68px;
+            height: 68px;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 10px 26px rgba(0, 108, 244, 0.18));
+        }
+
+        .hero__eyebrow {
+            display: inline-block;
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px 14px;
+            border-radius: 999px;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero__title {
+            font-family: var(--font-primary);
+            font-weight: 800;
+            font-size: clamp(2.25rem, 5vw, 3.75rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin: 0 0 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero__title-accent {
+            background: linear-gradient(135deg, #7B5FCC 0%, var(--primary-dark) 60%, #0FCC85 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero__subtitle {
+            font-family: var(--font-secondary);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin: 0;
+        }
+
+        .hero__meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+            font-family: var(--font-secondary);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .hero__meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero__meta-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+
+        /* ------------------------------------------------------------
+           LAYOUT
+           ------------------------------------------------------------ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section__header {
+            margin-bottom: 2rem;
+        }
+
+        .section__eyebrow {
+            display: inline-block;
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section__title {
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.75rem;
+        }
+
+        .section__lede {
+            font-family: var(--font-secondary);
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            max-width: 780px;
+            margin: 0;
+        }
+
+        .subsection {
+            margin-top: 3rem;
+        }
+
+        .subsection__title {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            margin: 0 0 1.25rem;
+        }
+
+        .subsection__badge {
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: var(--lumina-lilac);
+            color: var(--text-primary);
+        }
+
+        .subsection__badge--active {
+            background: var(--accent-color);
+            color: #044D2E;
+        }
+
+        .subsection__desc {
+            font-family: var(--font-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 780px;
+            margin: 0 0 1.25rem;
+        }
+
+        /* ------------------------------------------------------------
+           SWATCH GRID
+           ------------------------------------------------------------ */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+
+        .swatch-grid--wide {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+
+        .swatch-grid--models {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+
+        .swatch {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .swatch:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .swatch__chip {
+            height: 120px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 12px;
+        }
+
+        .swatch__index {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.65);
+            color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+        }
+
+        .swatch__chip--dark .swatch__index {
+            background: rgba(0, 0, 0, 0.25);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .swatch__body {
+            padding: 0.75rem 0.9rem 0.9rem;
+        }
+
+        .swatch__name {
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: -0.01em;
+            margin: 0 0 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .swatch__hex {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .swatch__hex-copy {
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin-left: 4px;
+        }
+
+        .swatch:hover .swatch__hex-copy {
+            opacity: 1;
+        }
+
+        .swatch--copied .swatch__hex-copy {
+            opacity: 1;
+            color: #0FCC85;
+        }
+
+        /* ------------------------------------------------------------
+           PAIRED PALETTE (base + strong side by side)
+           ------------------------------------------------------------ */
+        .paired {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .paired:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .paired__chips {
+            display: flex;
+            height: 110px;
+            position: relative;
+        }
+
+        .paired__chip {
+            /* button reset */
+            border: 0;
+            margin: 0;
+            font: inherit;
+            color: inherit;
+            /* layout */
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 8px 10px;
+            position: relative;
+            /* interaction */
+            cursor: pointer;
+            transition: filter 0.15s ease;
+        }
+
+        .paired__chip:hover {
+            filter: brightness(1.06);
+        }
+
+        .paired__chip:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: -3px;
+        }
+
+        .paired__chip-label {
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.7);
+            color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+        }
+
+        .paired__chip--dark .paired__chip-label {
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .paired__chip-copy {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.55rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.65);
+            color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transform: translateY(-2px);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .paired__chip--dark .paired__chip-copy {
+            background: rgba(0, 0, 0, 0.35);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .paired__chip:hover .paired__chip-copy {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .paired__chip--copied .paired__chip-copy {
+            opacity: 1;
+            transform: translateY(0);
+            background: #0FCC85;
+            color: #fff;
+        }
+
+        .paired__index {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: var(--font-secondary);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            padding: 0 4px;
+            color: rgba(0, 0, 0, 0.55);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .paired__chips--dark-start .paired__index {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .paired__body {
+            padding: 0.75rem 0.9rem 0.9rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .paired__col {
+            flex: 1;
+            min-width: 0;
+            transition: color 0.15s ease;
+        }
+
+        .paired__hex {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 2px;
+            transition: color 0.15s ease;
+        }
+
+        .paired__col--copied .paired__hex {
+            color: #0FCC85;
+        }
+
+        .paired__note {
+            font-family: var(--font-secondary);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ------------------------------------------------------------
+           NAMED SWATCH (bigger tiles with semantic label)
+           ------------------------------------------------------------ */
+        .named-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .named {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .named:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .named__chip {
+            height: 90px;
+        }
+
+        .named__body {
+            padding: 0.9rem 1rem 1rem;
+        }
+
+        .named__label {
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+            margin: 0 0 0.2rem;
+        }
+
+        .named__meta {
+            font-family: var(--font-secondary);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0 0 0.5rem;
+        }
+
+        .named__hex {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ------------------------------------------------------------
+           AGE RAMP (continuous strip visualization)
+           ------------------------------------------------------------ */
+        .ramp {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ramp__bar {
+            display: flex;
+            height: 60px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .ramp__seg {
+            flex: 1;
+        }
+
+        .ramp__labels {
+            display: flex;
+            margin-top: 0.75rem;
+            font-family: var(--font-secondary);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .ramp__label {
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* ------------------------------------------------------------
+           MODEL SWATCH
+           ------------------------------------------------------------ */
+        .model {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .model:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .model__dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+        }
+
+        .model__body {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .model__name {
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: -0.01em;
+            text-transform: capitalize;
+        }
+
+        .model__hex {
+            font-family: var(--font-mono);
+            font-weight: 500;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .model__aliases {
+            font-family: var(--font-secondary);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ------------------------------------------------------------
+           CALLOUTS
+           ------------------------------------------------------------ */
+        .callout {
+            background: linear-gradient(135deg, rgba(214, 197, 239, 0.2) 0%, rgba(148, 192, 255, 0.15) 100%);
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0 0;
+        }
+
+        .callout__label {
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .callout__body {
+            font-family: var(--font-secondary);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .callout__body code {
+            font-family: var(--font-mono);
+            background: rgba(53, 151, 254, 0.1);
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        /* ------------------------------------------------------------
+           FOOTER
+           ------------------------------------------------------------ */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            font-family: var(--font-secondary);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer code {
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+        /* ------------------------------------------------------------
+           Utility
+           ------------------------------------------------------------ */
+        @media (max-width: 640px) {
+            .hero { padding: 3rem 1.25rem 2.5rem; }
+            .container { padding: 3rem 1.25rem; }
+            .section { margin-bottom: 3.5rem; }
+            .swatch-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========================================================
+     HERO
+     ======================================================== -->
+<header class="hero">
+    <div class="hero__inner">
+        <div class="hero__brand">
+            <svg class="hero__logo" viewBox="0 0 212 213" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <mask id="starMask" maskUnits="userSpaceOnUse">
+                        <path
+                            d="M205.237593,7.22271479 C189.042445,-8.93981578 148.829368,3.64209632 106.173864,35.3207109 C63.469467,3.64209632 23.2561705,-8.93981578 7.06124967,7.22271479 C-9.13368581,23.3852673 3.47344716,63.5180996 35.2155122,106.087658 C3.52327501,148.657656 -9.08384335,188.790342 7.06124967,204.952602 C23.2561705,221.115593 63.469467,208.533659 106.124167,176.85446 C148.779672,208.533659 188.992749,221.115593 205.187896,204.952602 C221.382313,188.790342 208.775531,148.657656 177.03348,106.087658 C208.775531,63.5180996 221.382313,23.3852673 205.187896,7.22271479 L205.237593,7.22271479 Z"
+                            fill="white"
+                            transform="translate(-0.0026, 0.406)"/>
+                    </mask>
+                </defs>
+                <image href="assets/lumina-gradient.png" width="1201" height="219" x="0" y="-6.63" preserveAspectRatio="none" mask="url(#starMask)"/>
+            </svg>
+            <span class="hero__eyebrow">Design System</span>
+        </div>
+        <h1 class="hero__title">
+            Lumina Chart
+            <span class="hero__title-accent">Palette Guide</span>
+        </h1>
+        <p class="hero__subtitle">
+            Every colour palette used across the Lumina AI View charts, dashboards and cards —
+            grouped by purpose so you can pick the right ramp, sentiment tone or model identity
+            at a glance.
+        </p>
+        <div class="hero__meta">
+            <div class="hero__meta-item">
+                <span class="hero__meta-dot" style="background: #7B5FCC;"></span>
+                <span>Source: <code style="font-family: var(--font-mono); font-size: 0.8rem;">Config/chartPalettes.ts</code></span>
+            </div>
+            <div class="hero__meta-item">
+                <span class="hero__meta-dot" style="background: #0FCC85;"></span>
+                <span>Click any swatch to copy its hex</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- ====================================================
+         CHART PALETTES
+         ==================================================== -->
+    <section class="section">
+        <div class="section__header">
+            <div class="section__eyebrow">Rotating series colours</div>
+            <h2 class="section__title">Chart Palettes</h2>
+            <p class="section__lede">
+                Two 10-colour palettes for brand-agnostic rotation across chart series
+                (lines, bars, donut slices, competitor sets). Each has a paired
+                <strong>strong</strong> variant with matched hues at higher chroma — use it
+                where the pastel base washes out (large text, dense word clouds, filled badges).
+            </p>
+        </div>
+
+        <!-- Set 1: calm (active) -->
+        <div class="subsection">
+            <h3 class="subsection__title">
+                Set 1 — Calm (pastel)
+                <span class="subsection__badge subsection__badge--active">Active default</span>
+            </h3>
+            <p class="subsection__desc">
+                Brand-flavoured pastel, low-chroma. Best for dense charts — many lines,
+                stacked bars, small legends — where colour differentiates but shouldn't
+                dominate. First four entries drive the Reputation Pillars.
+            </p>
+            <div class="swatch-grid swatch-grid--wide" data-palette="set1-paired"></div>
+        </div>
+
+        <!-- Set 2: bold -->
+        <div class="subsection">
+            <h3 class="subsection__title">
+                Set 2 — Bold (brand-highlights led)
+                <span class="subsection__badge">Alt / not active</span>
+            </h3>
+            <p class="subsection__desc">
+                Set 2 isn't currently switched on in the app — Set 1 wins by default because
+                its pastel tones sit back and let dense charts breathe. Set 2 is here as a
+                <strong>ready-to-swap alternative</strong>: change <code>ACTIVE_PALETTE_SET</code>
+                in <code>Config/chartPalettes.ts</code> from <code>Set1</code> to <code>Set2</code>
+                and every chart across Lumina restyles at once — including the Reputation Pillars,
+                since they're pulled from the first four entries of whichever set is active.
+            </p>
+            <p class="subsection__desc">
+                Reach for it (or use <code>getPalette('bold')</code> on a per-chart basis) when brand
+                recognition should lead the visual — hero cards, single-KPI donuts, topic clouds,
+                marketing screenshots — anywhere the identity colours should read as <em>the point</em>
+                rather than neutral background chrome. The trade-off is loudness: put ten Set 2 series
+                on one chart and they start to fight, which is exactly why the calmer Set 1 is the
+                default for dense multi-series work.
+            </p>
+            <div class="swatch-grid swatch-grid--wide" data-palette="set2-paired"></div>
+        </div>
+
+        <div class="callout">
+            <div class="callout__label">How to use</div>
+            <p class="callout__body">
+                Import <code>CHART_PALETTE</code> for the active base or <code>CHART_PALETTE_STRONG</code>
+                for the matched strong variant. Use <code>toStrongChartColor(hex)</code> to look up the
+                strong sibling of a base colour, or <code>getPalette('bold')</code> to request a specific
+                kind regardless of the app-wide default.
+            </p>
+        </div>
+    </section>
+
+    <!-- ====================================================
+         REPUTATION PILLARS
+         ==================================================== -->
+    <section class="section">
+        <div class="section__header">
+            <div class="section__eyebrow">Semantic — brand qualities</div>
+            <h2 class="section__title">Reputation Pillars</h2>
+            <p class="section__lede">
+                Colours for the four Reputation Pillars — Direction, Performance, Integrity, Innovation.
+                Sourced from the first four entries of the active chart palette, so pillar
+                visuals restyle in lockstep when the base palette is swapped.
+            </p>
+        </div>
+        <div class="named-grid" data-palette="pillars"></div>
+    </section>
+
+    <!-- ====================================================
+         SENTIMENT
+         ==================================================== -->
+    <section class="section">
+        <div class="section__header">
+            <div class="section__eyebrow">Semantic — diverging</div>
+            <h2 class="section__title">Sentiment Palette</h2>
+            <p class="section__lede">
+                Meaning-carrying diverging ramp for sentiment buckets. Deliberately
+                <strong>not</strong> sourced from <code style="font-family: var(--font-mono);">CHART_PALETTE</code> —
+                green means positive, red means negative, grey means neutral / unknown, and that
+                mapping must stay stable when the chart palette is swapped.
+            </p>
+        </div>
+        <div class="named-grid" data-palette="sentiment"></div>
+    </section>
+
+    <!-- ====================================================
+         SOURCE AGE
+         ==================================================== -->
+    <section class="section">
+        <div class="section__header">
+            <div class="section__eyebrow">Semantic — sequential</div>
+            <h2 class="section__title">Source Age Ramp</h2>
+            <p class="section__lede">
+                Sequential mint → navy ramp for citation-age buckets, ordered fresh to stale.
+                Kept separate from Sentiment because <em>age is descriptive, not evaluative</em> —
+                an old source isn't a "bad" source, just an older one.
+            </p>
+        </div>
+
+        <div class="ramp">
+            <div class="ramp__bar" id="ramp-bar"></div>
+            <div class="ramp__labels" id="ramp-labels"></div>
+        </div>
+
+        <div class="named-grid" data-palette="age"></div>
+    </section>
+
+    <!-- ====================================================
+         AI MODELS
+         ==================================================== -->
+    <section class="section">
+        <div class="section__header">
+            <div class="section__eyebrow">Semantic — brand identity</div>
+            <h2 class="section__title">AI Model Palette</h2>
+            <p class="section__lede">
+                Identity colours for AI model providers, matched to each vendor's own brand
+                where possible. Resolved via substring matching against the model identifier
+                (specific product names win over generic vendor names) with a fallback to
+                the rotating chart palette when no hint applies.
+            </p>
+        </div>
+        <div class="swatch-grid swatch-grid--models" data-palette="models"></div>
+    </section>
+
+    <!-- ====================================================
+         PULSAR (legacy theme)
+         ==================================================== -->
+    <section class="section">
+        <div class="section__header">
+            <div class="section__eyebrow">Legacy theme · Pulsar</div>
+            <h2 class="section__title">Pulsar Palette</h2>
+            <p class="section__lede">
+                Pulsar is the pre-Lumina theme that still powers the classic MCD chart surfaces
+                and Pulsar-branded widgets. Lumina's new charts don't use it, but shared components
+                (chart legends, channel pills, sentiment badges on legacy views) still resolve
+                against these tokens. Sourced from
+                <code style="font-family: var(--font-mono);">Assets/Scss/Settings/_Settings.Colors.scss</code>
+                (<code>$pulsar-palette</code>).
+            </p>
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection__title">
+                Core brand tones
+                <span class="subsection__badge">Identity</span>
+            </h3>
+            <p class="subsection__desc">
+                The identity hues Pulsar leans on across headers, primary actions and callouts.
+                Higher-chroma than Lumina's tokens — this is a system built to look bright on
+                white chrome rather than to blend into a gradient background.
+            </p>
+            <div class="named-grid" data-palette="pulsar-core"></div>
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection__title">
+                Chart series
+                <span class="subsection__badge">Rotating</span>
+            </h3>
+            <p class="subsection__desc">
+                Eleven rotating series colours used by legacy Pulsar charts
+                (<code>chart-color-1</code> through <code>chart-color-11</code>). Deliberately
+                punchier and less brand-tied than Lumina's Set 1 — Pulsar charts sit inside a
+                white card, not on a themed surface.
+            </p>
+            <div class="swatch-grid" data-palette="pulsar-chart"></div>
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection__title">
+                Channel colours
+                <span class="subsection__badge">Semantic</span>
+            </h3>
+            <p class="subsection__desc">
+                Semantic channel identifiers reused across Pulsar filters, chips and stacked-bar
+                segments. These mappings are stable across the app — online is always
+                <em>ochre</em>, social is always <em>navy</em> — so users can read a channel breakdown
+                without checking the legend.
+            </p>
+            <div class="named-grid" data-palette="pulsar-channels"></div>
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection__title">
+                Structural neutrals
+                <span class="subsection__badge">Chrome</span>
+            </h3>
+            <p class="subsection__desc">
+                The greys that carry Pulsar's chrome — text, dividers, panel surfaces, disabled
+                states. Each has a matching <code>-light-*</code> ramp in the SCSS for tints and
+                shades; only the anchor tones are shown here.
+            </p>
+            <div class="named-grid" data-palette="pulsar-neutrals"></div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>
+        Lumina Chart Palette Guide · Generated from
+        <code>apps/mcd/src/Lumina-App/Config/chartPalettes.ts</code>
+    </p>
+</footer>
+
+<script>
+    // ---------------------------------------------------------------
+    // Palette data (mirrors chartPalettes.ts). Keep in sync when
+    // palettes change — this file is a visual reference, the TS
+    // module is the source of truth.
+    // ---------------------------------------------------------------
+    const PALETTES = {
+        set1Base: [
+            { hex: '#C4ACE5', name: 'Lilac (brand)' },
+            { hex: '#EF9EDA', name: 'Pink' },
+            { hex: '#49FFB7', name: 'Mint (near brand)' },
+            { hex: '#FFB9A8', name: 'Peach' },
+            { hex: '#75B4F0', name: 'Sky blue' },
+            { hex: '#A391F5', name: 'Violet' },
+            { hex: '#FF85A2', name: 'Rose' },
+            { hex: '#82C9DB', name: 'Teal' },
+            { hex: '#FFD0A8', name: 'Apricot' },
+            { hex: '#3E97EB', name: 'Vivid blue' },
+        ],
+        set1Strong: [
+            { hex: '#7B5FCC', name: 'Violet' },
+            { hex: '#D852B5', name: 'Magenta pink' },
+            { hex: '#0FCC85', name: 'Green' },
+            { hex: '#E27258', name: 'Coral' },
+            { hex: '#2F82D6', name: 'Mid blue' },
+            { hex: '#4B3AC0', name: 'Deep indigo' },
+            { hex: '#E04E76', name: 'Hot pink' },
+            { hex: '#3AA8C0', name: 'Teal' },
+            { hex: '#D28A46', name: 'Amber' },
+            { hex: '#0A5FB8', name: 'Deep blue' },
+        ],
+        set2Base: [
+            { hex: '#C5ACE8', name: 'Brand lilac' },
+            { hex: '#54FFB1', name: 'Brand mint' },
+            { hex: '#FF7193', name: 'Brand pink' },
+            { hex: '#94C0FF', name: 'Brand block sky' },
+            { hex: '#FFD0A8', name: 'Apricot' },
+            { hex: '#B8A9EE', name: 'Muted violet' },
+            { hex: '#82C9DB', name: 'Teal' },
+            { hex: '#DEE18D', name: 'Sage yellow' },
+            { hex: '#FFB9A8', name: 'Peach' },
+            { hex: '#006CF4', name: 'Brand deep blue' },
+        ],
+        set2Strong: [
+            { hex: '#7B5FCC', name: 'Violet' },
+            { hex: '#0FCC85', name: 'Green' },
+            { hex: '#E04E76', name: 'Hot pink' },
+            { hex: '#2F82D6', name: 'Mid blue' },
+            { hex: '#D28A46', name: 'Amber' },
+            { hex: '#4B3AC0', name: 'Deep indigo' },
+            { hex: '#3AA8C0', name: 'Teal' },
+            { hex: '#8C9036', name: 'Olive' },
+            { hex: '#E27258', name: 'Coral' },
+            { hex: '#0A5FB8', name: 'Deep blue' },
+        ],
+        pillars: [
+            { hex: '#C4ACE5', name: 'Direction',   meta: 'CHART_PALETTE[0] · lilac' },
+            { hex: '#EF9EDA', name: 'Performance', meta: 'CHART_PALETTE[1] · pink' },
+            { hex: '#49FFB7', name: 'Integrity',   meta: 'CHART_PALETTE[2] · mint' },
+            { hex: '#FFB9A8', name: 'Innovation',  meta: 'CHART_PALETTE[3] · peach' },
+        ],
+        sentiment: [
+            { hex: '#0FCC85', name: 'Very Positive', meta: 'Deep mint · alerting positive' },
+            { hex: '#54FFB1', name: 'Positive',      meta: 'Brand mint' },
+            { hex: '#B5BCC7', name: 'Neutral',       meta: 'Slate · low chroma' },
+            { hex: '#E27258', name: 'Negative',      meta: 'Terracotta · calmer than orange' },
+            { hex: '#C74B4B', name: 'Very Negative', meta: 'Clay red · alerting, not fluorescent' },
+            { hex: '#CBD5E1', name: 'Unknown',       meta: 'Light grey' },
+        ],
+        age: [
+            { hex: '#54FFB1', name: '<1 month',   meta: 'Brand mint · freshest' },
+            { hex: '#3AC0A0', name: '1–3 months', meta: 'Teal mint' },
+            { hex: '#2A8A9F', name: '3–6 months', meta: 'Dusty teal' },
+            { hex: '#1F5A85', name: '6–12 months',meta: 'Navy-teal' },
+            { hex: '#133055', name: '>1 year',    meta: 'Brand navy · oldest' },
+            { hex: '#CBD5E1', name: 'Unknown',    meta: 'Light grey' },
+        ],
+        models: [
+            { hex: '#74AA9C', name: 'OpenAI / ChatGPT', aliases: 'chatgpt · gpt · openai' },
+            { hex: '#FFCC00', name: 'Anthropic / Claude', aliases: 'claude · anthropic' },
+            { hex: '#1A73E8', name: 'Google Gemini', aliases: 'gemini' },
+            { hex: '#4285F4', name: 'Google / DeepMind', aliases: 'deepmind · google' },
+            { hex: '#0866FF', name: 'Meta / LLaMA', aliases: 'llama · meta' },
+            { hex: '#742DDD', name: 'Microsoft / Copilot', aliases: 'copilot · microsoft' },
+            { hex: '#A2A2A7', name: 'Apple Intelligence', aliases: 'apple' },
+            { hex: '#FF4F00', name: 'Mistral', aliases: 'mistral' },
+            { hex: '#FF00FF', name: 'xAI / Grok', aliases: 'grok · xai' },
+        ],
+        pulsarCore: [
+            { hex: '#04BCF5', name: 'Picton',           meta: 'picton · primary blue' },
+            { hex: '#008296', name: 'Vuelio blue',      meta: 'vuelio-blue · pl-teal' },
+            { hex: '#3A546F', name: 'Chambray',         meta: 'chambray · deep slate' },
+            { hex: '#161E36', name: 'AI blue',          meta: 'ai-blue · dark accent' },
+            { hex: '#36BBED', name: 'AI light blue',    meta: 'ai-light-blue' },
+            { hex: '#F44336', name: 'Salmon',           meta: 'salmon · alerts' },
+            { hex: '#EC407A', name: 'Vuelio pink',      meta: 'vuelio-pink' },
+            { hex: '#4CAF50', name: 'Java green',       meta: 'java · positive' },
+            { hex: '#FF9F6F', name: 'Atomic tangerine', meta: 'atomic-tangerine · warm accent' },
+            { hex: '#FFC107', name: 'Amber',            meta: 'amber · warning' },
+        ],
+        pulsarChart: [
+            { hex: '#00B0FF', name: 'chart-color-1' },
+            { hex: '#1DE9B6', name: 'chart-color-2' },
+            { hex: '#FFC400', name: 'chart-color-3' },
+            { hex: '#FF6361', name: 'chart-color-4' },
+            { hex: '#0097A7', name: 'chart-color-5' },
+            { hex: '#8C9EFF', name: 'chart-color-6' },
+            { hex: '#EA80FC', name: 'chart-color-7' },
+            { hex: '#FFEB3B', name: 'chart-color-8' },
+            { hex: '#80A6AB', name: 'chart-color-9' },
+            { hex: '#34BBD2', name: 'chart-color-10' },
+            { hex: '#F48FB1', name: 'chart-color-11' },
+        ],
+        pulsarChannels: [
+            { hex: '#F2D467', name: 'Online',    meta: 'ui-channel-online' },
+            { hex: '#D5D83C', name: 'Print',     meta: 'ui-channel-print' },
+            { hex: '#50B16D', name: 'Blog',      meta: 'ui-channel-blog' },
+            { hex: '#784ADD', name: 'Broadcast', meta: 'ui-channel-broadcast' },
+            { hex: '#162F55', name: 'Social',    meta: 'ui-channel-social' },
+        ],
+        pulsarNeutrals: [
+            { hex: '#203842', name: 'Tuna',       meta: 'tuna · deepest chrome' },
+            { hex: '#56818D', name: 'Bermuda',    meta: 'bermuda · mid grey' },
+            { hex: '#4A4A4A', name: 'Tundora',    meta: 'tundora · body text' },
+            { hex: '#585858', name: 'Core text',  meta: 'core-text · default copy' },
+            { hex: '#6F6F6F', name: 'Dove',       meta: 'dove · secondary text' },
+            { hex: '#F1F1F1', name: 'Tool',       meta: 'tool · panel bg' },
+            { hex: '#F7F7F7', name: 'Bermuda 5',  meta: 'bermuda-light-5 · surface' },
+            { hex: '#ECECEC', name: 'Bermuda 10', meta: 'bermuda-light-10 · divider' },
+        ],
+    };
+
+    // ---------------------------------------------------------------
+    // Contrast helpers
+    // ---------------------------------------------------------------
+    function hexToRgb(hex) {
+        const h = hex.replace('#', '');
+        return {
+            r: parseInt(h.substring(0, 2), 16),
+            g: parseInt(h.substring(2, 4), 16),
+            b: parseInt(h.substring(4, 6), 16),
+        };
+    }
+
+    function isDark(hex) {
+        const { r, g, b } = hexToRgb(hex);
+        // Perceived luminance (Rec. 601)
+        const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return lum < 0.6;
+    }
+
+    // ---------------------------------------------------------------
+    // Copy-to-clipboard on swatch click
+    // ---------------------------------------------------------------
+    async function copyHexToClipboard(hex) {
+        try {
+            await navigator.clipboard.writeText(hex);
+        } catch (_err) {
+            // Fallback for insecure contexts
+            const ta = document.createElement('textarea');
+            ta.value = hex;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+        }
+    }
+
+    const COPY_RESET_MS = 1500;
+
+    function attachCopy(el, hex) {
+        el.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await copyHexToClipboard(hex);
+            el.classList.add('swatch--copied');
+            const copyLabel = el.querySelector('.swatch__hex-copy, .named__hex, .model__hex');
+            if (copyLabel && !copyLabel.dataset.original) {
+                copyLabel.dataset.original = copyLabel.textContent;
+            }
+            if (copyLabel) copyLabel.textContent = 'Copied!';
+            clearTimeout(el._copyTimer);
+            el._copyTimer = setTimeout(() => {
+                el.classList.remove('swatch--copied');
+                if (copyLabel && copyLabel.dataset.original) {
+                    copyLabel.textContent = copyLabel.dataset.original;
+                    delete copyLabel.dataset.original;
+                }
+            }, COPY_RESET_MS);
+        });
+    }
+
+    // Independent per-chip copy for the paired base/strong cards.
+    function attachPairedCopy(chip, col, hex) {
+        chip.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await copyHexToClipboard(hex);
+            chip.classList.add('paired__chip--copied');
+            col.classList.add('paired__col--copied');
+            const hexEl = col.querySelector('.paired__hex');
+            if (hexEl && !hexEl.dataset.original) {
+                hexEl.dataset.original = hexEl.textContent;
+            }
+            if (hexEl) hexEl.textContent = 'Copied!';
+            clearTimeout(chip._copyTimer);
+            chip._copyTimer = setTimeout(() => {
+                chip.classList.remove('paired__chip--copied');
+                col.classList.remove('paired__col--copied');
+                if (hexEl && hexEl.dataset.original) {
+                    hexEl.textContent = hexEl.dataset.original;
+                    delete hexEl.dataset.original;
+                }
+            }, COPY_RESET_MS);
+        });
+    }
+
+    // ---------------------------------------------------------------
+    // Renderers
+    // ---------------------------------------------------------------
+    function renderSwatchGrid(container, entries) {
+        entries.forEach((entry, i) => {
+            const dark = isDark(entry.hex);
+            const el = document.createElement('div');
+            el.className = 'swatch';
+            el.innerHTML = `
+                <div class="swatch__chip ${dark ? 'swatch__chip--dark' : ''}" style="background:${entry.hex};">
+                    <span class="swatch__index">${String(i).padStart(2, '0')}</span>
+                </div>
+                <div class="swatch__body">
+                    <p class="swatch__name">${entry.name}</p>
+                    <p class="swatch__hex">${entry.hex.toUpperCase()}<span class="swatch__hex-copy">click to copy</span></p>
+                </div>
+            `;
+            attachCopy(el, entry.hex.toUpperCase());
+            container.appendChild(el);
+        });
+    }
+
+    function renderPairedGrid(container, baseEntries, strongEntries) {
+        baseEntries.forEach((base, i) => {
+            const strong = strongEntries[i];
+            const baseDark = isDark(base.hex);
+            const strongDark = isDark(strong.hex);
+            const startDark = baseDark;
+            const el = document.createElement('div');
+            el.className = 'paired';
+            el.innerHTML = `
+                <div class="paired__chips ${startDark ? 'paired__chips--dark-start' : ''}">
+                    <span class="paired__index">${String(i).padStart(2, '0')}</span>
+                    <button type="button" class="paired__chip ${baseDark ? 'paired__chip--dark' : ''}" style="background:${base.hex};" data-role="base" aria-label="Copy base hex ${base.hex.toUpperCase()}">
+                        <span class="paired__chip-label">Base</span>
+                        <span class="paired__chip-copy">click to copy</span>
+                    </button>
+                    <button type="button" class="paired__chip ${strongDark ? 'paired__chip--dark' : ''}" style="background:${strong.hex};" data-role="strong" aria-label="Copy strong hex ${strong.hex.toUpperCase()}">
+                        <span class="paired__chip-label">Strong</span>
+                        <span class="paired__chip-copy">click to copy</span>
+                    </button>
+                </div>
+                <div class="paired__body">
+                    <div class="paired__col" data-role="base">
+                        <span class="paired__hex">${base.hex.toUpperCase()}</span>
+                        <span class="paired__note">${base.name}</span>
+                    </div>
+                    <div class="paired__col" data-role="strong">
+                        <span class="paired__hex">${strong.hex.toUpperCase()}</span>
+                        <span class="paired__note">${strong.name}</span>
+                    </div>
+                </div>
+            `;
+            el.querySelectorAll('.paired__chip').forEach((chip) => {
+                const role = chip.dataset.role;
+                const hex = role === 'base'
+                    ? base.hex.toUpperCase()
+                    : strong.hex.toUpperCase();
+                const col = el.querySelector(`.paired__col[data-role="${role}"]`);
+                attachPairedCopy(chip, col, hex);
+            });
+            container.appendChild(el);
+        });
+    }
+
+    function renderNamedGrid(container, entries) {
+        entries.forEach((entry) => {
+            const el = document.createElement('div');
+            el.className = 'named';
+            el.innerHTML = `
+                <div class="named__chip" style="background:${entry.hex};"></div>
+                <div class="named__body">
+                    <p class="named__label">${entry.name}</p>
+                    ${entry.meta ? `<p class="named__meta">${entry.meta}</p>` : ''}
+                    <p class="named__hex">${entry.hex.toUpperCase()}</p>
+                </div>
+            `;
+            attachCopy(el, entry.hex.toUpperCase());
+            container.appendChild(el);
+        });
+    }
+
+    function renderModels(container, entries) {
+        entries.forEach((entry) => {
+            const el = document.createElement('div');
+            el.className = 'model';
+            el.innerHTML = `
+                <div class="model__dot" style="background:${entry.hex};"></div>
+                <div class="model__body">
+                    <span class="model__name">${entry.name}</span>
+                    <span class="model__hex">${entry.hex.toUpperCase()}</span>
+                    <span class="model__aliases">${entry.aliases}</span>
+                </div>
+            `;
+            attachCopy(el, entry.hex.toUpperCase());
+            container.appendChild(el);
+        });
+    }
+
+    function renderRamp(entries) {
+        const bar = document.getElementById('ramp-bar');
+        const labels = document.getElementById('ramp-labels');
+        // Skip the "unknown" bucket in the visual ramp — it's not part of the sequence.
+        const sequential = entries.filter((e) => e.name.toLowerCase() !== 'unknown');
+        sequential.forEach((entry) => {
+            const seg = document.createElement('div');
+            seg.className = 'ramp__seg';
+            seg.style.background = entry.hex;
+            bar.appendChild(seg);
+            const label = document.createElement('div');
+            label.className = 'ramp__label';
+            label.textContent = entry.name;
+            labels.appendChild(label);
+        });
+    }
+
+    // ---------------------------------------------------------------
+    // Boot
+    // ---------------------------------------------------------------
+    document.querySelectorAll('[data-palette]').forEach((el) => {
+        const key = el.dataset.palette;
+        switch (key) {
+            case 'set1-paired':
+                renderPairedGrid(el, PALETTES.set1Base, PALETTES.set1Strong);
+                break;
+            case 'set2-paired':
+                renderPairedGrid(el, PALETTES.set2Base, PALETTES.set2Strong);
+                break;
+            case 'pillars':
+                renderNamedGrid(el, PALETTES.pillars);
+                break;
+            case 'sentiment':
+                renderNamedGrid(el, PALETTES.sentiment);
+                break;
+            case 'age':
+                renderNamedGrid(el, PALETTES.age);
+                break;
+            case 'models':
+                renderModels(el, PALETTES.models);
+                break;
+            case 'pulsar-core':
+                renderNamedGrid(el, PALETTES.pulsarCore);
+                break;
+            case 'pulsar-chart':
+                renderSwatchGrid(el, PALETTES.pulsarChart);
+                break;
+            case 'pulsar-channels':
+                renderNamedGrid(el, PALETTES.pulsarChannels);
+                break;
+            case 'pulsar-neutrals':
+                renderNamedGrid(el, PALETTES.pulsarNeutrals);
+                break;
+        }
+    });
+
+    renderRamp(PALETTES.age);
+</script>
+
+</body>
+</html>

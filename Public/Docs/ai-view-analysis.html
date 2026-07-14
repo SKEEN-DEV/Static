@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI View Panel - Component Analysis & Refactoring Plan</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for Lumina Branding */
+        :root {
+            --primary-color: #3597FE;
+            --secondary-color: #0042FF;
+            --accent-color: #54FFB1;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #FF4C4C;
+            --info-color: #2196F3;
+            
+            --lumina-pale-blue: #94C0FF;
+            --lumina-lilac: #D6C5EF;
+            --lumina-light-green: #C9FFE7;
+            --lumina-pale-yellow: #F0EB7E;
+            --lumina-skin: #F8D0C0;
+            
+            --text-primary: #121212;
+            --text-secondary: #404040;
+            --text-muted: #808080;
+            --link-color: #0066CC;
+            --link-hover: #004999;
+            
+            --background: #FFFFFF;
+            --background-alt: #F8FAFC;
+            --background-highlight: #FFF9C4;
+            --border-color: #8FBCFF;
+            
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-secondary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 0;
+            margin: 0;
+            background-color: var(--background);
+            font-size: 14px;
+        }
+
+        /* Header with Pulsar Group branding */
+        .document-header {
+            background-image: url('Assets/Img/subjectHeader2/Large.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: var(--spacing-xl);
+            margin: 0 0 var(--spacing-2xl) 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 160px;
+        }
+
+        .document-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(53, 151, 254, 0.15) 0%, rgba(0, 66, 255, 0.25) 100%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            flex-shrink: 0;
+        }
+
+        .logo-svg {
+            width: 220px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .header-title-section {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 var(--spacing-sm) 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 15px;
+            font-weight: 400;
+            opacity: 0.95;
+            margin: 0;
+            font-family: var(--font-secondary);
+        }
+
+        .header-metadata {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 200px;
+        }
+
+        .metadata-item {
+            margin-bottom: var(--spacing-xs);
+            font-size: 13px;
+        }
+
+        .metadata-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .metadata-label {
+            font-weight: 500;
+            opacity: 0.85;
+        }
+
+        .metadata-value {
+            font-weight: 600;
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl) var(--spacing-2xl);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: var(--spacing-2xl) 0 var(--spacing-lg) 0;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+            border-left: 4px solid var(--primary-color);
+            padding-left: var(--spacing-md);
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+        }
+
+        p {
+            margin: 0 0 var(--spacing-md) 0;
+            font-family: var(--font-secondary);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 0 0 var(--spacing-md) 0;
+            padding-left: var(--spacing-xl);
+        }
+
+        li {
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-secondary);
+        }
+
+        /* Code Blocks */
+        code {
+            font-family: var(--font-mono);
+            background-color: #f5f7fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #e83e8c;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            padding: var(--spacing-md);
+            overflow-x: auto;
+            margin: 0 0 var(--spacing-md) 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-md) 0;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        th {
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #e9ecef;
+            font-family: var(--font-secondary);
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: var(--background-alt);
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: var(--spacing-md);
+            border-radius: 6px;
+            margin: var(--spacing-md) 0;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: var(--error-color);
+            color: #721c24;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: var(--warning-color);
+            color: #856404;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: var(--info-color);
+            color: #0c5460;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-right: var(--spacing-xs);
+        }
+
+        .badge-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .badge-error {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .badge-info {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-md) 0;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        /* Status Indicators */
+        .status-good {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .status-bad {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        /* Comparison Table Styling */
+        .comparison-table td:first-child {
+            font-weight: 600;
+            background-color: #f8f9fa;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding-left: var(--spacing-xl);
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        /* Section Separators */
+        .section-separator {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: var(--spacing-2xl) 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-metadata {
+                width: 100%;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 var(--spacing-md) var(--spacing-xl);
+            }
+        }
+
+        /* Table of Contents */
+        .toc {
+            background-color: var(--background-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .toc-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-md) 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .toc a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+            padding: var(--spacing-xs) 0;
+        }
+
+        .toc a:hover {
+            color: var(--primary-color);
+            padding-left: var(--spacing-sm);
+            transition: all 0.2s ease;
+        }
+
+        .toc ul ul {
+            padding-left: var(--spacing-lg);
+            margin-top: var(--spacing-sm);
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--primary-color);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box strong {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="document-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <svg class="logo-svg" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+                    <text x="10" y="45" font-family="Poppins, sans-serif" font-size="36" font-weight="700" fill="white">
+                        Pulsar Group
+                    </text>
+                    <text x="10" y="65" font-family="DM Sans, sans-serif" font-size="14" font-weight="400" fill="white" opacity="0.9">
+                        Technical Documentation
+                    </text>
+                </svg>
+            </div>
+            
+            <div class="header-title-section">
+                <h1 class="header-title">AI View Panel Analysis</h1>
+                <p class="header-subtitle">Component Breakdown & Refactoring Plan</p>
+            </div>
+            
+            <div class="header-metadata">
+                <div class="metadata-item">
+                    <span class="metadata-label">Date:</span>
+                    <span class="metadata-value">June 10, 2026</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Author:</span>
+                    <span class="metadata-value">Simon Allin</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">File:</span>
+                    <span class="metadata-value">AiView.tsx</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Lines:</span>
+                    <span class="metadata-value">1,020 lines</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📋 Table of Contents</div>
+            <ul>
+                <li><a href="#executive-summary">Executive Summary</a></li>
+                <li><a href="#component-breakdown">1. Component Breakdown & Locations</a></li>
+                <li><a href="#ui-hierarchy">2. UI Hierarchy</a></li>
+                <li><a href="#charts-data">3. Charts & Data Flow</a></li>
+                <li><a href="#comparison">4. Comparison with Other Lumina Panels</a></li>
+                <li><a href="#refactoring-plan">5. Refactoring Plan</a></li>
+                <li><a href="#migration-checklist">6. Migration Checklist</a></li>
+                <li><a href="#effort-estimate">7. Estimated Effort</a></li>
+                <li><a href="#risk-assessment">8. Risk Assessment</a></li>
+                <li><a href="#key-takeaways">9. Key Takeaways</a></li>
+                <li><a href="#appendix">10. Appendix: Code Samples</a></li>
+            </ul>
+        </div>
+
+        <!-- Executive Summary -->
+        <section id="executive-summary">
+            <h1>Executive Summary</h1>
+            
+            <div class="highlight-box">
+                <p>The AI View panel is a <strong>954-line monolithic component</strong> that analyzes and visualizes AI-generated industry rankings. It processes complex data structures, calculates multiple metrics, and renders interactive charts and statistics across three tabs. While functionally complete, it violates Lumina coding standards by mixing data processing, business logic, and presentation in a single file.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Key Issues</div>
+                <ul>
+                    <li><span class="status-bad">❌</span> All logic in one massive component file (954 lines)</li>
+                    <li><span class="status-bad">❌</span> No reusable sub-components extracted</li>
+                    <li><span class="status-bad">❌</span> Direct Recharts usage instead of Lumina chart wrappers</li>
+                    <li><span class="status-bad">❌</span> Inline styles mixed with SCSS modules</li>
+                    <li><span class="status-bad">❌</span> Complex data processing (~200 lines) embedded in component</li>
+                    <li><span class="status-bad">❌</span> No separation of concerns</li>
+                    <li><span class="status-bad">❌</span> Violates centralized Lumina-App patterns (Hooks/, Utilities/, Interfaces/)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Proposed Solution</div>
+                <ul>
+                    <li><span class="status-good">✅</span> Extract to <strong>33 files</strong> (3 hooks, 3 utilities, 2 chart wrappers, 25 components)</li>
+                    <li><span class="status-good">✅</span> Use <strong>centralized Lumina-App folders</strong> (Hooks/, Utilities/, Interfaces/)</li>
+                    <li><span class="status-good">✅</span> Create <strong>reusable Recharts wrappers</strong> in /Components/UI/Charts/ (benefits 3 files)</li>
+                    <li><span class="status-good">✅</span> Organize <strong>AI View components</strong> in /Components/AiView/ with /Tabs/ subfolder</li>
+                    <li><span class="status-good">✅</span> Reduce main component to <strong>~150 lines</strong> (orchestrator only)</li>
+                    <li><span class="status-good">✅</span> <strong>6-day effort</strong> (5 development + 1 testing/docs)</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Refactoring Complexity:</strong> High (6 days total - 5 development + 1 testing/docs)
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 1. Component Breakdown -->
+        <section id="component-breakdown">
+            <h1>1. Component Breakdown & Locations</h1>
+
+            <h2>1.1 Current Structure (Monolithic)</h2>
+            
+            <div class="alert alert-info">
+                <strong>Main Component File:</strong><br>
+                <code>/apps/mcd/src/Lumina-App/Components/Panels/AiView.tsx</code> (1,020 lines)
+            </div>
+
+            <h3>Dependencies</h3>
+            <pre><code>// External Libraries
+- React (hooks: useState, useEffect, useMemo)
+- inversify-react (useInjection for DI)
+- recharts (CartesianGrid, Line, LineChart, BarChart, etc.)
+
+// Lumina-specific
+- @luminaScss/Components/_Components.AiView.module.scss
+- @services/AiViewForClientService
+- @models/AIMC (TypeScript types)</code></pre>
+
+            <h2>1.2 What's Missing (Should Exist)</h2>
+            
+            <p>Based on Lumina standards, the following files <strong>should</strong> exist but don't:</p>
+
+            <h3>Centralized Hooks (Lumina-App/Hooks/)</h3>
+            <pre><code>❌ /Lumina-App/Hooks/
+   ❌ useAiViewData.ts               (API fetching + loading state)
+   ❌ useAiViewMetrics.ts            (Metric calculations + memoization)
+   ❌ useAiViewFilters.ts            (Tab/metric state management)</code></pre>
+
+            <h3>Centralized Utilities (Lumina-App/Utilities/)</h3>
+            <pre><code>❌ /Lumina-App/Utilities/
+   ❌ aiViewMetricsCalculator.ts     (buildRunMetrics + scoring)
+   ❌ aiViewFormatters.ts            (formatValue, formatDateLabel, etc.)
+   ❌ aiViewDataHelpers.ts           (parseDate, monthsBetween, etc.)</code></pre>
+
+            <h3>Centralized Interfaces (Lumina-App/Interfaces/)</h3>
+            <pre><code>❌ /Lumina-App/Interfaces/interfaces.ts
+   ❌ Add 17 AI View interfaces (AiViewTab, BrandMetric, RunMetrics, etc.)</code></pre>
+
+            <h3>Reusable Charts (Components/UI/Charts/)</h3>
+            <pre><code>❌ /Components/UI/Charts/
+   ❌ TrendLineChart.tsx             (Recharts LineChart wrapper)
+   ❌ TrendLineChart.module.scss
+   ❌ DataBarChart.tsx               (Recharts BarChart wrapper)
+   ❌ DataBarChart.module.scss</code></pre>
+
+            <h3>AI View Components (Components/AiView/)</h3>
+            <pre><code>❌ /Components/AiView/
+   ❌ index.ts                       (Export all with Lumina prefix)
+   ❌ AiViewHeader.tsx               (Toolbar + metadata + selector)
+   ❌ AiViewTabs.tsx                 (Tab navigation)
+   ❌ Tabs/                          ← Tab orchestrators grouped
+      ❌ CompetitorTab.tsx           (Layout + card composition)
+      ❌ PositionTab.tsx             (Layout + card composition)
+      ❌ SourcesTab.tsx              (Layout + card composition)
+   ❌ CompetitorSnapshot.tsx         (Top 5 brands list)
+   ❌ PillarDistribution.tsx         (Pillar visibility chart)
+   ❌ TopicCloud.tsx                 (Word cloud visualization)
+   ❌ ScoreDonut.tsx                 (CSS donut + legend)
+   ❌ AiViewNarrative.tsx            (AI summary text)
+   ❌ KpiCards.tsx                   (4 KPI cards grid)
+   ❌ ContentTypeChart.tsx           (Horizontal bar chart)
+   ❌ SourceMixList.tsx              (Source breakdown list)
+   ❌ Shared/                        ← AI View-specific shared
+      ❌ BrandCard.tsx               (Display card)
+      ❌ EmptyState.tsx              (Loading/empty)
+   
+   <strong>Note:</strong> Use existing <code>LuminaViewToggleButton</code> from <code>/Components/UI/ViewControl/</code>
+   instead of custom toggle buttons for metric selection</code></pre>
+
+            <div class="alert alert-error">
+                <strong>Current Reality:</strong> Everything is in one 954-line file with no component extraction.<br>
+                <strong>Component Count:</strong> Current: 1 file → Target: 33 files
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 2. UI Hierarchy -->
+        <section id="ui-hierarchy">
+            <h1>2. UI Hierarchy</h1>
+
+            <h2>2.1 Current Component Structure</h2>
+
+            <pre><code>LuminaAiView (root)
+├── Toolbar
+│   ├── Badge: "Industry Rankings"
+│   ├── Badge: {client name}
+│   ├── Badge: "All Models"
+│   ├── Spacer
+│   └── Select: AI View selector dropdown
+│
+├── Meta Row
+│   ├── Badge: {industry}
+│   ├── Badge: {market}
+│   └── Badge: {run count}
+│
+├── Tab Row
+│   ├── Button: "Competitor Landscape" (tab)
+│   ├── Button: "{client} Position" (tab)
+│   └── Button: "Source Analysis" (tab)
+│
+├── Tab Content (conditional rendering)
+│   │
+│   ├─── [Competitor Tab] ────────────────────────────
+│   │    ├── Layout Top (2 columns)
+│   │    │   ├── Card: Competitor Snapshot
+│   │    │   │   ├── Title + Subtitle
+│   │    │   │   ├── Metric Toggle (Visibility/Top 3/Avg Rank)
+│   │    │   │   └── Snapshot List (5 brands with delta)
+│   │    │   │
+│   │    │   └── Card: AI View Score Trend
+│   │    │       ├── Title + Subtitle
+│   │    │       ├── Metric Toggle (Visibility/Score)
+│   │    │       └── LineChart (Recharts)
+│   │    │
+│   │    └── Layout Bottom (2 columns)
+│   │        ├── Card: Organisation Visibility by Pillar
+│   │        │   ├── Title + Subtitle
+│   │        │   └── BarChart (Recharts)
+│   │        │
+│   │        └── Card: Topic Associations
+│   │            ├── Title + Subtitle
+│   │            ├── Metric Toggle (Topics/Products)
+│   │            └── Topic Cloud (custom word cloud)
+│   │
+│   ├─── [Position Tab] ──────────────────────────────
+│   │    ├── Hero (2 columns)
+│   │    │   ├── Card: AI View Score
+│   │    │   │   ├── Donut Chart (CSS conic-gradient)
+│   │    │   │   └── Legend (5 score components)
+│   │    │   │
+│   │    │   └── Card: AI Industry Narrative
+│   │    │       └── Summary text (generated)
+│   │    │
+│   │    └── KPI Row (4 columns)
+│   │        ├── Card: Sources (with delta)
+│   │        ├── Card: Avg Rank (with delta)
+│   │        ├── Card: Visibility (with delta)
+│   │        └── Card: Sentiment (with delta)
+│   │
+│   └─── [Sources Tab] ───────────────────────────────
+│        └── Grid Two (2 columns)
+│            ├── Card: Source Breakdown by Content Type
+│            │   └── BarChart (horizontal, Recharts)
+│            │
+│            └── Card: Source Mix
+│                └── Snapshot List (content types with counts)</code></pre>
+
+            <h2>2.2 State Management</h2>
+
+            <h3>Component State (8 useState hooks)</h3>
+            <pre><code>const [activeTab, setActiveTab] = useState&lt;AiViewTab&gt;("competitor");
+const [snapshotMetric, setSnapshotMetric] = useState&lt;SnapshotMetric&gt;("visibility");
+const [trendMetric, setTrendMetric] = useState&lt;TrendMetric&gt;("score");
+const [topicSource, setTopicSource] = useState&lt;TopicSource&gt;("topics");
+const [aiViews, setAiViews] = useState&lt;AiViewDto[]&gt;([]);
+const [selectedAiViewId, setSelectedAiViewId] = useState&lt;number | null&gt;(null);
+const [allRuns, setAllRuns] = useState&lt;AiViewRun[]&gt;([]);
+const [loadingList, setLoadingList] = useState(false);
+const [loadingSnapshots, setLoadingSnapshots] = useState(false);</code></pre>
+
+            <h3>Computed State (7 useMemo hooks)</h3>
+            <pre><code>const runMetrics = useMemo(() => selectedRuns.map(buildRunMetrics), [selectedRuns]);
+const latestRun = runMetrics[runMetrics.length - 1];
+const previousRun = runMetrics[runMetrics.length - 2];
+const snapshotRows = useMemo(...);  // Top 5 brands by metric
+const trendBrands = useMemo(...);   // Top 4 competitors + client
+const trendData = useMemo(...);     // Time series data
+const topicWords = useMemo(...);    // Top 30 topics/products</code></pre>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 3. Charts & Data Flow -->
+        <section id="charts-data">
+            <h1>3. Charts & Data Flow</h1>
+
+            <h2>3.1 Chart Technologies</h2>
+            
+            <p>All charts use <a href="https://recharts.org/" target="_blank">Recharts</a> directly:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chart Type</th>
+                        <th>Usage</th>
+                        <th>Data Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>LineChart</strong></td>
+                        <td>Trend over time (Competitor tab)</td>
+                        <td><code>trendData</code> - Time series of brand scores/visibility</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BarChart (vertical)</strong></td>
+                        <td>Pillar distribution (Competitor tab)</td>
+                        <td><code>latestRun.pillarRows</code> - Brand visibility by reputation pillar</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BarChart (horizontal)</strong></td>
+                        <td>Content type breakdown (Sources tab)</td>
+                        <td><code>contentTypeChartData</code> - Citation counts by content type</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Donut Chart (CSS)</strong></td>
+                        <td>AI View Score (Position tab)</td>
+                        <td>Custom conic-gradient, not a Recharts component</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-error">
+                <strong>Problem:</strong> Direct Recharts usage violates Lumina patterns. Should use wrapper components.
+            </div>
+
+            <h2>3.2 Data Flow Architecture</h2>
+
+            <pre><code>┌──────────────────────────────────────────────────────────────────┐
+│ 1. Data Fetch (API Layer)                                        │
+│    ┌──────────────────────────────────────────────────────────┐ │
+│    │ AiViewForClientService.GetSnapshots(selectedAiViewId)    │ │
+│    │   ↓                                                       │ │
+│    │ Returns: AiViewDto[] with snapshot payloads              │ │
+│    └──────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
+│ 2. Data Extraction (Component useEffect)                         │
+│    ┌──────────────────────────────────────────────────────────┐ │
+│    │ snapshots.map(s => s.payload as AiViewRun)               │ │
+│    │   ↓                                                       │ │
+│    │ Sort by timestamp → setAllRuns([...])                    │ │
+│    └──────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
+│ 3. Data Processing (Heavy Computation - ~300 lines)              │
+│    ┌──────────────────────────────────────────────────────────┐ │
+│    │ buildRunMetrics(run: AiViewRun): RunMetrics              │ │
+│    │                                                           │ │
+│    │ For each run:                                             │ │
+│    │   • Parse questions (ranking type only)                   │ │
+│    │   • Extract brand rankings from model results             │ │
+│    │   • Aggregate:                                            │ │
+│    │     - Appearances (how often brand appears)               │ │
+│    │     - Top 3 appearances                                   │ │
+│    │     - Average rank                                        │ │
+│    │     - Sentiment scores (SENTIMENT_MAP lookup)             │ │
+│    │     - Authority scores (AUTHORITY_MAP lookup)             │ │
+│    │     - Freshness scores (time-based decay)                 │ │
+│    │     - Citation counts                                     │ │
+│    │     - Topic/product associations                          │ │
+│    │     - Content type distribution                           │ │
+│    │   • Calculate composite AI View Score:                    │ │
+│    │     score = (visibility×0.2 + authority×0.2 +             │ │
+│    │              freshness×0.15 + sentiment×0.25 +            │ │
+│    │              dominance×0.2) × 100                         │ │
+│    │   • Build pillar distribution matrix                      │ │
+│    └──────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
+│ 4. Metric Calculation (useMemo hooks)                            │
+│    ┌──────────────────────────────────────────────────────────┐ │
+│    │ runMetrics = selectedRuns.map(buildRunMetrics)           │ │
+│    │ latestRun = runMetrics[length - 1]                        │ │
+│    │ previousRun = runMetrics[length - 2]                      │ │
+│    │ snapshotRows = top 5 brands by selected metric           │ │
+│    │ trendBrands = top 4 competitors + client brand           │ │
+│    │ trendData = time series for LineChart                    │ │
+│    │ topicWords = top 30 topics/products                      │ │
+│    └──────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
+│ 5. Rendering (Chart Components)                                  │
+│    ┌──────────────────────────────────────────────────────────┐ │
+│    │ Recharts consume processed data:                         │ │
+│    │   • LineChart: trendData                                 │ │
+│    │   • BarChart: latestRun.pillarRows                       │ │
+│    │   • BarChart: contentTypeChartData                       │ │
+│    │   • CSS Donut: scoreDonutStyle(latestClient)             │ │
+│    │   • Word Cloud: topicWords.map()                         │ │
+│    └──────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────┘</code></pre>
+
+            <h2>3.3 Key Algorithms</h2>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">1. Sentiment Mapping</div>
+                    <p>Converts text sentiment to numeric score</p>
+                    <pre><code>SENTIMENT_MAP = {
+  "very positive": 2,
+  "positive": 1,
+  "neutral/mixed": 0,
+  "negative": -1,
+  "very negative": -2
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">2. Authority Weighting</div>
+                    <p>Different content types have different trust scores</p>
+                    <pre><code>AUTHORITY_MAP = {
+  "news": 1.0,
+  "academic sources": 0.95,
+  "reports": 0.9,
+  "social media": 0.25,
+  // ... 15 more types
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">3. Freshness Decay</div>
+                    <p>Recent content weighted higher</p>
+                    <pre><code>freshnessWeight(monthsOld) {
+  if (monthsOld < 1) return 1.0;
+  if (monthsOld < 6) return 0.75;
+  if (monthsOld < 12) return 0.5;
+  return 0.2;
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">4. Composite AI View Score</div>
+                    <p>Weighted combination of 5 factors</p>
+                    <pre><code>score = (
+  visibility × 0.2 +    // 20%
+  authority × 0.2 +     // 20%
+  freshness × 0.15 +    // 15%
+  sentiment × 0.25 +    // 25%
+  dominance × 0.2       // 20%
+) × 100</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 4. Comparison with Other Lumina Panels -->
+        <section id="comparison">
+            <h1>4. Comparison with Other Lumina Panels</h1>
+
+            <h2>4.1 Summary Panel (Best Practice Example)</h2>
+            
+            <div class="card">
+                <p><strong>File:</strong> <code>/Components/Panels/Summary.tsx</code> (130 lines)</p>
+                
+                <h4 class="status-good">✅ What it does right:</h4>
+                <ul>
+                    <li>Uses Lumina UI components (<code>LuminaSummaryBox</code>, <code>LuminaSummarySection</code>)</li>
+                    <li>Leverages custom hooks (<code>useLuminaStories</code>, <code>useLuminaMenu</code>)</li>
+                    <li>Imports reusable utilities (<code>calculateStoriesCountsFromKendoPayload</code>)</li>
+                    <li>Clean separation: data fetching → processing → presentation</li>
+                    <li>Responsive to <code>expandedView</code> context</li>
+                    <li>Permission checks for features</li>
+                    <li>SCSS modules with proper naming</li>
+                </ul>
+            </div>
+
+            <h2>4.2 Comparison Table</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Summary Panel ✅</th>
+                        <th>Contacts Panel ✅</th>
+                        <th>AI View Panel ❌</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>File Size</td>
+                        <td>130 lines</td>
+                        <td>150 lines</td>
+                        <td class="status-bad"><strong>1,020 lines</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Sub-components</td>
+                        <td>Yes (SummaryBox, Section)</td>
+                        <td>Yes (ContactList, ContactsView)</td>
+                        <td class="status-bad"><strong>None - monolithic</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Hooks</td>
+                        <td>Yes (useLuminaStories)</td>
+                        <td>Yes (useKeyValuePreferences)</td>
+                        <td class="status-bad"><strong>No - inline logic</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Chart Components</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td class="status-bad"><strong>Direct Recharts (not wrapped)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Utilities</td>
+                        <td>Yes (calculateStoriesCountsFromKendoPayload)</td>
+                        <td>Yes (useDemoState)</td>
+                        <td class="status-bad"><strong>None - inline functions</strong></td>
+                    </tr>
+                    <tr>
+                        <td>State Complexity</td>
+                        <td>Low (2-3 states)</td>
+                        <td>Medium (5-6 states)</td>
+                        <td class="status-bad"><strong>High (8+ states)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Data Processing</td>
+                        <td>External utility</td>
+                        <td>Simple map/filter</td>
+                        <td class="status-bad"><strong>Complex inline (300+ lines)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>SCSS Pattern</td>
+                        <td>Module import only</td>
+                        <td>Module import only</td>
+                        <td class="status-bad"><strong>Module + inline styles</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Responsive</td>
+                        <td>Yes (expandedView aware)</td>
+                        <td>Yes (expandedView aware)</td>
+                        <td class="status-bad"><strong>No explicit handling</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Permissions</td>
+                        <td>Yes (AuthToken checks)</td>
+                        <td>Yes (feature flags)</td>
+                        <td class="status-bad"><strong>No checks</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 5. Refactoring Plan -->
+        <section id="refactoring-plan">
+            <h1>5. Refactoring Plan</h1>
+
+            <h2>5.1 Proposed Component Architecture</h2>
+
+            <div class="alert alert-info">
+                <strong>Following established Lumina-App patterns with centralized folders</strong>
+            </div>
+
+            <h3>Main Orchestrator (Stays in Panels)</h3>
+            <pre><code>/Components/Panels/
+└── AiView.tsx                     (~150 lines - imports tabs, passes data)</code></pre>
+
+            <h3>Centralized Hooks (Shared across Lumina-App)</h3>
+            <pre><code>/Lumina-App/Hooks/
+├── useAiViewData.ts               (Fetches AI views + snapshots)
+├── useAiViewMetrics.ts            (buildRunMetrics memoization)
+└── useAiViewFilters.ts            (Tab/metric state management)</code></pre>
+
+            <h3>Centralized Utilities (Shared across Lumina-App)</h3>
+            <pre><code>/Lumina-App/Utilities/
+├── aiViewMetricsCalculator.ts     (buildRunMetrics + scoring algorithms)
+├── aiViewFormatters.ts            (formatValue, formatDateLabel, safePct)
+└── aiViewDataHelpers.ts           (parseDate, monthsBetween, normalizeBrandKey)</code></pre>
+
+            <h3>Centralized Interfaces (Shared across Lumina-App)</h3>
+            <pre><code>/Lumina-App/Interfaces/interfaces.ts
+└── (Add 17 AI View interfaces: AiViewTab, BrandMetric, RunMetrics, etc.)</code></pre>
+
+            <h3>Reusable Chart Wrappers (Benefits entire app)</h3>
+            <pre><code>/Components/UI/Charts/
+├── MiniTrendChart.tsx             (Existing - custom SVG sparkline)
+├── TrendLineChart.tsx             (NEW - Recharts LineChart wrapper)
+├── TrendLineChart.module.scss     (Exports: LuminaTrendLineChart)
+├── DataBarChart.tsx               (NEW - Recharts BarChart wrapper)
+├── DataBarChart.module.scss       (Exports: LuminaDataBarChart)
+└── index.ts                       (Export all with Lumina prefix)
+
+<em>Note: Naming avoids collision with existing custom charts:
+- /UI/Infographics/LuminaLineChart = Custom SVG with area fills
+- /UI/Charts/LuminaTrendLineChart = Recharts wrapper for time-series data</em></code></pre>
+
+            <h3>AI View Subcomponents (AiView-specific)</h3>
+            <pre><code>/Components/AiView/
+├── index.ts                       (Exports all with Lumina prefix)
+├── AiViewHeader.tsx               (Toolbar + badges + selector)
+├── AiViewHeader.module.scss
+├── AiViewTabs.tsx                 (Tab navigation UI)
+├── AiViewTabs.module.scss
+│
+├── Tabs/                          ← Tab orchestrators grouped
+│   ├── CompetitorTab.tsx          (~80-120 lines - layout container)
+│   ├── CompetitorTab.module.scss
+│   ├── PositionTab.tsx            (~80-120 lines - layout container)
+│   ├── PositionTab.module.scss
+│   ├── SourcesTab.tsx             (~80-120 lines - layout container)
+│   └── SourcesTab.module.scss
+│
+├── CompetitorSnapshot.tsx         (Top 5 brands list)
+├── PillarDistribution.tsx         (Pillar BarChart)
+├── TopicCloud.tsx                 (Word cloud)
+├── ScoreDonut.tsx                 (CSS donut + legend)
+├── AiViewNarrative.tsx            (AI narrative text)
+├── KpiCards.tsx                   (4-column KPI grid)
+├── ContentTypeChart.tsx           (Horizontal BarChart)
+├── SourceMixList.tsx              (Source breakdown)
+│
+└── Shared/                        ← AI View-specific shared
+    ├── BrandCard.tsx              (Display card)
+    └── EmptyState.tsx             (Loading/empty)
+
+<em>Note: Use existing LuminaViewToggleButton from /Components/UI/ViewControl/
+instead of creating custom toggle buttons</em></code></pre>
+
+            <div class="alert alert-success">
+                <strong>Key Architectural Decisions:</strong>
+                <ul style="margin: 10px 0 0 0;">
+                    <li>✅ Hooks/Utilities/Interfaces → /Lumina-App/ root folders (not local to AiView)</li>
+                    <li>✅ Chart Wrappers → /Components/UI/Charts/ (reusable across app)</li>
+                    <li>✅ Tab Orchestrators → /Components/AiView/Tabs/ subfolder (organized)</li>
+                    <li>✅ AI View Components → /Components/AiView/ (domain-specific)</li>
+                    <li>✅ Naming → Purpose-based (TrendLineChart vs LuminaLineChart)</li>
+                </ul>
+            </div>
+
+            <h2>5.2 Refactoring Phases</h2>
+
+            <div class="card">
+                <div class="card-title">Phase 1: Foundation (Day 1)</div>
+                <p><strong>Goal:</strong> Extract data processing, types, and utilities to centralized locations</p>
+                <ul>
+                    <li>Add 17 interfaces to <code>/Lumina-App/Interfaces/interfaces.ts</code></li>
+                    <li>Create <code>/Lumina-App/Utilities/aiViewMetricsCalculator.ts</code></li>
+                    <li>Create <code>/Lumina-App/Utilities/aiViewFormatters.ts</code></li>
+                    <li>Create <code>/Lumina-App/Utilities/aiViewDataHelpers.ts</code></li>
+                </ul>
+                <p><strong>Verification:</strong> No TypeScript errors, imports from centralized locations, reduced by ~350 lines</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Phase 2: Custom Hooks (Day 2)</div>
+                <p><strong>Goal:</strong> Extract state management and data fetching to centralized hooks</p>
+                <ul>
+                    <li>Create <code>/Lumina-App/Hooks/useAiViewData.ts</code></li>
+                    <li>Create <code>/Lumina-App/Hooks/useAiViewMetrics.ts</code></li>
+                    <li>Create <code>/Lumina-App/Hooks/useAiViewFilters.ts</code></li>
+                </ul>
+                <p><strong>Verification:</strong> Component uses centralized hooks, reduced by ~180 lines</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Phase 3: Reusable Chart Wrappers (Day 3)</div>
+                <p><strong>Goal:</strong> Create Recharts wrappers that benefit entire app (3 files use Recharts)</p>
+                <ul>
+                    <li>Create <code>/Components/UI/Charts/TrendLineChart.tsx</code></li>
+                    <li>Create <code>/Components/UI/Charts/DataBarChart.tsx</code></li>
+                    <li>Update <code>/Components/UI/Charts/index.ts</code> with exports</li>
+                </ul>
+                <p><strong>Verification:</strong> Charts work in AI View, reusable in ContactArticlesGraph & Circulation</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Phase 4: AI View Shared & Detail Components (Day 4)</div>
+                <p><strong>Goal:</strong> Create shared UI components and AI View-specific visualizations</p>
+                <ul>
+                    <li>Convert toggle buttons to use <code>LuminaViewToggleButton</code> from <code>/Components/UI/ViewControl/</code></li>
+                    <li>Create <code>/Components/AiView/Shared/</code> components (BrandCard, EmptyState)</li>
+                    <li>Create detail components (CompetitorSnapshot, PillarDistribution, TopicCloud, ScoreDonut, etc.)</li>
+                    <li>Create corresponding SCSS module files</li>
+                </ul>
+                <p><strong>Verification:</strong> All components render in isolation, 60-120 lines each</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Phase 5: Tab Orchestrators (Day 5)</div>
+                <p><strong>Goal:</strong> Create tab layout containers in /Tabs/ subfolder</p>
+                <ul>
+                    <li>Create <code>/Components/AiView/Tabs/CompetitorTab.tsx</code> (~100 lines)</li>
+                    <li>Create <code>/Components/AiView/Tabs/PositionTab.tsx</code> (~80 lines)</li>
+                    <li>Create <code>/Components/AiView/Tabs/SourcesTab.tsx</code> (~60 lines)</li>
+                </ul>
+                <p><strong>Verification:</strong> Each tab works independently, no business logic in tabs</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Phase 6: Header, Navigation & Final Assembly (Day 6)</div>
+                <p><strong>Goal:</strong> Extract header/navigation and finalize main orchestrator</p>
+                <ul>
+                    <li>Create <code>/Components/AiView/AiViewHeader.tsx</code></li>
+                    <li>Create <code>/Components/AiView/AiViewTabs.tsx</code></li>
+                    <li>Create <code>/Components/AiView/index.ts</code> (export barrel)</li>
+                    <li>Finalize <code>/Components/Panels/AiView.tsx</code> (~150 lines)</li>
+                </ul>
+                <p><strong>Verification:</strong> Component reduced from 954 lines → ~150 lines</p>
+            </div>
+
+            <h2>5.3 Final Component Structure</h2>
+
+            <div class="highlight-box">
+                <p>After refactoring, the main component should be <strong>~150 lines</strong> (down from 954 lines) with 3 custom hooks and 6 imported components.</p>
+            </div>
+
+            <pre><code>// /Components/Panels/AiView.tsx (~150 lines)
+
+import { useAiViewData, useAiViewMetrics, useAiViewFilters } from '@luminaHooks';
+import { 
+    LuminaAiViewHeader, 
+    LuminaAiViewTabs,
+    LuminaCompetitorTab,
+    LuminaPositionTab,
+    LuminaSourcesTab,
+    LuminaEmptyState
+} from '@luminaComponents/AiView';
+
+const LuminaAiView = () => {
+    // 1. Data fetching (custom hook)
+    const { aiViews, selectedAiViewId, ... } = useAiViewData();
+    
+    // 2. Metrics computation (custom hook)
+    const { runMetrics, latestRun, previousRun } = useAiViewMetrics(allRuns);
+    
+    // 3. Filter state (custom hook)
+    const { activeTab, setActiveTab, ... } = useAiViewFilters();
+    
+    // 4. Pure composition - render tabs
+    return (
+        &lt;div&gt;
+            &lt;LuminaAiViewHeader .../&gt;
+            &lt;LuminaAiViewTabs .../&gt;
+            {activeTab === "competitor" && &lt;LuminaCompetitorTab .../&gt;}
+            {activeTab === "position" && &lt;LuminaPositionTab .../&gt;}
+            {activeTab === "sources" && &lt;LuminaSourcesTab .../&gt;}
+        &lt;/div&gt;
+    );
+};</code></pre>
+
+            <div class="alert alert-success">
+                <strong>Key Features:</strong>
+                <ul style="margin: 10px 0 0 0;">
+                    <li>✅ <strong>150 lines</strong> (down from 954)</li>
+                    <li>✅ <strong>No business logic</strong> - only composition</li>
+                    <li>✅ <strong>3 custom hooks</strong> for data/metrics/filters</li>
+                    <li>✅ <strong>Clean separation</strong> of concerns</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 6. Migration Checklist -->
+        <section id="migration-checklist">
+            <h1>6. Migration Checklist</h1>
+
+            <h2>Pre-Migration</h2>
+            <ul class="checklist">
+                <li>Create feature branch: <code>feature/lumina-ai-view-refactor</code></li>
+                <li>Document current functionality (screenshots, interaction flows)</li>
+                <li>Create unit tests for <code>buildRunMetrics()</code> calculation</li>
+                <li>Backup current component file</li>
+            </ul>
+
+            <h2>Phase 1: Foundation (Centralized Utilities/Interfaces)</h2>
+            <ul class="checklist">
+                <li>Add 17 interfaces to <code>/Lumina-App/Interfaces/interfaces.ts</code></li>
+                <li>Create <code>/Lumina-App/Utilities/aiViewMetricsCalculator.ts</code></li>
+                <li>Create <code>/Lumina-App/Utilities/aiViewFormatters.ts</code></li>
+                <li>Create <code>/Lumina-App/Utilities/aiViewDataHelpers.ts</code></li>
+                <li>Update main component to import from centralized locations</li>
+                <li>Verify no regression (visual + functional)</li>
+            </ul>
+
+            <h2>Phase 2: Custom Hooks (Centralized Hooks)</h2>
+            <ul class="checklist">
+                <li>Create <code>/Lumina-App/Hooks/useAiViewData.ts</code></li>
+                <li>Create <code>/Lumina-App/Hooks/useAiViewMetrics.ts</code></li>
+                <li>Create <code>/Lumina-App/Hooks/useAiViewFilters.ts</code></li>
+                <li>Update main component to use centralized hooks</li>
+                <li>Verify state management still works</li>
+            </ul>
+
+            <h2>Phase 3: Reusable Chart Wrappers</h2>
+            <ul class="checklist">
+                <li>Create <code>/Components/UI/Charts/TrendLineChart.tsx</code> (Recharts wrapper)</li>
+                <li>Create <code>/Components/UI/Charts/TrendLineChart.module.scss</code></li>
+                <li>Create <code>/Components/UI/Charts/DataBarChart.tsx</code> (Recharts wrapper)</li>
+                <li>Create <code>/Components/UI/Charts/DataBarChart.module.scss</code></li>
+                <li>Update <code>/Components/UI/Charts/index.ts</code> with exports</li>
+                <li>Verify charts render correctly</li>
+            </ul>
+
+            <h2>Phase 4: AI View Shared & Detail Components</h2>
+            <ul class="checklist">
+                <li><strong>Convert toggle buttons to use <code>LuminaViewToggleButton</code></strong> (from <code>/Components/UI/ViewControl/</code>)</li>
+                <li>Create <code>/Components/AiView/Shared/BrandCard.tsx</code></li>
+                <li>Create <code>/Components/AiView/Shared/EmptyState.tsx</code></li>
+                <li>Create <code>/Components/AiView/CompetitorSnapshot.tsx</code> (uses LuminaViewToggleButton)</li>
+                <li>Create <code>/Components/AiView/PillarDistribution.tsx</code></li>
+                <li>Create <code>/Components/AiView/TopicCloud.tsx</code></li>
+                <li>Create <code>/Components/AiView/ScoreDonut.tsx</code></li>
+                <li>Create <code>/Components/AiView/AiViewNarrative.tsx</code></li>
+                <li>Create <code>/Components/AiView/KpiCards.tsx</code></li>
+                <li>Create <code>/Components/AiView/ContentTypeChart.tsx</code></li>
+                <li>Create <code>/Components/AiView/SourceMixList.tsx</code></li>
+                <li>Create corresponding SCSS module files</li>
+                <li>Verify all components render in isolation</li>
+            </ul>
+
+            <h2>Phase 5: Tab Orchestrators</h2>
+            <ul class="checklist">
+                <li>Create <code>/Components/AiView/Tabs/CompetitorTab.tsx</code></li>
+                <li>Create <code>/Components/AiView/Tabs/PositionTab.tsx</code></li>
+                <li>Create <code>/Components/AiView/Tabs/SourcesTab.tsx</code></li>
+                <li>Create corresponding SCSS module files</li>
+                <li>Verify all tabs render with proper composition</li>
+            </ul>
+
+            <h2>Phase 6: Header, Navigation & Final Assembly</h2>
+            <ul class="checklist">
+                <li>Create <code>/Components/AiView/AiViewHeader.tsx</code></li>
+                <li>Create <code>/Components/AiView/AiViewTabs.tsx</code></li>
+                <li>Create <code>/Components/AiView/index.ts</code> (export barrel)</li>
+                <li>Create corresponding SCSS module files</li>
+                <li>Update main <code>/Components/Panels/AiView.tsx</code> to orchestrator (~150 lines)</li>
+                <li>Remove all unused code</li>
+                <li>Final verification</li>
+            </ul>
+
+            <h2>Post-Migration</h2>
+            <ul class="checklist">
+                <li>Verify all SCSS uses <code>__</code> prefix convention</li>
+                <li>Performance testing (React DevTools profiler)</li>
+                <li>Add React.memo where needed</li>
+                <li>Write component documentation</li>
+                <li>Update path aliases if needed</li>
+                <li>Code review</li>
+                <li>Merge to develop</li>
+            </ul>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 7. Estimated Effort -->
+        <section id="effort-estimate">
+            <h1>7. Estimated Effort</h1>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Time Estimate</th>
+                        <th>Complexity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Phase 1: Foundation (Utilities/Interfaces)</td>
+                        <td>1 day</td>
+                        <td><span class="badge badge-warning">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td>Phase 2: Custom Hooks</td>
+                        <td>1 day</td>
+                        <td><span class="badge badge-warning">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td>Phase 3: Reusable Chart Wrappers</td>
+                        <td>1 day</td>
+                        <td><span class="badge badge-warning">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td>Phase 4: AI View Detail Components</td>
+                        <td>1 day</td>
+                        <td><span class="badge badge-warning">Medium-High</span></td>
+                    </tr>
+                    <tr>
+                        <td>Phase 5: Tab Orchestrators</td>
+                        <td>0.5 days</td>
+                        <td><span class="badge badge-warning">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td>Phase 6: Header, Navigation & Assembly</td>
+                        <td>0.5 days</td>
+                        <td><span class="badge badge-info">Low-Medium</span></td>
+                    </tr>
+                    <tr style="background-color: #f8f9fa; font-weight: 600;">
+                        <td><strong>Total Development</strong></td>
+                        <td><strong>5 days</strong></td>
+                        <td><span class="badge badge-error">High</span></td>
+                    </tr>
+                    <tr>
+                        <td>Testing & Documentation</td>
+                        <td>1 day</td>
+                        <td><span class="badge badge-warning">Medium</span></td>
+                    </tr>
+                    <tr style="background-color: #d1ecf1; font-weight: 600;">
+                        <td><strong>Grand Total</strong></td>
+                        <td><strong>6 days</strong></td>
+                        <td><span class="badge badge-error">High</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 8. Risk Assessment -->
+        <section id="risk-assessment">
+            <h1>8. Risk Assessment</h1>
+
+            <div class="card">
+                <div class="card-title">High Risks</div>
+                <ol>
+                    <li>
+                        <strong>Breaking existing functionality</strong> - Complex data processing logic might have edge cases
+                        <ul>
+                            <li><span class="status-good">✓</span> Mitigation: Create unit tests before refactoring</li>
+                            <li><span class="status-good">✓</span> Mitigation: Visual regression testing</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Performance degradation</strong> - New component boundaries might cause unnecessary re-renders
+                        <ul>
+                            <li><span class="status-good">✓</span> Mitigation: Use React.memo on sub-components</li>
+                            <li><span class="status-good">✓</span> Mitigation: Profile before/after with React DevTools</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Medium Risks</div>
+                <ol>
+                    <li>
+                        <strong>SCSS conflicts</strong> - Moving styles to separate files
+                        <ul>
+                            <li><span class="status-good">✓</span> Mitigation: Use CSS modules consistently</li>
+                            <li><span class="status-good">✓</span> Mitigation: Test responsive behavior</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>TypeScript errors</strong> - Moving types around
+                        <ul>
+                            <li><span class="status-good">✓</span> Mitigation: Incremental migration with type checks</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Low Risks</div>
+                <ol>
+                    <li><strong>Chart rendering</strong> - Recharts is well-tested</li>
+                    <li><strong>State management</strong> - React hooks are stable</li>
+                </ol>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 9. Key Takeaways -->
+        <section id="key-takeaways">
+            <h1>9. Key Takeaways</h1>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">What Makes AI View Different</div>
+                    <ol>
+                        <li><strong>Data Complexity:</strong> Most complex data processing in any Lumina panel</li>
+                        <li><strong>Chart Variety:</strong> Only panel with multiple chart types (LineChart, BarChart vertical/horizontal, CSS donut)</li>
+                        <li><strong>Tab Structure:</strong> Only panel with 3 distinct tabs (Competitor, Position, Sources)</li>
+                        <li><strong>Metrics Calculation:</strong> Unique scoring algorithm with 5 factors (visibility, authority, freshness, sentiment, dominance)</li>
+                        <li><strong>Recharts Dependency:</strong> One of only 3 components using Recharts library</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Why It Needs Refactoring</div>
+                    <ol>
+                        <li><strong>Maintainability:</strong> 954-line file is hard to understand and modify</li>
+                        <li><strong>Reusability:</strong> Should use existing <code>LuminaViewToggleButton</code> component instead of custom buttons</li>
+                        <li><strong>Testing:</strong> Current structure makes unit testing nearly impossible</li>
+                        <li><strong>Standards:</strong> Violates Lumina coding patterns (no sub-components, no extracted hooks)</li>
+                        <li><strong>Performance:</strong> Potential optimization opportunities with memoization</li>
+                        <li><strong>Chart Inconsistency:</strong> Direct Recharts usage instead of Lumina wrappers</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Architectural Decisions Made</div>
+                <ol>
+                    <li><strong>Centralized Hooks/Utilities:</strong> Use /Lumina-App/Hooks/ and /Lumina-App/Utilities/ instead of creating local duplicates</li>
+                    <li><strong>Centralized Interfaces:</strong> Add to existing /Lumina-App/Interfaces/interfaces.ts instead of separate file</li>
+                    <li><strong>Chart Wrappers in /UI/Charts/:</strong> Create TrendLineChart and DataBarChart for app-wide Recharts usage</li>
+                    <li><strong>Purpose-Based Chart Naming:</strong> Avoid collision with existing /Infographics/LuminaLineChart (custom SVG)</li>
+                    <li><strong>Tab Subfolder:</strong> Organize tab orchestrators in /Components/AiView/Tabs/ for clarity</li>
+                    <li><strong>Reusability Evaluation:</strong> Keep AI View-specific components (TopicCloud, ScoreDonut) in /Components/AiView/ rather than /UI/</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Benefits After Refactoring</div>
+                <ol>
+                    <li><strong>Clarity:</strong> Each component has single responsibility (60-150 lines each)</li>
+                    <li><strong>Testability:</strong> Can test utilities, hooks, and components independently</li>
+                    <li><strong>Reusability:</strong> Chart wrappers benefit 3 components across app (AiView, ContactArticlesGraph, Circulation)</li>
+                    <li><strong>Maintainability:</strong> Changes isolated to specific components</li>
+                    <li><strong>Standards Compliance:</strong> Matches patterns in Summary, Contacts, Digest panels</li>
+                    <li><strong>Future-Proof:</strong> Easier to add new tabs, metrics, or charts</li>
+                    <li><strong>Centralized Patterns:</strong> Leverages existing Lumina-App infrastructure</li>
+                </ol>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 10. Appendix -->
+        <section id="appendix">
+            <h1>10. Appendix: Code Samples</h1>
+
+            <h2>Sample: Current Metric Toggle (Inline)</h2>
+            <div class="alert alert-error">
+                <strong>❌ Current - duplicated 3 times across tabs</strong>
+            </div>
+            <pre><code>&lt;div className={Styles.metricToggle}&gt;
+    &lt;button 
+        className={`${Styles.toggleBtn} ${snapshotMetric === "visibility" ? Styles.toggleBtnActive : ""}`.trim()} 
+        onClick={() =&gt; setSnapshotMetric("visibility")}&gt;
+        Visibility
+    &lt;/button&gt;
+    &lt;button 
+        className={`${Styles.toggleBtn} ${snapshotMetric === "top3" ? Styles.toggleBtnActive : ""}`.trim()} 
+        onClick={() =&gt; setSnapshotMetric("top3")}&gt;
+        Top 3
+    &lt;/button&gt;
+    &lt;button 
+        className={`${Styles.toggleBtn} ${snapshotMetric === "avgRank" ? Styles.toggleBtnActive : ""}`.trim()} 
+        onClick={() =&gt; setSnapshotMetric("avgRank")}&gt;
+        Avg Rank
+    &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+            <h2>Sample: Proposed Using LuminaViewToggleButton</h2>
+            <div class="alert alert-success">
+                <strong>✅ Proposed - use existing Lumina component</strong>
+            </div>
+            <pre><code>// Import existing component from /Components/UI/ViewControl/
+import { LuminaViewToggleButton } from '@luminaComponents/UI/ViewControl/ViewToggleButton';
+
+// Usage in CompetitorSnapshot, TopicCloud, etc.
+&lt;div className={Styles.__metricToggle}&gt;
+    &lt;LuminaViewToggleButton
+        icon={/* icon component */}
+        label="Visibility"
+        isActive={snapshotMetric === "visibility"}
+        onClick={() =&gt; setSnapshotMetric("visibility")}
+    /&gt;
+    &lt;LuminaViewToggleButton
+        icon={/* icon component */}
+        label="Top 3"
+        isActive={snapshotMetric === "top3"}
+        onClick={() =&gt; setSnapshotMetric("top3")}
+    /&gt;
+    &lt;LuminaViewToggleButton
+        icon={/* icon component */}
+        label="Avg Rank"
+        isActive={snapshotMetric === "avgRank"}
+        onClick={() =&gt; setSnapshotMetric("avgRank")}
+    /&gt;
+&lt;/div&gt;
+
+// Benefits:
+// - Consistent UI across all Lumina panels
+// - Reuses existing component (no need to create MetricToggle)
+// - Proper Lumina styling and interaction patterns</code></pre>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Next Steps -->
+        <div class="highlight-box" style="margin-top: var(--spacing-2xl);">
+            <h2 style="margin-top: 0;">Next Steps</h2>
+            <ol>
+                <li>Review this analysis with team</li>
+                <li>Get approval for refactoring approach</li>
+                <li>Create feature branch: <code>feature/lumina-ai-view-refactor</code></li>
+                <li>Begin Phase 1 (Foundation)</li>
+            </ol>
+            <p style="margin-bottom: 0;"><strong>Questions?</strong> Contact: Simon Allin</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color: var(--background-alt); padding: var(--spacing-lg); margin-top: var(--spacing-2xl); text-align: center; border-top: 1px solid var(--border-color);">
+        <p style="margin: 0; color: var(--text-muted); font-size: 13px;">
+            © 2026 Pulsar Group | Technical Documentation | AI View Panel Analysis
+        </p>
+    </div>
+</body>
+</html>
